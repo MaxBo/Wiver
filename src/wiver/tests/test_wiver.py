@@ -527,10 +527,18 @@ class Test02_Wiver:
     def test_50_balancing(self, wiver):
         """
         Test if the trip distribution equals the sink_potential
+        and that the total number of trips stay constant
         """
         sp = wiver.sink_potential_gj
         target_share = sp / sp.sum(1, keepdims=True)
-        wiver.calc_with_balancing()
+        wiver.calc_with_balancing(max_iterations=1)
+        target_total_trips = wiver.trips_gij.sum()
+        wiver.calc_with_balancing(max_iterations=10)
         trips = wiver.trips_to_destination_gj
         actual_share = trips / trips.sum(1, keepdims=True)
         np.testing.assert_allclose(actual_share, target_share, rtol=.05)
+
+        actual_total_trips = wiver.trips_gij.sum()
+        np.testing.assert_allclose(actual_total_trips,
+                                   target_total_trips,
+                                   rtol=.01)

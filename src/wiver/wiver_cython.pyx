@@ -50,7 +50,8 @@ cdef class _WIVER(ArrayShapes):
         cdef char t, r
         cdef long32 g, h
         cdef double tours, linking_trips
-        self.reset_array('trips_gij')
+        self.reset_array('home_based_trips_gij')
+        self.reset_array('linking_trips_gij')
         with nogil, parallel(num_threads=self.n_threads):
             t = threadid()
             # loop over calibration groups
