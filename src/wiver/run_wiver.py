@@ -39,7 +39,7 @@ def matrix_file(project_folder):
 
 @orca.injectable()
 def zones_file(project_folder):
-    """ The params-file"""
+    """ The zonal_data-file"""
     fn = 'zonal_data'
     file_path = os.path.join(project_folder, '{}.h5'.format(fn))
     return file_path
@@ -47,17 +47,32 @@ def zones_file(project_folder):
 
 @orca.injectable()
 def result_file(project_folder):
-    """ The params-file"""
+    """ The results-file"""
     fn = 'results'
     file_path = os.path.join(project_folder, '{}.h5'.format(fn))
     return file_path
 
 
 @orca.injectable()
-def wiver_files(params_file, matrix_file, zones_file, result_file):
+def balancing_file(project_folder):
+    """ The balancing-file"""
+    fn = 'balancing'
+    file_path = os.path.join(project_folder, '{}.h5'.format(fn))
+    return file_path
+
+
+@orca.injectable()
+def max_iterations():
+    """ maximum number of iterations"""
+    return 1
+
+@orca.injectable()
+def wiver_files(params_file, matrix_file, zones_file,
+                balancing_file, result_file):
     files = {'params': params_file,
              'matrices': matrix_file,
              'zonal_data': zones_file,
+             'balancing': balancing_file,
              'results': result_file}
     return files
 
@@ -89,7 +104,7 @@ def add_logfile(project_folder: str, scenario: str):
     logger.configure(logfile, scenario=scenario)
 
 @orca.step()
-def run_wiver(wiver: WIVER, wiver_files: dict):
+def run_wiver(wiver: WIVER, wiver_files: dict, max_iterations: int):
     """
     calculate wiver model
 
@@ -97,7 +112,7 @@ def run_wiver(wiver: WIVER, wiver_files: dict):
     ---------
     wiver model
     """
-    wiver.calc_with_balancing()
+    wiver.calc_with_balancing(max_iterations=max_iterations)
     wiver.save_results(wiver_files)
 
 
@@ -125,6 +140,9 @@ if __name__ == '__main__':
                         required=True)
     parser.add_argument('-s', '--scenario', dest='scenario',
                         help='Scenario Name', default='Wiver',)
+    parser.add_argument('-i', '--iterations', dest='max_iterations',
+                        help='Maximum number of iterations', type=int,
+                        default=5,)
 
     options = parser.parse_args()
     for key, value in options._get_kwargs():

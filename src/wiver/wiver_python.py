@@ -54,7 +54,8 @@ class WIVER(_WIVER, _ArrayProperties):
         self = cls(n_groups=0, n_zones=0)
         # add datasets
         self.read_all_data(files)
-        self.data = xr.merge((self.params, self.matrices, self.zonal_data))
+        self.data = xr.merge((self.params, self.matrices, self.zonal_data,
+                              self.balancing))
 
         # set the dimensions
         dims = self.data.dims
@@ -92,6 +93,7 @@ class WIVER(_WIVER, _ArrayProperties):
         self.sink_potential_gj = ds.sink_potential.data
         self.zone_no = ds.zone_no.data
         self.zone_name = ds.zone_name.data
+        self.balancing_factor_gj = ds.balancing_factor.data
         # matrices
         self.travel_time_mij = ds.travel_time.data
         self.km_ij = ds.distance_matrix.data
@@ -146,6 +148,7 @@ class WIVER(_WIVER, _ArrayProperties):
         self.params = self.define_params()
         self.matrices = self.define_matrices()
         self.zonal_data = self.define_zonal_data()
+        self.balancing = self.define_balancing()
         self.results = self.define_results()
 
     def define_params(self):
@@ -173,6 +176,15 @@ class WIVER(_WIVER, _ArrayProperties):
             ('groups', 'time_slices'), self.time_series_ending_trips_gs)
         return ds
 
+    def define_balancing(self):
+        """Define the balancing factors"""
+        ds = xr.Dataset()
+        ds['balancing_factor'] = (('groups', 'destinations'),
+                                    self.balancing_factor_gj)
+        ds['trips_to_destination'] = (('groups', 'destinations'),
+                                      self.trips_to_destination_gj)
+        return ds
+
     def define_zonal_data(self):
         """Define the matrices"""
         ds = xr.Dataset()
@@ -185,7 +197,6 @@ class WIVER(_WIVER, _ArrayProperties):
                                   self.source_potential_gh)
         ds['sink_potential'] = (('groups', 'destinations'),
                                 self.sink_potential_gj)
-
         return ds
 
     def define_matrices(self):
@@ -227,19 +238,19 @@ class WIVER(_WIVER, _ArrayProperties):
                                       self.mean_distance_g)
         ds['mean_distance_modes'] = (('modes',),
                                      self.mean_distance_m)
-        ds['balancing_factor'] = (('groups', 'destinations'),
-                                      self.balancing_factor_gj)
 
         return ds
 
     def merge_datasets(self):
         """Merge the datasets"""
         self.data = xr.merge((self.params, self.zonal_data,
-                              self.matrices, self.results))
+                              self.matrices, self.balancing,
+                              self.results))
 
     def save_all_data(self, wiver_files):
         """Save Dataset to netcdf-file"""
-        datasets = ('params', 'zonal_data', 'matrices', 'results')
+        datasets = ('params', 'zonal_data', 'matrices',
+                    'balancing', 'results')
         for dataset_name in datasets:
             fn = wiver_files[dataset_name]
             self.save_data(dataset_name, fn)
@@ -256,7 +267,8 @@ class WIVER(_WIVER, _ArrayProperties):
 
     def read_all_data(self, datasets):
         """Read Datasets from netcdf-file"""
-        for dataset_name in ('params', 'matrices', 'zonal_data'):
+        for dataset_name in ('params', 'matrices', 'zonal_data' ,
+                             'balancing'):
             fn = datasets[dataset_name]
             self.read_data(dataset_name, fn)
 
@@ -270,6 +282,9 @@ class WIVER(_WIVER, _ArrayProperties):
         """Save results except trips_gsij to folder"""
         del self.results['trips_gsij']
         dataset_name = 'results'
+        fn = wiver_files[dataset_name]
+        self.save_data(dataset_name, fn)
+        dataset_name = 'balancing'
         fn = wiver_files[dataset_name]
         self.save_data(dataset_name, fn)
 
@@ -335,8 +350,9 @@ class WIVER(_WIVER, _ArrayProperties):
         """calculate with balancing the """
         self.converged = False
         iteration = 0
-        while (not self.converged) and iteration <= max_iterations:
+        while (not self.converged) and iteration < max_iterations:
             iteration += 1
             self.logger.info('calculate trips in iteration {}'.format(iteration))
             self.calc()
+            self.logger.info('Total trips: {:0.2f}'.format(self.trips_gij.sum()))
             self.adjust_balancing_factor(threshold)
