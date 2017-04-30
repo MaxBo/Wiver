@@ -4,6 +4,7 @@ import multiprocessing
 import xarray as xr
 import os
 from collections import defaultdict
+import numpy as np
 
 from cythonarrays.array_properties import _ArrayProperties
 from cythonarrays.converters.save_ptv import SavePTV
@@ -12,6 +13,8 @@ import pyximport; pyximport.install()
 from wiver.wiver_cython import (_WIVER,
                                 DestinationChoiceError,
                                 DataConsistencyError)
+
+np.seterr(divide='ignore', invalid='ignore')
 
 
 class WIVER(_WIVER, _ArrayProperties):
@@ -113,6 +116,8 @@ class WIVER(_WIVER, _ArrayProperties):
 
         self.init_array('source_potential_gh', 'n_groups, n_zones')
         self.init_array('sink_potential_gj', 'n_groups, n_zones')
+        self.init_array('balancing_factor_gj', 'n_groups, n_zones', 1)
+        self.init_array('trips_to_destination_gj', 'n_groups, n_zones', 0)
 
         self.init_array('trips_gij', 'n_groups, n_zones, n_zones', 0)
         self.init_array('home_based_trips_gij',
@@ -222,6 +227,8 @@ class WIVER(_WIVER, _ArrayProperties):
                                       self.mean_distance_g)
         ds['mean_distance_modes'] = (('modes',),
                                      self.mean_distance_m)
+        ds['balancing_factor'] = (('groups', 'destinations'),
+                                      self.balancing_factor_gj)
 
         return ds
 
@@ -308,3 +315,28 @@ class WIVER(_WIVER, _ArrayProperties):
                 s=sector_id, n=name, f=file_name
             ))
             s.savePTVMatrix(file_name, Ftype=visum_format)
+
+
+    def adjust_balancing_factor(self, threshold=0.1):
+        """"""
+        self.converged=False
+        sp = self.sink_potential_gj
+        target_share = sp / sp.sum(1, keepdims=True)
+        trips = self.trips_to_destination_gj
+        actual_share = trips / trips.sum(1, keepdims=True)
+        kf = target_share / actual_share
+        kf[np.isnan(kf)] = 1
+        self.balancing_factor_gj *= kf
+        if (np.abs(kf - 1) < threshold).all():
+            self.converged = True
+            self.logger.info('converged!')
+
+    def calc_with_balancing(self, max_iterations=10, threshold=0.1):
+        """calculate with balancing the """
+        self.converged = False
+        iteration = 0
+        while (not self.converged) and iteration <= max_iterations:
+            iteration += 1
+            self.logger.info('calculate trips in iteration {}'.format(iteration))
+            self.calc()
+            self.adjust_balancing_factor(threshold)

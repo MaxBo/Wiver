@@ -46,6 +46,7 @@ cdef class _WIVER(ArrayShapes):
     # Sources and Sinks for each group
     cdef public ARRAY_2D_d _source_potential_gh
     cdef public ARRAY_2D_d _sink_potential_gj
+    cdef public ARRAY_2D_d _balancing_factor_gj
 
     # time series for each group
     cdef public ARRAY_2D_d _time_series_starting_trips_gs
@@ -56,6 +57,9 @@ cdef class _WIVER(ArrayShapes):
     cdef public ARRAY_3D_d _trips_gij
     cdef public ARRAY_3D_d _home_based_trips_gij
     cdef public ARRAY_3D_d _linking_trips_gij
+
+    cdef public ARRAY_2D_d _trips_to_destination_gj
+
     # Trips by time slice
     cdef public ARRAY_4D_d _trips_gsij
 

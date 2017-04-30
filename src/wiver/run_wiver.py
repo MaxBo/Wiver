@@ -97,7 +97,7 @@ def run_wiver(wiver: WIVER, wiver_files: dict):
     ---------
     wiver model
     """
-    wiver.calc()
+    wiver.calc_with_balancing()
     wiver.save_results(wiver_files)
 
 
@@ -133,6 +133,6 @@ if __name__ == '__main__':
     orca.run([
         'add_logfile',
         'run_wiver',
-        #'save_results',
-        #'save_detailed_results',
+        'save_results',
+        'save_detailed_results',
         ])

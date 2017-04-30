@@ -75,6 +75,8 @@ cdef class _WIVER(ArrayShapes):
         self.trips_gij[:] = (self.home_based_trips_gij +
                             self.linking_trips_gij +
                             np.swapaxes(self.home_based_trips_gij, 1, 2))
+        self.trips_to_destination_gj[:] = (self.home_based_trips_gij +
+                                           self.linking_trips_gij).sum(1)
 
     def raise_destination_choice_error(self, g, h):
         """raise a DestinationChoiceError for linking trips"""
@@ -158,9 +160,10 @@ cdef class _WIVER(ArrayShapes):
         """
         cdef double p
         cdef double sp = self._sink_potential_gj[g, j]
+        cdef double bf = self._balancing_factor_gj[g, j]
         cdef double param = self._param_dist_g[g]
         cdef double time = self._travel_time_mij[m, h, j]
-        p = sp * exp(param * time)
+        p = sp * bf * exp(param * time)
         return p
 
     @cython.initializedcheck(False)

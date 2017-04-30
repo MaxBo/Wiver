@@ -367,6 +367,13 @@ class Test02_Wiver:
         desired = wiver.trips_gij
         np.testing.assert_array_almost_equal(actual, desired)
 
+    def test_09_trips_gij(self, wiver):
+        """Test if the arrays are not overwritten"""
+        arr_gij_before = wiver.trips_gij.__array_interface__
+        wiver.calc_daily_trips()
+        arr_gij_after = wiver.trips_gij.__array_interface__
+        assert arr_gij_before == arr_gij_after
+
     def test_10_wiver_calc(self, wiver):
         """Test the whole model"""
         wiver.calc()
@@ -516,3 +523,14 @@ class Test02_Wiver:
         wiver.calc()
         after = wiver.mean_distance_m
         print(after)
+
+    def test_50_balancing(self, wiver):
+        """
+        Test if the trip distribution equals the sink_potential
+        """
+        sp = wiver.sink_potential_gj
+        target_share = sp / sp.sum(1, keepdims=True)
+        wiver.calc_with_balancing()
+        trips = wiver.trips_to_destination_gj
+        actual_share = trips / trips.sum(1, keepdims=True)
+        np.testing.assert_allclose(actual_share, target_share, rtol=.05)
