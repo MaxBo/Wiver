@@ -76,6 +76,7 @@ class WIVER(_WIVER, _ArrayProperties):
     def set_arrays_from_dataset(self):
         """Sets the arrays with values from the dataset"""
         ds = self.data
+
         # params
         self.modes = ds.modes.data
         self.groups = ds.groups.data
@@ -88,16 +89,21 @@ class WIVER(_WIVER, _ArrayProperties):
         self.time_series_starting_trips_gs = ds.time_series_starting_trips.data
         self.time_series_linking_trips_gs = ds.time_series_linking_trips.data
         self.time_series_ending_trips_gs = ds.time_series_ending_trips.data
+
         # zonal data
         self.source_potential_gh = ds.source_potential.data
         self.sink_potential_gj = ds.sink_potential.data
         self.zone_no = ds.zone_no.data
         self.zone_name = ds.zone_name.data
-        self.balancing_factor_gj = ds.balancing_factor.data
+
         # matrices
         self.travel_time_mij = ds.travel_time.data
         self.km_ij = ds.distance_matrix.data
 
+        # balancing factors
+        self.balancing_factor_gj = ds.balancing_factor.data
+
+        # results
         self.results = self.define_results()
 
     def define_arrays(self):
@@ -275,7 +281,8 @@ class WIVER(_WIVER, _ArrayProperties):
     def read_data(self, dataset_name, fn):
         """read single dataset from """
         self.logger.info('read {}'.format(fn))
-        ds = xr.open_dataset(fn)
+        ds = xr.open_dataset(fn).load()
+        ds.close()
         setattr(self, dataset_name, ds)
 
     def save_results(self, wiver_files):
@@ -297,7 +304,7 @@ class WIVER(_WIVER, _ArrayProperties):
             visum_ds['zone_names'] = self.zone_name
             s = SavePTV(visum_ds)
             file_name = os.path.join(
-                folder, '{m}_{f}.mtx'.format(m=mode, f=visum_format))
+                folder, '{m}.mtx'.format(m=mode))
             self.logger.info('save matrix for mode {m} to {f}'.format(
                 m=mode, f=file_name
             ))
@@ -309,15 +316,26 @@ class WIVER(_WIVER, _ArrayProperties):
         for g, group in enumerate(self.groups):
             sector_id = group % 100
             sectors[sector_id].append(g)
+        self.logger.info('sectors: {}'.format(sectors))
         for sector_id, sector_groups in sectors.items():
-            sector = self.params.sel(sectors=sector_id)
-            name = sector.sector_name.values
+            self.logger.info('sector_id: {}, groups: {}'.format(sector_id,
+                                                                sector_groups))
+            name = self.params.sector_name.sel(sectors=sector_id).values
+            self.logger.info('name: {}'.format(name))
             visum_ds = xr.Dataset()
             visum_ds['zone_no'] = self.zone_no
             visum_ds['zone_names'] = self.zone_name
             matrix = 0
+            self.logger.info('Sector {s}: add wiver-groups'.format(s=sector_id))
             for g in sector_groups:
-                matrix += self.results.trips_gij[g]
+                mat = self.results.trips_gij[g]
+                mode = self.mode_g[g]
+                mode_descr = self.modes[mode]
+                self.logger.info(
+                    'add group {g} {m}: {s:.0f}'.format(g=g,
+                                                        m=mode_descr,
+                                                        s=float(mat.sum())))
+                matrix += mat
             visum_ds['matrix'] = matrix
             self.logger.info('Sector {s}: {t:.0f} trips'.format(
                 s=sector_id, t=float(matrix.sum())
@@ -330,6 +348,7 @@ class WIVER(_WIVER, _ArrayProperties):
                 s=sector_id, n=name, f=file_name
             ))
             s.savePTVMatrix(file_name, Ftype=visum_format)
+            self.logger.info('matrix_saved')
 
 
     def adjust_balancing_factor(self, threshold=0.1):

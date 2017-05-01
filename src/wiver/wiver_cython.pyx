@@ -86,7 +86,7 @@ cdef class _WIVER(ArrayShapes):
 
     def raise_linking_trips_error(self, g, h):
         """raise a DestinationChoiceError for linking trips"""
-        msg = '''No destinations cannot be linked for group {g} and home zone {h} because they is no accessibiblity between the destinations'''
+        msg = '''No destinations cannot be linked for group {g} and home zone {h} because they is no accessibility between the destinations'''
         raise DestinationChoiceError(msg.format(g=g, h=h))
 
     def calc(self):
