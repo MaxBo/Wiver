@@ -7,14 +7,18 @@ Created on Fri Jun 10 20:33:08 2016
 
 from setuptools import setup, find_packages
 from cythoninstallhelpers.make_cython_extensions import make_extensions
+from cythoninstallhelpers.get_version import get_version
 
+
+package_name = 'wiver'
+version = get_version(package_name, __file__)
 ext_modnames = ['wiver.wiver_cython',
                 ]
 
 
 setup(
-    name="wiver",
-    version="1.1",
+    name=package_name,
+    version=version,
     description="commercial trip model and pessenger demand model",
 
     packages=find_packages('src', exclude=['ez_setup']),
@@ -37,7 +41,8 @@ setup(
     ),
 
     install_requires=[
-        'cythonarrays',
+        'cythoninstallhelpers>=1.1',
+        'cythonarrays>=1.2',
     ],
     ext_modules=make_extensions(ext_modnames),
 )
