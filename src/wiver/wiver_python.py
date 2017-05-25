@@ -109,6 +109,7 @@ class WIVER(_WIVER, _ArrayProperties):
     def define_arrays(self):
         """Define the arrays"""
         self.init_array('mode_g', 'n_groups', 0)
+        self.init_array('active_g', 'n_groups', 1)
 
         self.init_array('savings_bins_s', 'n_savings_categories')
         self.init_array('savings_weights_gs',

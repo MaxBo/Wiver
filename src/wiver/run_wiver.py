@@ -6,9 +6,10 @@ Created on Fri Jun 10 21:00:21 2016
 """
 
 import tempfile
-import logging
 import os
 from argparse import ArgumentParser
+from typing import List
+import numpy as np
 import orca
 from wiver.wiver_python import WIVER
 from cythonarrays.configure_logger import SimLogger
@@ -66,6 +67,7 @@ def max_iterations():
     """ maximum number of iterations"""
     return 1
 
+
 @orca.injectable()
 def wiver_files(params_file, matrix_file, zones_file,
                 balancing_file, result_file):
@@ -110,21 +112,64 @@ def run_wiver(wiver: WIVER, wiver_files: dict, max_iterations: int):
 
     Parameters
     ---------
-    wiver model
+    wiver: wiver-model
+    wiver-files : dict
+    max_iterations: int
     """
     wiver.calc_with_balancing(max_iterations=max_iterations)
     wiver.save_results(wiver_files)
 
+@orca.step()
+def run_wiver_for_selected_groups(wiver: WIVER,
+                                  wiver_files: dict,
+                                  max_iterations: int,
+                                  groups_to_calculate: List[int]):
+    """
+    calculate wiver model for selected groups only
+
+    Parameters
+    ---------
+    wiver: wiver-model
+    wiver-files : dict
+    max_iterations: int
+    groups_to_calculate: list of int
+    """
+    if groups_to_calculate:
+        wiver.active_g[:] = np.in1d(wiver.groups, groups_to_calculate)
+    wiver.calc_with_balancing(max_iterations=max_iterations)
+    wiver.save_results(wiver_files)
 
 @orca.step()
 def save_results(wiver: WIVER, wiver_files: dict, matrix_folder: str):
+    """
+    save result matrices of wiver-model
+
+    Parameters
+    ----------
+    wiver: wiver-model
+    wiver-files : dict
+    matrix_folder: str
+        the folder to store the calculated matrices
+    """
     fn = wiver_files['results']
     wiver.read_data('results', fn)
     wiver.save_results_to_visum(matrix_folder, 'B')
 
 
 @orca.step()
-def save_detailed_results(wiver: WIVER, wiver_files: dict, matrix_folder: str):
+def save_detailed_results(wiver: WIVER,
+                          wiver_files: dict,
+                          matrix_folder: str):
+    """
+    save detailed result matrices of wiver-model
+
+    Parameters
+    ----------
+    wiver: wiver-model
+    wiver-files : dict
+    matrix_folder: str
+        the folder to store the calculated matrices
+    """
     fn = wiver_files['results']
     wiver.read_data('results', fn)
     wiver.save_detailed_results_to_visum(matrix_folder, 'B')
@@ -143,6 +188,8 @@ if __name__ == '__main__':
     parser.add_argument('-i', '--iterations', dest='max_iterations',
                         help='Maximum number of iterations', type=int,
                         default=5,)
+    parser.add_argument('-g', '--groups', dest='groups_to_calculate',
+                        help='groups to calculate', type=int, nargs='+')
 
     options = parser.parse_args()
     for key, value in options._get_kwargs():
@@ -150,7 +197,8 @@ if __name__ == '__main__':
 
     orca.run([
         'add_logfile',
-        'run_wiver',
+        #'run_wiver',
+        'run_wiver_for_selected_groups',
         'save_results',
-        'save_detailed_results',
+        #'save_detailed_results',
         ])

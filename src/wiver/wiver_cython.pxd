@@ -21,6 +21,9 @@ cdef class _WIVER(ArrayShapes):
     # mode of groups
     cdef public ARRAY_1D_i1 _mode_g
 
+    # active groups
+    cdef public ARRAY_1D_i1 _active_g
+
     # Savings bins and weights for each group
     cdef public ARRAY_1D_d _savings_bins_s
     cdef public ARRAY_2D_d _savings_weights_gs

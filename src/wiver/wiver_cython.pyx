@@ -56,6 +56,8 @@ cdef class _WIVER(ArrayShapes):
             t = threadid()
             # loop over calibration groups
             for g in prange(self.n_groups, schedule='guided'):
+                if not self._active_g[g]:
+                    continue
                 with gil:
                     self.logger.info('calculate group {}'.format(g))
                 # loop over home zones
