@@ -13,7 +13,7 @@ import pandas as pd
 import os
 import orca
 from wiver.wiver_python import WIVER
-from wiver.tests.filename_definitions import dataset_fn, zones_fn
+#from wiver.tests.filename_definitions import dataset_fn, zones_fn
 from pytest_benchmark.plugin import benchmark
 
 
