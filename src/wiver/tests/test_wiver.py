@@ -95,11 +95,21 @@ def result_file(folder):
 
 
 @pytest.fixture()
-def wiver_files(params_file, matrix_file, zones_file, result_file):
+def balancing_file(folder):
+    """ The params-file"""
+    fn = 'balancing'
+    file_path = os.path.join(folder, '{}.h5'.format(fn))
+    return file_path
+
+
+@pytest.fixture()
+def wiver_files(params_file, matrix_file, zones_file,
+                result_file, balancing_file):
     files = {'params': params_file,
              'matrices': matrix_file,
              'zonal_data': zones_file,
-             'results': result_file}
+             'results': result_file,
+             'balancing': balancing_file,}
     return files
 
 
