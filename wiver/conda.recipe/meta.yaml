@@ -24,13 +24,14 @@ requirements:
     - pytest
     - pytest-runner
     - pytest-benchmark
-    
+
   run:
     - python
     - setuptools
     - numpy
     - xarray
     - orca
+    - cythoninstallhelpers
     - cythonarrays
     - matrixconverters
 
@@ -39,7 +40,7 @@ test:
     - pytest
     - pytest-runner
     - pytest-benchmark
-        
+
   commands:
     - py.test --pyargs wiver
 
