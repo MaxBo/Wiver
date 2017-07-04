@@ -7,8 +7,8 @@ from collections import defaultdict
 import numpy as np
 
 from cythonarrays.array_properties import _ArrayProperties
-from cythonarrays.converters.save_ptv import SavePTV
-from cythonarrays.converters.xarray2netcdf import xr2netcdf
+from matrixconverters.save_ptv import SavePTV
+from matrixconverters.xarray2netcdf import xr2netcdf
 import pyximport; pyximport.install()
 from wiver.wiver_cython import (_WIVER,
                                 DestinationChoiceError,

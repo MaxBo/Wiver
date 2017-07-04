@@ -37,11 +37,6 @@ cdef class _WIVER(ArrayShapes):
     with n_groups and n_zones
     """
 
-    def __cinit__(self, *args, **kwargs):
-        """init the file"""
-        for cls in self.__class__.__mro__:
-            self._search_memview(cls)
-
     @cython.initializedcheck(False)
     cpdef char calc_daily_trips(self) except -1:
         """

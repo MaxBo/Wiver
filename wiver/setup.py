@@ -42,7 +42,7 @@ setup(
 
     install_requires=[
         'cythoninstallhelpers>=1.1',
-        'cythonarrays>=1.2',
+        'cythonarrays>=1.3.2',
     ],
     ext_modules=make_extensions(ext_modnames),
 )
