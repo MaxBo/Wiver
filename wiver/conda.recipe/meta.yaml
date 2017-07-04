@@ -17,6 +17,7 @@ requirements:
     - cython
     - numpy
     - xarray
+    - orca
     - cythoninstallhelpers
     - cythonarrays
     - matrixconverters
@@ -27,6 +28,7 @@ requirements:
     - setuptools
     - numpy
     - xarray
+    - orca
     - cythonarrays
     - matrixconverters
 

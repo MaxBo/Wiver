@@ -2,22 +2,39 @@ language: python
 python:
 - '3.5'
 - '3.6'
-install:
-- sudo apt-get update
-- if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh
-  -O miniconda.sh; else wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
-  -O miniconda.sh; fi
-- bash miniconda.sh -b -p $HOME/miniconda
-- export PATH="$HOME/miniconda/bin:$PATH"
-- hash -r
-- conda config --set always_yes yes --set changeps1 no
-- conda update -q conda
-- conda info -a
-- conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION dep1 dep2 ...
-- source activate test-environment
-- python setup.py install
-script:
-- conda build wiver/conda.recipe --user MaxBo --token %ANACONDA_TOKEN%
+
 env:
   global:
     secure: HJT8kvOUUzMY1tjzweCwyk2qIbW5RfBXkaHY0sUReFQS2xgRl/Iexl/SBQMD8C0ai32/imi3hpA11fk5/B+MZucO4euKm0VFqb5RmU5WSkejjYcp6M6+kOFRcl9rrH6EV+x5wKv10r62GCsCMvowIPDdFoZE6ZHhLCZ6Lmwuiyr1EU6hDddCFkLihHcR+Kn+Y6f7HQptnrjxXfZc6ZsUxttU8K3z+VZUs5RSegfGaUzReJPVYEaFzQ5Hwat1CiFaeZ0lobCPBVsSteA5YFFIkbUMUtDLyxGwM5W0j0EDm30WF/sLFvDaHjZeb4A2vrEwkyWaRMqfRrpRBLghsjaa6/0PKWk584ZnndY0Hxv26CDfyan1JOo1SA9pfEQ3lay4aXwLbWVYU5SCsPv7Z1oJSKGmKpqRMgDl6oqCCbFn+t4mAwJchnDMevShITrEpFhabjgUUq7HP1h7ghtafuJW0dUmUicsKdXeRWUnhrZKQVV1ZLGGEnbcnglwaq32nZ8MN/BeR38oal+jQjM5Lsxati4wQErbxl4Y+WCjEu3Yq4uqSgC0iGtv/uFYefDcFJhzQL+s7YmuFenor9BAgmiypPoTMarfekGihJZnQBuQUl0dhqwVnFBg70x3eX0G6IuWDRkP9Rj1xNx6f7lREAjxQRAio1+gmp48qPRySwAWXkM=
+
+install:
+  - sudo apt-get update
+  # We do this conditionally because it saves us some downloading if the
+  # version is the same.
+  - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
+      wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O miniconda.sh;
+    else
+      wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
+    fi
+  - bash miniconda.sh -b -p $HOME/miniconda
+  - export PATH="$HOME/miniconda/bin:$PATH"
+  - hash -r
+  - conda config --set always_yes yes --set changeps1 no
+  - conda update -q conda
+  # Useful for debugging any issues with conda
+  - conda info -a
+
+  - conda config --set show_channel_urls true
+  - conda config --remove channels defaults
+  - conda config --add channels defaults
+  - conda config --add channels conda-forge
+  - conda config --add channels MaxBo
+
+  # Replace dep1 dep2 ... with your dependencies
+  - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION
+  - source activate test-environment
+  - python setup.py install
+
+script:
+  # Your test script goes here
+  - conda build wiver/conda.recipe --user MaxBo --token $ANACONDA_TOKEN
