@@ -1,0 +1,43 @@
+{% set version = "dev" %}
+
+package:
+  name: wiver
+  version: {{ version }}
+
+source:
+  path: ../
+
+build:
+  number: 0
+
+requirements:
+  build:
+    - python
+    - setuptools
+    - cython
+    - numpy
+    - xarray
+    - cythoninstallhelpers
+    - cythonarrays
+    - matrixconverters
+    - pytest
+    - pytest-runner
+  run:
+    - python
+    - setuptools
+    - numpy
+    - xarray
+    - cythonarrays
+    - matrixconverters
+
+test:
+  requires:
+    - pytest
+    - pytest-runner
+  commands:
+    - py.test --pyargs wiver
+
+about:
+  home: https://maxbo.github.io/wiver
+  license: GPL2
+summary: 'commercial trip model..'
