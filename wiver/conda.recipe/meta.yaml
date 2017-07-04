@@ -23,6 +23,8 @@ requirements:
     - matrixconverters
     - pytest
     - pytest-runner
+    - pytest-benchmark
+    
   run:
     - python
     - setuptools
@@ -36,6 +38,8 @@ test:
   requires:
     - pytest
     - pytest-runner
+    - pytest-benchmark
+        
   commands:
     - py.test --pyargs wiver
 
