@@ -8,6 +8,7 @@ matrix:
             - CONDA_PY=35
             - CONDA_NPY=111
         - python: 3.6
+          env:
             - TRAVIS_PYTHON_VERSION=3.6
             - CONDA_PY=36
             - CONDA_NPY=111
@@ -48,5 +49,5 @@ install:
 
 script:
   # Your test script goes here
-  - source activate test-environment
+  - conda info -a
   - conda build wiver/conda.recipe --user MaxBo --token $ANACONDA_TOKEN
