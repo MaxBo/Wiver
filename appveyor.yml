@@ -68,7 +68,7 @@ build: off
 
 test_script:
   # Build the compiled extension
-  - cmd: conda build wiver/conda.recipe
+  - cmd: conda build wiver/conda.recipe --user MaxBo --token %ANACONDA_TOKEN%
 
 after_test:
   - cmd: cd wiver
@@ -78,6 +78,3 @@ after_test:
 artifacts:
   # bdist_wheel puts your built wheel in the dist directory
   - path: wiver\dist\*
-
-on_success:
-  - cmd: anaconda -t %ANACONDA_TOKEN% upload --force *.tar.bz2
