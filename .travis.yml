@@ -31,7 +31,7 @@ install:
   - hash -r
   - conda config --set always_yes yes --set changeps1 no
   - conda update -q conda
-  - conda install conda-build
+  - conda install conda-build=2.1
   - conda install anaconda-client
   # Useful for debugging any issues with conda
   - conda info -a
@@ -50,6 +50,5 @@ install:
 
 script:
   # Your test script goes here
-  - source activate test-environment
   - conda info -a
   - conda build wiver/conda.recipe --user MaxBo --token $ANACONDA_TOKEN
