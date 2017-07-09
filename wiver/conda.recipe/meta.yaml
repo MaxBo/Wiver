@@ -44,7 +44,7 @@ test:
     - pytest-benchmark
 
   commands:
-    - py.test --junitxml={{ environ["TMPDIR"] }}\junit_test_results.xml --pyargs wiver
+    - py.test --junitxml={{ environ["TMPDIR"] }}/junit_test_results.xml --pyargs wiver
 
 about:
   home: https://maxbo.github.io/wiver
