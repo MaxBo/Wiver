@@ -69,6 +69,9 @@ build: off
 test_script:
   # Build the compiled extension
   - cmd: conda build wiver/conda.recipe --user MaxBo --token %ANACONDA_TOKEN%
+  - cmd: conda build wiver/conda.recipe --user MaxBo --token %ANACONDA_TOKEN%
+  - ps: $wc = New-Object 'System.Net.WebClient'
+  - ps: $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path junit_test_results.xml))
 
 after_test:
   - cmd: cd wiver
