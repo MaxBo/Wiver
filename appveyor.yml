@@ -63,17 +63,16 @@ install:
     - cmd: conda create -y -n test-environment python=%PYTHON_VERSION%
     - cmd: activate test-environment
 
+    - cmd: set TMPDIR=%TMP%
+
 # Skip .NET project specific build phase.
 build: off
 
 test_script:
   # Build the compiled extension
   - cmd: conda build wiver/conda.recipe --user MaxBo --token %ANACONDA_TOKEN%
-  - ps: Get-ChildItem -Path C:\Miniconda35-x64\conda-bld -Recurse
-  - ps: Get-ChildItem -Path C:\Miniconda36-x64\conda-bld -Recurse
-  - ps: Get-ChildItem -Path . -Recurse
   - ps: $wc = New-Object 'System.Net.WebClient'
-  - ps: $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\conda.recipe\junit_test_results.xml))
+  - ps: $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path ($env:TMPDIR)\junit_test_results.xml))
 
 after_test:
   - cmd: cd wiver
