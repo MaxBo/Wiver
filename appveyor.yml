@@ -64,6 +64,7 @@ install:
     - cmd: activate test-environment
 
     - cmd: set TMPDIR=%TMP%
+    - ps: $env:TMPDIR=$env:TMP
 
 # Skip .NET project specific build phase.
 build: off
@@ -72,7 +73,7 @@ test_script:
   # Build the compiled extension
   - cmd: conda build wiver/conda.recipe --user MaxBo --token %ANACONDA_TOKEN%
   - ps: $wc = New-Object 'System.Net.WebClient'
-  - ps: $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path ($env:TMPDIR)\junit_test_results.xml))
+  - ps: $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path $env:TMPDIR\junit_test_results.xml))
 
 after_test:
   - cmd: cd wiver

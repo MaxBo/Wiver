@@ -45,7 +45,7 @@ install:
   # Replace dep1 dep2 ... with your dependencies
   - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION
   - source activate test-environment
-  - TMPDIR=`dirname $(mktemp -u -t tmp.XXXXXXXXXX)`
+  - export TMPDIR=`dirname $(mktemp -u -t tmp.XXXXXXXXXX)`
   # - python setup.py install
 
 script:
