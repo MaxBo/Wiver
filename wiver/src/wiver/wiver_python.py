@@ -19,6 +19,11 @@ np.seterr(divide='ignore', invalid='ignore')
 
 class WIVER(_WIVER, _ArrayProperties):
     """WIVER Commercial Trips Model"""
+    _coordinates = {'n_groups': 'groups',
+                    'n_modes': 'modes',
+                    'n_zones': 'zone_name',
+                    'n_time_slices': 'lbl_time_slice',
+                    }
 
     def __init__(self,
                  n_groups,
@@ -108,6 +113,11 @@ class WIVER(_WIVER, _ArrayProperties):
 
     def define_arrays(self):
         """Define the arrays"""
+        self.init_object_array('groups', 'n_groups')
+        self.init_object_array('modes', 'n_modes')
+        self.init_object_array('zone_name', 'n_zones')
+        self.init_object_array('lbl_time_slice', 'n_time_slices')
+
         self.init_array('mode_g', 'n_groups', 0)
         self.init_array('active_g', 'n_groups', 1)
 

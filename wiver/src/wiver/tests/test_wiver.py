@@ -159,8 +159,8 @@ def wiver(request):
                                                   [1, 2, 8]])
 
     wiver.zone_no = np.arange(10, 60, 10)
-    wiver.zone_name = np.array(['{}-Stadt'.format(chr(i))
-                                for i in range(65, 70)])
+    wiver.zone_name = np.array(['{}-Stadt'.format(i)
+                                for i in 'ABCDE'])
 
     wiver.modes = np.array(['Rad', 'Pkw', 'OV'])
     wiver.groups = np.array(['Gruppe {}'.format(i) for i in range(2)])
