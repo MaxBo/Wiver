@@ -50,5 +50,6 @@ install:
 
 script:
   # Your test script goes here
+  - source activate test-environment
   - conda info -a
-  - conda build wiver/conda.recipe --croot /tmp/conda --user MaxBo --token $ANACONDA_TOKEN
+  - conda build wiver/conda.recipe --user MaxBo --token $ANACONDA_TOKEN
