@@ -5,12 +5,12 @@ matrix:
         - python: 3.5
           env:
             - TRAVIS_PYTHON_VERSION=3.5
-            - CONDA_PY=35
+            - CONDA_PY=3.5
             - CONDA_NPY=111
         - python: 3.6
           env:
             - TRAVIS_PYTHON_VERSION=3.6
-            - CONDA_PY=36
+            - CONDA_PY=3.6
             - CONDA_NPY=111
 
 env:
@@ -31,7 +31,7 @@ install:
   - hash -r
   - conda config --set always_yes yes --set changeps1 no
   - conda update -q conda
-  - conda install conda-build=2.1
+  - conda install conda-build
   - conda install anaconda-client
   # Useful for debugging any issues with conda
   - conda info -a
