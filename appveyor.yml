@@ -77,7 +77,7 @@ test_script:
 
 after_test:
   - cmd: cd wiver
-  - cmd: conda install -y cythoninstallhelpers
+  - cmd: conda install -y cythonarrays
   - "%CMD_IN_ENV% python setup.py bdist_wheel sdist"
   - cmd: cd ..
 
