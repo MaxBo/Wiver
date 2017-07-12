@@ -17,14 +17,28 @@ from cythonarrays.configure_logger import SimLogger
 
 @orca.injectable()
 def project_folder():
-    """ The Project folder (%TEMP% by default)"""
+    """ The Project folder (%TEMP% by default)
+
+    Returns
+    -------
+    project_folder : str
+    """
     folder = tempfile.gettempdir()
     return folder
 
 
 @orca.injectable()
 def params_file(project_folder):
-    """ The params-file"""
+    """ The params-file
+
+    Parameters
+    ----------
+    project_folder : str
+
+    Returns
+    -------
+    params_file : str
+    """
     fn = 'params'
     file_path = os.path.join(project_folder, '{}.h5'.format(fn))
     return file_path
@@ -32,7 +46,16 @@ def params_file(project_folder):
 
 @orca.injectable()
 def matrix_file(project_folder):
-    """ The params-file"""
+    """ The params-file
+
+    Parameters
+    ----------
+    project_folder : str
+
+    Returns
+    -------
+    matrix_file : str
+    """
     fn = 'matrices'
     file_path = os.path.join(project_folder, '{}.h5'.format(fn))
     return file_path
@@ -40,7 +63,16 @@ def matrix_file(project_folder):
 
 @orca.injectable()
 def zones_file(project_folder):
-    """ The zonal_data-file"""
+    """ The zonal_data-file
+
+    Parameters
+    ----------
+    project_folder : str
+
+    Returns
+    -------
+    zones_file : str
+    """
     fn = 'zonal_data'
     file_path = os.path.join(project_folder, '{}.h5'.format(fn))
     return file_path
@@ -48,7 +80,16 @@ def zones_file(project_folder):
 
 @orca.injectable()
 def result_file(project_folder):
-    """ The results-file"""
+    """ The results-file
+
+    Parameters
+    ----------
+    project_folder : str
+
+    Returns
+    -------
+    result_file : str
+    """
     fn = 'results'
     file_path = os.path.join(project_folder, '{}.h5'.format(fn))
     return file_path
@@ -56,7 +97,16 @@ def result_file(project_folder):
 
 @orca.injectable()
 def balancing_file(project_folder):
-    """ The balancing-file"""
+    """ The balancing-file
+
+    Parameters
+    ----------
+    project_folder : str
+
+    Returns
+    -------
+    balancing_file : str
+    """
     fn = 'balancing'
     file_path = os.path.join(project_folder, '{}.h5'.format(fn))
     return file_path
@@ -71,6 +121,12 @@ def max_iterations():
 @orca.injectable()
 def wiver_files(params_file, matrix_file, zones_file,
                 balancing_file, result_file):
+    """
+    Returns
+    -------
+    wiver_files : dict
+        a dictionary with the file path to the input data files
+    """
     files = {'params': params_file,
              'matrices': matrix_file,
              'zonal_data': zones_file,
@@ -81,6 +137,16 @@ def wiver_files(params_file, matrix_file, zones_file,
 
 @orca.injectable()
 def wiver(wiver_files):
+    """
+
+    Parameters
+    ----------
+    wiver_files : dict
+
+    Returns
+    -------
+    wiver : Wiver-instace
+    """
     wiver = WIVER.read_from_netcdf(wiver_files)
     return wiver
 
@@ -97,7 +163,7 @@ def add_logfile(project_folder: str, scenario: str):
     add Logfile to logger
 
     Parameters
-    ---------
+    ----------
     wiver model
     """
     logger = SimLogger()
@@ -111,7 +177,7 @@ def run_wiver(wiver: WIVER, wiver_files: dict, max_iterations: int):
     calculate wiver model
 
     Parameters
-    ---------
+    ----------
     wiver: wiver-model
     wiver-files : dict
     max_iterations: int
@@ -128,7 +194,7 @@ def run_wiver_for_selected_groups(wiver: WIVER,
     calculate wiver model for selected groups only
 
     Parameters
-    ---------
+    ----------
     wiver: wiver-model
     wiver-files : dict
     max_iterations: int
