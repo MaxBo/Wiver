@@ -12,6 +12,7 @@ matrix:
             - TRAVIS_PYTHON_VERSION=3.6
             - CONDA_PY=36
             - CONDA_NPY=111
+            - CREATE_DOCS=1
 
 env:
   global:
@@ -42,13 +43,24 @@ install:
   - conda config --add channels conda-forge
   - conda config --add channels MaxBo
 
-  # Replace dep1 dep2 ... with your dependencies
   - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION
   - source activate test-environment
   - export TMPDIR=`dirname $(mktemp -u -t tmp.XXXXXXXXXX)`
-  # - python setup.py install
+
+  - conda install -y sphinx numpydoc
+  - pip install --user travis-sphinx
 
 script:
   # Your test script goes here
   - conda info -a
   - conda build wiver/conda.recipe --user MaxBo --token $ANACONDA_TOKEN
+
+  # build documentation
+  - if [ "${CREATE_DOCS}" = "1" ]; then
+      conda install -y --use-local wiver;
+      sphinx-apidoc -f --separate -o docs_rst/wiver wiver/src/wiver;
+      travis-sphinx --source docs_rst --nowarn build;
+    fi
+
+after_success:
+  - if [ "${CREATE_DOCS}" = "1" ]; then travis-sphinx deploy; fi
