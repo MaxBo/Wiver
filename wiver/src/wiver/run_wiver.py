@@ -9,7 +9,11 @@ import tempfile
 import os
 from argparse import ArgumentParser
 from typing import List
+import sqlite3 as db
 import numpy as np
+import pandas as pd
+from openpyxl import load_workbook
+
 import orca
 from wiver.wiver_python import WIVER
 from cythonarrays.configure_logger import SimLogger
@@ -113,6 +117,23 @@ def balancing_file(project_folder):
 
 
 @orca.injectable()
+def starting_ending_trips_file(project_folder):
+    """ The Excel-File for starting and ending trips
+
+    Parameters
+    ----------
+    project_folder : str
+
+    Returns
+    -------
+    starting_ending_trip_file : str
+    """
+    fn = 'starting_ending_trips.xlsx'
+    file_path = os.path.join(project_folder, fn)
+    return file_path
+
+
+@orca.injectable()
 def max_iterations():
     """ maximum number of iterations"""
     return 1
@@ -155,6 +176,13 @@ def wiver(wiver_files):
 def scenario():
     """The Scenario Name"""
     return 'wiver'
+
+@orca.injectable()
+def connection(project_folder: str):
+    """database connection to write zonal data into"""
+    fn = os.path.join(project_folder, 'wiver.db3')
+    connection = db.connect(fn)
+    return connection
 
 
 @orca.step()
@@ -238,7 +266,32 @@ def save_detailed_results(wiver: WIVER,
     """
     fn = wiver_files['results']
     wiver.read_data('results', fn)
-    wiver.save_detailed_results_to_visum(matrix_folder, 'B')
+    wiver.save_detailed_results_to_visum(matrix_folder, 'Wiver')
+
+@orca.step()
+def calc_starting_ending_trips(wiver: WIVER,
+                               wiver_files: dict,
+                               starting_ending_trips_file: str,
+                               connection: db.Connection):
+    """
+    calculate starting and ending trips per zone
+
+    Parameters
+    ----------
+    wiver: wiver-model
+    wiver-files : dict
+    starting_ending_trips_file: str
+    """
+    fn = wiver_files['results']
+    wiver.read_data('results', fn)
+    df = wiver.calc_starting_and_ending_trips()
+    df.to_sql(name='wiver', con=connection, if_exists='replace')
+    with pd.ExcelWriter(starting_ending_trips_file, engine='openpyxl') as writer:
+        writer.book = load_workbook(starting_ending_trips_file)
+        sheetname = 'data'
+        writer.book.remove(writer.book.get_sheet_by_name(sheetname))
+        df.to_excel(writer, sheet_name=sheetname)
+
 
 
 if __name__ == '__main__':
@@ -263,8 +316,9 @@ if __name__ == '__main__':
 
     orca.run([
         'add_logfile',
-        #'run_wiver',
-        'run_wiver_for_selected_groups',
+        'run_wiver',
+        #'run_wiver_for_selected_groups',
         'save_results',
         #'save_detailed_results',
+        'calc_starting_ending_trips',
         ])

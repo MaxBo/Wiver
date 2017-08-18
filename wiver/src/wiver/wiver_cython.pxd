@@ -17,9 +17,11 @@ cdef class _WIVER(ArrayShapes):
     cdef public char n_savings_categories
     cdef public char n_time_slices
     cdef public char n_modes
+    cdef public char n_sectors
 
-    # mode of groups
+    # mode and sector of groups
     cdef public ARRAY_1D_i1 _mode_g
+    cdef public ARRAY_1D_i1 _sector_g
 
     # active groups
     cdef public ARRAY_1D_i1 _active_g
