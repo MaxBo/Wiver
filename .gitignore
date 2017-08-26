@@ -6,6 +6,10 @@ __pycache__/
 # C extensions
 *.so
 
+# compiled cython scripts
+*.c
+*.html
+
 # Distribution / packaging
 .Python
 env/
