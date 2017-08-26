@@ -81,11 +81,11 @@ test_script:
   - ps: |
         IF($env:ANACONDA_TOKEN) {
           conda info
-          conda build wiver/conda.recipe  -k --keep-old-work --dirty --user MaxBo  --token $env:ANACONDA_TOKEN
+          conda build wiver/conda.recipe  --debug --keep-old-work --dirty --user MaxBo  --token $env:ANACONDA_TOKEN
           }
         else {
           conda info
-          conda build wiver/conda.recipe  -k --keep-old-work --dirty --no-anaconda-upload
+          conda build wiver/conda.recipe  --debug --keep-old-work --dirty --no-anaconda-upload
         }
 
   - ps: $wc = New-Object 'System.Net.WebClient'
