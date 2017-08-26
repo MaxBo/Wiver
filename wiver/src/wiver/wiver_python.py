@@ -25,6 +25,7 @@ class WIVER(_WIVER, _ArrayProperties):
                     'n_modes': 'modes',
                     'n_zones': 'zone_name',
                     'n_time_slices': 'lbl_time_slice',
+                    'n_sectors': 'sector_short',
                     }
 
     def __init__(self,
@@ -33,12 +34,14 @@ class WIVER(_WIVER, _ArrayProperties):
                  n_savings_categories=9,
                  n_time_slices=5,
                  n_modes=4,
+                 n_sectors=2,
                  threading=True):
         super().__init__()
 
         self.n_modes = n_modes
         self.n_groups = n_groups
         self.n_zones = n_zones
+        self.n_sectors = n_sectors
         self.n_savings_categories = n_savings_categories
         self.n_time_slices = n_time_slices
         self.set_n_threads(threading)
@@ -91,7 +94,7 @@ class WIVER(_WIVER, _ArrayProperties):
 
         self.n_sectors = len(ds.sector_short)
 
-        self.sector_g = ds.sector_g.data
+        self.sector_g = ds.sector_of_groups.data
         self.mode_name = ds.mode_name.data
         self.sector_short = ds.sector_short.data
         self.param_dist_g = ds.param_dist.data
@@ -184,11 +187,13 @@ class WIVER(_WIVER, _ArrayProperties):
         """Define the params"""
         ds = xr.Dataset()
         ds['modes'] = self.modes
+        ds['mode_name'] = (('modes'), self.mode_name)
         ds['groups'] = self.groups
         ds['mode_of_groups'] = (('groups'),
                                 self.mode_g)
         ds['sector_of_groups'] = (('groups'),
                                     self.sector_g)
+        ds['sector_short'] = (('sectors'), self.sector_short)
         ds['param_dist'] = (('groups'),
                             self.param_dist_g)
         ds['savings_bins'] = (('savings'),
@@ -380,9 +385,9 @@ class WIVER(_WIVER, _ArrayProperties):
         Randsummenabgleich für Zielpotenziale
         """
         self.converged=False
-        sp = self.data.sink_potential
+        sp = self.zonal_data.sink_potential
         target_share = sp / sp.sum('destinations')
-        trips = self.results.trips_gij.sum('origins')
+        trips = self.balancing.trips_to_destination
         actual_share = trips / trips.sum('destinations')
         kf = target_share / actual_share
         kf[:] = kf.fillna(1)
@@ -391,7 +396,7 @@ class WIVER(_WIVER, _ArrayProperties):
         bf[:] = bf.fillna(1)
         bf[:] = bf * kf
         # normalize balancing factor
-        bf[:] = bf / bf.mean('destinations')
+        #bf[:] = bf / bf.mean('destinations')
         if (np.abs(kf - 1) < threshold).all():
             self.converged = True
             self.logger.info('converged!')
