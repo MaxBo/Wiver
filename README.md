@@ -6,6 +6,8 @@
 # Wiver
 # Commercial Trip Model
 
+Code documentation can be found [here](https://maxbo.github.io/Wiver)
+
 Wiver is a Commercial Trip Modeal based upon the model developed by Sonntag et al. (1998).
 
 It is a macroscopic, tour-based model, that calculates demand matrices for different economic sectors and vehicle types.

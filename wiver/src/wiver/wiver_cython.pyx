@@ -54,7 +54,11 @@ cdef class _WIVER(ArrayShapes):
                 if not self._active_g[g]:
                     continue
                 with gil:
-                    self.logger.info('calculate group {}'.format(g))
+                    mode = self._mode_g[g]
+                    sector = self._sector_g[g]
+                    name = '{}_{}'.format(self.mode_name[mode],
+                                          self.sector_short[sector])
+                    self.logger.info('calculate group {} ({})'.format(g, name))
                 # loop over home zones
                 for h in range(self.n_zones):
                     tours = self._calc_tours(g, h)
@@ -97,9 +101,13 @@ cdef class _WIVER(ArrayShapes):
     @cython.initializedcheck(False)
     cpdef calc_mean_distance(self):
         """calculate mean distance for groups"""
-        cdef long32 g, i, j
+        cdef long32 g, i, j, mode, sector
         cdef double total_distance, total_trips, trips, mean_distance
         for g in range(self.n_groups):
+            mode = self._mode_g[g]
+            sector = self._sector_g[g]
+            name = '{}_{}'.format(self.mode_name[mode],
+                                  self.sector_short[sector])
             total_distance = 0
             total_trips = 0
             # loop over zones
@@ -109,8 +117,8 @@ cdef class _WIVER(ArrayShapes):
                     total_distance += self._km_ij[i, j] * trips
                     total_trips += trips
             mean_distance = total_distance / total_trips
-            self.logger.info('mean distance of group {g}: {d:0.2f}'.format(g=g,
-            d=mean_distance))
+            self.logger.info('mean distance of group {n} ({g}): {d:0.2f}'.\
+                format(g=g, n=name, d=mean_distance))
             self._mean_distance_g[g] = mean_distance
 
     @cython.initializedcheck(False)
@@ -119,6 +127,7 @@ cdef class _WIVER(ArrayShapes):
         cdef long32 m, i, j
         cdef double total_distance, total_trips, trips, mean_distance
         for m in range(self.n_modes):
+            name = self.mode_name[m]
             total_distance = 0
             total_trips = 0
             # loop over zones
@@ -128,8 +137,8 @@ cdef class _WIVER(ArrayShapes):
                     total_distance += self._km_ij[i, j] * trips
                     total_trips += trips
             mean_distance = total_distance / total_trips
-            self.logger.info('mean distance of mode {m}: {d:0.2f}'.format(m=m,
-            d=mean_distance))
+            self.logger.info('mean distance of mode {m} ({n}): {d:0.2f}'.\
+                format(m=m, n=name, d=mean_distance))
             self._mean_distance_m[m] = mean_distance
 
     @cython.initializedcheck(False)

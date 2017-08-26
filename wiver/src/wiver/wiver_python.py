@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 
 import multiprocessing
-import xarray as xr
 import os
 from collections import defaultdict
 import numpy as np
+import pandas as pd
+import xarray as xr
+
 
 from cythonarrays.array_properties import _ArrayProperties
 from matrixconverters.save_ptv import SavePTV
@@ -23,6 +25,7 @@ class WIVER(_WIVER, _ArrayProperties):
                     'n_modes': 'modes',
                     'n_zones': 'zone_name',
                     'n_time_slices': 'lbl_time_slice',
+                    'n_sectors': 'sector_short',
                     }
 
     def __init__(self,
@@ -31,12 +34,14 @@ class WIVER(_WIVER, _ArrayProperties):
                  n_savings_categories=9,
                  n_time_slices=5,
                  n_modes=4,
+                 n_sectors=2,
                  threading=True):
         super().__init__()
 
         self.n_modes = n_modes
         self.n_groups = n_groups
         self.n_zones = n_zones
+        self.n_sectors = n_sectors
         self.n_savings_categories = n_savings_categories
         self.n_time_slices = n_time_slices
         self.set_n_threads(threading)
@@ -86,6 +91,12 @@ class WIVER(_WIVER, _ArrayProperties):
         self.modes = ds.modes.data
         self.groups = ds.groups.data
         self.mode_g = ds.mode_of_groups.data
+
+        self.n_sectors = len(ds.sector_short)
+
+        self.sector_g = ds.sector_of_groups.data
+        self.mode_name = ds.mode_name.data
+        self.sector_short = ds.sector_short.data
         self.param_dist_g = ds.param_dist.data
         self.savings_bins_s = ds.savings_bins.data
         self.savings_weights_gs = ds.savings_weights.data
@@ -114,11 +125,15 @@ class WIVER(_WIVER, _ArrayProperties):
     def define_arrays(self):
         """Define the arrays"""
         self.init_object_array('groups', 'n_groups')
+        self.init_object_array('group_names', 'n_groups')
         self.init_object_array('modes', 'n_modes')
+        self.init_object_array('mode_name', 'n_modes')
+        self.init_object_array('sector_short', 'n_sectors')
         self.init_object_array('zone_name', 'n_zones')
         self.init_object_array('lbl_time_slice', 'n_time_slices')
 
         self.init_array('mode_g', 'n_groups', 0)
+        self.init_array('sector_g', 'n_groups', 0)
         self.init_array('active_g', 'n_groups', 1)
 
         self.init_array('savings_bins_s', 'n_savings_categories')
@@ -172,9 +187,13 @@ class WIVER(_WIVER, _ArrayProperties):
         """Define the params"""
         ds = xr.Dataset()
         ds['modes'] = self.modes
+        ds['mode_name'] = (('modes'), self.mode_name)
         ds['groups'] = self.groups
         ds['mode_of_groups'] = (('groups'),
                                 self.mode_g)
+        ds['sector_of_groups'] = (('groups'),
+                                    self.sector_g)
+        ds['sector_short'] = (('sectors'), self.sector_short)
         ds['param_dist'] = (('groups'),
                             self.param_dist_g)
         ds['savings_bins'] = (('savings'),
@@ -361,17 +380,23 @@ class WIVER(_WIVER, _ArrayProperties):
             s.savePTVMatrix(file_name, Ftype=visum_format)
             self.logger.info('matrix_saved')
 
-
     def adjust_balancing_factor(self, threshold=0.1):
-        """"""
+        """
+        Randsummenabgleich für Zielpotenziale
+        """
         self.converged=False
-        sp = self.sink_potential_gj
-        target_share = sp / sp.sum(1, keepdims=True)
-        trips = self.trips_to_destination_gj
-        actual_share = trips / trips.sum(1, keepdims=True)
+        sp = self.zonal_data.sink_potential
+        target_share = sp / sp.sum('destinations')
+        trips = self.balancing.trips_to_destination
+        actual_share = trips / trips.sum('destinations')
         kf = target_share / actual_share
-        kf[np.isnan(kf)] = 1
-        self.balancing_factor_gj *= kf
+        kf[:] = kf.fillna(1)
+        bf = self.balancing.balancing_factor
+        # adjust balancing factor
+        bf[:] = bf.fillna(1)
+        bf[:] = bf * kf
+        # normalize balancing factor
+        #bf[:] = bf / bf.mean('destinations')
         if (np.abs(kf - 1) < threshold).all():
             self.converged = True
             self.logger.info('converged!')
@@ -386,3 +411,77 @@ class WIVER(_WIVER, _ArrayProperties):
             self.calc()
             self.logger.info('Total trips: {:0.2f}'.format(self.trips_gij.sum()))
             self.adjust_balancing_factor(threshold)
+
+    def calc_starting_and_ending_trips(self):
+        """
+        calculate the starting trips per zone and group
+        """
+        trips_ij = self.results.trips_gij.sum('groups')
+        modelled_trips = (trips_ij.sum('origins').\
+            rename({'destinations': 'zone_no',}) + \
+            trips_ij.sum('destinations').rename({'origins': 'zone_no',})) / 2
+
+        df_modelled = modelled_trips.to_dataframe(name='modelled_trips')
+
+        group_labels = []
+        for g, group in enumerate(self.groups):
+            sn = self.data.sector_short[int(self.data.sector_g[g])].data
+            mn = self.data.mode_name[int(self.data.mode_of_groups[g])].data
+            group_label = '{}_{}'.format(mn, sn).replace(' ', '')
+            group_labels.append(group_label)
+
+        sp = self.data.sink_potential
+
+        starting_trips_gh = self.data.source_potential * self.data.tour_rates
+        ending_trips_g = starting_trips_gh.sum('zone_no') * self.data.stops_per_tour
+        ending_trips_gh = sp * \
+            (ending_trips_g / sp.sum('destinations'))
+
+        starting_trips_i = starting_trips_gh.sum('groups')
+        ending_trips_i = ending_trips_gh.sum('groups')
+
+        df_balancing = self.data.balancing_factor.to_dataframe(name='balance')
+        df_balancing = df_balancing.reset_index().pivot(
+            index='destinations', columns='groups', values='balance')
+        df_balancing.columns =['Bal_{}'.format(col)
+                                  for col in group_labels]
+
+        df_s = starting_trips_i.to_dataframe(name='starting_trips')
+        df_e = ending_trips_i.to_dataframe(name='ending_trips')
+        df_e.index.name = 'zone_no'
+        df_modelled['start_end'] = df_s.starting_trips + df_e.ending_trips
+
+        df_ending = ending_trips_gh.to_dataframe(name='ending_trips_g')
+        df_ending = df_ending.reset_index().pivot(
+            index='destinations', columns='groups', values='ending_trips_g')
+
+        df_ending.index.name = 'zone_no'
+        df_ending.columns =['End_{}'.format(col)
+                                for col in group_labels]
+
+        df_starting = starting_trips_gh.to_dataframe(name='starting_trips_g')
+        df_starting = df_starting.reset_index().pivot(
+            index='zone_no', columns='groups', values='starting_trips_g')
+        df_starting.columns =['Start_{}'.format(col)
+                                for col in group_labels]
+
+        df_sp = self.data.sink_potential.to_dataframe(name='sink_potential')
+        df_sp = df_sp.reset_index().\
+            rename(columns={'destinations': 'zone_no',}).\
+            pivot(index='zone_no', columns='groups', values='sink_potential')
+        df_sp.columns =['SP_{}'.format(col)
+                        for col in group_labels]
+
+        df_name = self.data.zone_name.to_dataframe()
+
+        df = pd.concat([df_name,
+                        df_modelled,
+                        df_s,
+                        df_e,
+                        df_starting,
+                        df_ending,
+                        df_sp,
+                        df_balancing],
+                       axis=1)
+        return df
+

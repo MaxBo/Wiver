@@ -118,8 +118,14 @@ def wiver(request):
     """
     WIVER-instance
     """
-    wiver = WIVER(n_groups=2, n_zones=5, n_time_slices=3,
-                  n_savings_categories=10, n_modes=3)
+    sector_name = np.array(['DL', 'IND'])
+
+    wiver = WIVER(n_groups=2,
+                  n_zones=5,
+                  n_time_slices=3,
+                  n_savings_categories=10,
+                  n_modes=3,
+                  n_sectors=len(sector_name))
 
     # mode of group
     wiver.mode_g = np.array([2, 2])
@@ -162,7 +168,11 @@ def wiver(request):
     wiver.zone_name = np.array(['{}-Stadt'.format(i)
                                 for i in 'ABCDE'])
 
-    wiver.modes = np.array(['Rad', 'Pkw', 'OV'])
+
+    wiver.sector_short = sector_name
+    wiver.sector_g = np.array([0, 1])
+
+    wiver.mode_name = np.array(['Rad', 'Pkw', 'OV'])
     wiver.groups = np.array(['Gruppe {}'.format(i) for i in range(2)])
 
     return wiver
@@ -539,13 +549,14 @@ class Test02_Wiver:
         Test if the trip distribution equals the sink_potential
         and that the total number of trips stay constant
         """
-        sp = wiver.sink_potential_gj
-        target_share = sp / sp.sum(1, keepdims=True)
+        wiver.define_datasets()
+        sp = wiver.zonal_data.sink_potential
+        target_share = sp / sp.sum('destinations')
         wiver.calc_with_balancing(max_iterations=1)
         target_total_trips = wiver.trips_gij.sum()
-        wiver.calc_with_balancing(max_iterations=10)
-        trips = wiver.trips_to_destination_gj
-        actual_share = trips / trips.sum(1, keepdims=True)
+        wiver.calc_with_balancing(max_iterations=20)
+        trips = wiver.balancing.trips_to_destination
+        actual_share = trips / trips.sum('destinations')
         np.testing.assert_allclose(actual_share, target_share, rtol=.05)
 
         actual_total_trips = wiver.trips_gij.sum()
