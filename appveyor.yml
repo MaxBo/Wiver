@@ -1,3 +1,9 @@
+branches:
+    only:
+    - master
+
+skip_branch_with_pr: true
+
 environment:
 
   # SDK v7.0 MSVC Express 2008's SetEnv.cmd script will fail if the
@@ -71,7 +77,16 @@ build: off
 
 test_script:
   # Build the compiled extension
-  - cmd: conda build wiver/conda.recipe --user MaxBo --token %ANACONDA_TOKEN%
+  - ps: |
+     IF($env:ANACONDA_TOKEN) {
+       echo "build master branch and upload to anaconda using the token"
+       conda build wiver/conda.recipe --user MaxBo  --token $env:ANACONDA_TOKEN
+       }
+     else {
+       echo "build pull request, do not upload to anaconda"
+       conda build wiver/conda.recipe --no-anaconda-upload
+       }
+
   - ps: $wc = New-Object 'System.Net.WebClient'
   - ps: $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path $env:TMPDIR\junit_test_results.xml))
 
