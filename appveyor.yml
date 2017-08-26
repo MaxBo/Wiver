@@ -1,6 +1,6 @@
-branches:
-    only:
-    - master
+#branches:
+#    only:
+#    - master
 
 skip_branch_with_pr: true
 
@@ -65,7 +65,7 @@ install:
     # Conda build tools.
     - cmd: conda install -n root --quiet --yes obvious-ci
     - cmd: obvci_install_conda_build_tools.py
-    - cmd: conda install -y -n root conda-build=3
+#    - cmd: conda install -y -n root conda-build=3
     - cmd: conda info
     - cmd: conda create -y -n test-environment python=%PYTHON_VERSION%
     - cmd: activate test-environment
@@ -78,7 +78,15 @@ build: off
 
 test_script:
   # Build the compiled extension
-  - cmd: IF DEFINED ANACONDA_TOKEN (conda build wiver/conda.recipe --user MaxBo  --token %ANACONDA_TOKEN% ) ELSE (conda build wiver/conda.recipe --no-anaconda-upload)
+  - ps: |
+        IF($env:ANACONDA_TOKEN) {
+          conda info
+          conda build wiver/conda.recipe --user MaxBo  --token $env:ANACONDA_TOKEN
+          }
+        else {
+          conda info
+          conda build wiver/conda.recipe --no-anaconda-upload
+        }
 
   - ps: $wc = New-Object 'System.Net.WebClient'
   - ps: $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path $env:TMPDIR\junit_test_results.xml))
