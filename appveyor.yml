@@ -81,7 +81,7 @@ test_script:
   - ps: |
         IF($env:ANACONDA_TOKEN) {
           conda info
-          conda build wiver/conda.recipe  --keep-old-work --dirty --no-force-upload --user MaxBo  --token $env:ANACONDA_TOKEN
+          conda build wiver/conda.recipe  --keep-old-work --dirty --user MaxBo  --token $env:ANACONDA_TOKEN
           }
         else {
           conda info
