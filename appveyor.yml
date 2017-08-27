@@ -98,9 +98,9 @@ test_script:
   - ps: $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path $env:TMPDIR\junit_test_results.xml))
 
 after_test:
-  - cmd: echo [pypi] > %USERPROFILE%\\.pypirc
-  - cmd: echo username: MaxBo >> %USERPROFILE%\\.pypirc
-  - cmd: echo password: %PYPIPASSWORD% >> %USERPROFILE%\\.pypirc
+  - "echo [pypi] > %USERPROFILE%\\.pypirc"
+  - "echo username: MaxBo >> %USERPROFILE%\\.pypirc"
+  - "echo password: %PYPIPASSWORD% >> %USERPROFILE%\\.pypirc"
   - cmd: cd wiver
   - cmd: conda install -y cythonarrays
   - "%CMD_IN_ENV% python setup.py bdist_wheel sdist upload"
