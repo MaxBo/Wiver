@@ -26,8 +26,8 @@ env:
 
 install:
   - echo "[pypi]" > ~/.pypirc;
-  - echo "username{{':'}} MaxBo" >> ~/.pypirc;
-  - echo "password{{':'}} $PYPIPASSWORD" >> ~/.pypirc;
+  - echo "'username: MaxBo'" >> ~/.pypirc;
+  - echo "'password: $PYPIPASSWORD'" >> ~/.pypirc;
   - cat ~/.pypirc;
 
   - sudo apt-get update
