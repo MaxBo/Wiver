@@ -72,6 +72,7 @@ after_success:
 
 before_deploy:
   - ls -la
+  - conda install -y cythonarrays
   - cd $TRAVIS_BUILD_DIR/wiver
 
 deploy:
