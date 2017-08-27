@@ -68,7 +68,7 @@ install:
     # Conda build tools.
     - cmd: conda install -n root --quiet --yes obvious-ci
     - cmd: obvci_install_conda_build_tools.py
-    #- cmd: conda install -y -n root conda-build
+    - cmd: conda install -y -n root conda-build=3
     - cmd: conda install -y -n root cythonarrays
     - cmd: conda info
     - cmd: conda create -y -n test-environment python=%PYTHON_VERSION%
