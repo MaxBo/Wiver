@@ -72,9 +72,10 @@ after_success:
   - if [ "${CREATE_DOCS}" = "1" ]; then travis-sphinx deploy; fi
   - if [ "${TRAVIS_TAG}" ]; then
       conda install -y cythonarrays twine;
-      echo "[pypi]" >> ~/.pypirc;
-      echo "username: MaxBo" > ~/.pypirc;
-      echo "password: $PYPIPASSWORD" >> ~/.pypirc;
+      echo "[pypi]" > ~/.pypirc;
+      echo "username\: MaxBo" >> ~/.pypirc;
+      echo "password\: $PYPIPASSWORD" >> ~/.pypirc;
+      cat ~/.pypirc;
       cd $TRAVIS_BUILD_DIR/wiver;
       python setup.py sdist bdist_wheel;
       twine upload dist/*;
