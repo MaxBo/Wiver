@@ -19,6 +19,7 @@ requirements:
     - cython
     - numpy
     - xarray
+    - pandas
     - orca
     - cythoninstallhelpers
     - cythonarrays
@@ -32,6 +33,7 @@ requirements:
     - setuptools
     - numpy
     - xarray
+    - pandas
     - orca
     - cythoninstallhelpers
     - cythonarrays

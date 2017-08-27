@@ -70,7 +70,7 @@ install:
     - cmd: conda info
     - cmd: conda create -y -n test-environment python=%PYTHON_VERSION%
     - cmd: activate test-environment
-    - cmd: conda install -y cythoninstallhelpers
+    - cmd: conda install -y cythonarrays matrixconverters
 
     - cmd: set TMPDIR=%TMP%
     - ps: $env:TMPDIR=$env:TMP
