@@ -173,6 +173,7 @@ def wiver(request):
     wiver.sector_g = np.array([0, 1])
 
     wiver.mode_name = np.array(['Rad', 'Pkw', 'OV'])
+    wiver.modes = np.array(['R', 'P', 'O'])
     wiver.groups = np.array(['Gruppe {}'.format(i) for i in range(2)])
 
     return wiver
@@ -240,6 +241,7 @@ class Test01_WiverData:
         wiver.calc()
         wiver.save_results_to_visum(folder, visum_format='B')
         wiver.save_results_to_visum(folder, visum_format='V')
+        wiver.save_results_to_visum(folder, visum_format='BK')
 
 
 class Test02_Wiver:

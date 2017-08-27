@@ -116,11 +116,16 @@ class WIVER(_WIVER, _ArrayProperties):
         self.travel_time_mij = ds.travel_time.data
         self.km_ij = ds.distance_matrix.data
 
-        # balancing factors
-        self.balancing_factor_gj = ds.balancing_factor.data
+        self.set_arrays_from_balancing_ds(ds)
 
         # results
         self.results = self.define_results()
+
+    def set_arrays_from_balancing_ds(self, ds):
+        """Set arrays from balancing dataset"""
+        # balancing factors
+        self.balancing_factor_gj = ds.balancing_factor.data
+        self.trips_to_destination_gj = ds.trips_to_destination.data
 
     def define_arrays(self):
         """Define the arrays"""
@@ -325,13 +330,14 @@ class WIVER(_WIVER, _ArrayProperties):
         fn = wiver_files[dataset_name]
         self.save_data(dataset_name, fn)
 
-    def save_results_to_visum(self, folder, visum_format='B'):
+    def save_results_to_visum(self, folder, visum_format='BK'):
         """Save the results to VISUM-Format"""
         for m, mode in enumerate(self.modes):
             visum_ds = xr.Dataset()
             visum_ds['matrix'] = self.results.trips_mij[m]
             visum_ds['zone_no'] = self.zone_no
-            visum_ds['zone_names'] = self.zone_name
+            visum_ds['zone_name'] = self.zone_name
+            #visum_ds['zone_names2'] = self.zone_name
             s = SavePTV(visum_ds)
             file_name = os.path.join(
                 folder, '{m}.mtx'.format(m=mode))
@@ -340,7 +346,7 @@ class WIVER(_WIVER, _ArrayProperties):
             ))
             s.savePTVMatrix(file_name, Ftype=visum_format)
 
-    def save_detailed_results_to_visum(self, folder, visum_format='B'):
+    def save_detailed_results_to_visum(self, folder, visum_format='BK'):
         """Save the results to VISUM-Format"""
         sectors = defaultdict(list)
         for g, group in enumerate(self.groups):

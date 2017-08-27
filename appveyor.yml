@@ -64,8 +64,8 @@ install:
 
     # Conda build tools.
     - cmd: conda install -n root --quiet --yes obvious-ci
-    - cmd: obvci_install_conda_build_tools.py
-#    - cmd: conda install -y -n root conda-build=3
+    #- cmd: obvci_install_conda_build_tools.py
+    - cmd: conda install -y -n root conda-build
     - cmd: conda info
     - cmd: conda create -y -n test-environment python=%PYTHON_VERSION%
     - cmd: activate test-environment
@@ -79,13 +79,14 @@ build: off
 test_script:
   # Build the compiled extension
   - ps: |
+        conda info
         IF($env:ANACONDA_TOKEN) {
-          conda info
-          conda build wiver/conda.recipe  --debug --keep-old-work --dirty --user MaxBo  --token $env:ANACONDA_TOKEN
+          echo "build master branch"
+          conda build wiver/conda.recipe --user MaxBo  --token $env:ANACONDA_TOKEN
           }
-        else {
-          conda info
-          conda build wiver/conda.recipe  --debug --keep-old-work --dirty --no-anaconda-upload
+        ELSE {
+          echo "build pull request"
+          conda build wiver/conda.recipe --no-anaconda-upload
         }
 
   - ps: $wc = New-Object 'System.Net.WebClient'

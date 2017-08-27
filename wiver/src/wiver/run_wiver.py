@@ -247,7 +247,7 @@ def save_results(wiver: WIVER, wiver_files: dict, matrix_folder: str):
     """
     fn = wiver_files['results']
     wiver.read_data('results', fn)
-    wiver.save_results_to_visum(matrix_folder, 'B')
+    wiver.save_results_to_visum(matrix_folder, 'BK')
 
 
 @orca.step()
