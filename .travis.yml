@@ -70,10 +70,15 @@ script:
 after_success:
   - if [ "${CREATE_DOCS}" = "1" ]; then travis-sphinx deploy; fi
 
+before_deploy:
+  - ls -la
+  - cd $TRAVIS_BUILD_DIR/wiver
+
 deploy:
   provider: pypi
   user: "MaxBo"
   password:
     secure: "gbek6Qruc86G1QRwpCniKLmKZQUzla5Kd3YNSiIUilgbOdRP8N4EUWtVqvUQz7C32s3RVqOtXI6u3ofhm41TllItdAqRdJbtsTYhuXKoVFlNRFVmufwbE6JMPhAQ4Tb+lf++2g96RHmi9lAzf8rVkp8WK3PB4HPm7cBc4Du89sIGh3AR8gzb5D2fIb4Gq1kOG6Ec01AK2MUQGVnXnvM5DMsb9paAVcBTb72nI3OUmjn5Ent6+zWPbW7q3NErneWHduB2fVVojbKE+dXYwCVDe2RaDqtrQez4ot/g5ZkYR1lPnHoRRwUar+zap3zG774VKmXnApn7CJvmf4gYxv9Wfid6Vu6pygb6eo3WTf2pghdjiT88vfDz+t8LVt+aA2VqjfTIOGEFSBRDiuFVDv3/0QHivP30VsxsPD5YdIJbRuasPk7jX76IVWoSYPCG+pYAbjDhVFMuv+wymwbj41W6tinQnVrSVkgGZvUSKnR2YFgZIfRoB0+9nQa6uKLcfQMoOPBNWEoARG9JEyt6Rd6iPhLrhfcDneTSck7NiJIDXSKIEaxRgepF8dcyMJL5POk0NNniZzh4qC5st7Hhwn2zOKJBpO2jHBFVFkfkk7N4b1n4WJAV5tLfe6CyQmAR9cT6zNSSzCw6bYMj8awwPvKf4KQnS/ZngFfvqqXB2IYSKcE="
+  distributions: "sdist bdist_wheel"
   on:
     tags: true
