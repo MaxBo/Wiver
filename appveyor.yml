@@ -15,7 +15,7 @@ environment:
     secure: FRnYhL1Dt42VxtPRqS7jPoV4EVtRkQD6ZUm4F8gzmcu6pFeuJfeMA01EYWfa2ETy
 
   PYPIPASSWORD:
-    secure: R7Hpmou1Q3ysPCVbkhvdBg==
+    secure: qFbkAvVK2Zomzabh7N/dH5otH7Gf82c97YTk4lD08lA=
 
   matrix:
 #    - TARGET_ARCH: x64
