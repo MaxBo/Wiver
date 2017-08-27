@@ -14,6 +14,9 @@ environment:
   ANACONDA_TOKEN:
     secure: FRnYhL1Dt42VxtPRqS7jPoV4EVtRkQD6ZUm4F8gzmcu6pFeuJfeMA01EYWfa2ETy
 
+  PYPIPASSWORD:
+    secure: R7Hpmou1Q3ysPCVbkhvdBg==
+
   matrix:
 #    - TARGET_ARCH: x64
 #      CONDA_NPY: 111
@@ -66,11 +69,11 @@ install:
     - cmd: conda install -n root --quiet --yes obvious-ci
     - cmd: obvci_install_conda_build_tools.py
     #- cmd: conda install -y -n root conda-build
-    - cmd: conda install -y -n root cythoninstallhelpers
+    - cmd: conda install -y -n root cythonarrays
     - cmd: conda info
     - cmd: conda create -y -n test-environment python=%PYTHON_VERSION%
     - cmd: activate test-environment
-    - cmd: conda install -y cythonarrays matrixconverters
+    - cmd: conda install -y cythonarrays
 
     - cmd: set TMPDIR=%TMP%
     - ps: $env:TMPDIR=$env:TMP
@@ -95,9 +98,12 @@ test_script:
   - ps: $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path $env:TMPDIR\junit_test_results.xml))
 
 after_test:
+  - cmd: echo [pypi] > %USERPROFILE%\\.pypirc
+  - cmd: echo username: MaxBo >> %USERPROFILE%\\.pypirc
+  - cmd: echo password: %PYPIPASSWORD% >> %USERPROFILE%\\.pypirc
   - cmd: cd wiver
   - cmd: conda install -y cythonarrays
-  - "%CMD_IN_ENV% python setup.py bdist_wheel sdist"
+  - "%CMD_IN_ENV% python setup.py bdist_wheel sdist upload"
   - cmd: cd ..
 
 artifacts:
