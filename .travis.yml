@@ -21,7 +21,8 @@ matrix:
 
 env:
   global:
-    secure: HJT8kvOUUzMY1tjzweCwyk2qIbW5RfBXkaHY0sUReFQS2xgRl/Iexl/SBQMD8C0ai32/imi3hpA11fk5/B+MZucO4euKm0VFqb5RmU5WSkejjYcp6M6+kOFRcl9rrH6EV+x5wKv10r62GCsCMvowIPDdFoZE6ZHhLCZ6Lmwuiyr1EU6hDddCFkLihHcR+Kn+Y6f7HQptnrjxXfZc6ZsUxttU8K3z+VZUs5RSegfGaUzReJPVYEaFzQ5Hwat1CiFaeZ0lobCPBVsSteA5YFFIkbUMUtDLyxGwM5W0j0EDm30WF/sLFvDaHjZeb4A2vrEwkyWaRMqfRrpRBLghsjaa6/0PKWk584ZnndY0Hxv26CDfyan1JOo1SA9pfEQ3lay4aXwLbWVYU5SCsPv7Z1oJSKGmKpqRMgDl6oqCCbFn+t4mAwJchnDMevShITrEpFhabjgUUq7HP1h7ghtafuJW0dUmUicsKdXeRWUnhrZKQVV1ZLGGEnbcnglwaq32nZ8MN/BeR38oal+jQjM5Lsxati4wQErbxl4Y+WCjEu3Yq4uqSgC0iGtv/uFYefDcFJhzQL+s7YmuFenor9BAgmiypPoTMarfekGihJZnQBuQUl0dhqwVnFBg70x3eX0G6IuWDRkP9Rj1xNx6f7lREAjxQRAio1+gmp48qPRySwAWXkM=
+    - secure: HJT8kvOUUzMY1tjzweCwyk2qIbW5RfBXkaHY0sUReFQS2xgRl/Iexl/SBQMD8C0ai32/imi3hpA11fk5/B+MZucO4euKm0VFqb5RmU5WSkejjYcp6M6+kOFRcl9rrH6EV+x5wKv10r62GCsCMvowIPDdFoZE6ZHhLCZ6Lmwuiyr1EU6hDddCFkLihHcR+Kn+Y6f7HQptnrjxXfZc6ZsUxttU8K3z+VZUs5RSegfGaUzReJPVYEaFzQ5Hwat1CiFaeZ0lobCPBVsSteA5YFFIkbUMUtDLyxGwM5W0j0EDm30WF/sLFvDaHjZeb4A2vrEwkyWaRMqfRrpRBLghsjaa6/0PKWk584ZnndY0Hxv26CDfyan1JOo1SA9pfEQ3lay4aXwLbWVYU5SCsPv7Z1oJSKGmKpqRMgDl6oqCCbFn+t4mAwJchnDMevShITrEpFhabjgUUq7HP1h7ghtafuJW0dUmUicsKdXeRWUnhrZKQVV1ZLGGEnbcnglwaq32nZ8MN/BeR38oal+jQjM5Lsxati4wQErbxl4Y+WCjEu3Yq4uqSgC0iGtv/uFYefDcFJhzQL+s7YmuFenor9BAgmiypPoTMarfekGihJZnQBuQUl0dhqwVnFBg70x3eX0G6IuWDRkP9Rj1xNx6f7lREAjxQRAio1+gmp48qPRySwAWXkM=
+    - secure: Gov/LAjiBof13l4LFsnExWJS8eFWcgflpQ3V9Ilh5ikSHKCErEnTb/qUbrwT/wCam+9taRAFRm6O5wch5lf8Oz3XkxrfJ6N797kps3Xs5NLxKs7gO9lUqH10OVN0imBEZNPqIxR9G2Tmw8yx7ombZkTvOfredhrPcb88cLxKiVBsyPOlEpAKqDSA91jMZC9jaarrVCGtWnIZFnczBkuNKLf+TQgWSvkE3C9pQsgeryxw0i9eM1aPQGfkGU7FYk6VAUJg5Rpbg5I2dA1rLGbCIUE5uBjWzhH64KBAX+QMQ6BjgfK9gd6LU8lf3ObwKeVdkimqnVqHyASRb+lfTxXk8/JkUUZoxZ6V4VydplCVwGqZiX25IaumH2G9cy3JHBi73FztMxb+EVYFLXmtZUG11G+6h3YIoT5Rd4xvmjgxwIVCdtHNghQ2XxBk1IkItqSRHnpo9G2ZKXV7lDBA3K+ZmPHX4nQSmhs5wtSX7fEImzW6rTyWoKMsKQWNStovotgu+sD38PXjaNDxfUh3BqKOUj38QozvE3i0xNz5KUoqfvBAjogKHaIsbLhD+bi0hFaR7RY1JKrJhw4mXuO0lA/CS2/4aKhwz3xL6U9CXkDrLiB6DsDpRCNVXwTP4wMcYIHz4n1AU6vUmjrmiZFGOvOcT0EfvPB0gXIaWOARW8wgqYA=
 
 install:
   - sudo apt-get update
@@ -69,17 +70,12 @@ script:
 
 after_success:
   - if [ "${CREATE_DOCS}" = "1" ]; then travis-sphinx deploy; fi
-
-before_deploy:
-  - ls -la
-  - conda install -y cythonarrays
-  - cd $TRAVIS_BUILD_DIR/wiver
-
-deploy:
-  provider: pypi
-  user: "MaxBo"
-  password:
-    secure: "gbek6Qruc86G1QRwpCniKLmKZQUzla5Kd3YNSiIUilgbOdRP8N4EUWtVqvUQz7C32s3RVqOtXI6u3ofhm41TllItdAqRdJbtsTYhuXKoVFlNRFVmufwbE6JMPhAQ4Tb+lf++2g96RHmi9lAzf8rVkp8WK3PB4HPm7cBc4Du89sIGh3AR8gzb5D2fIb4Gq1kOG6Ec01AK2MUQGVnXnvM5DMsb9paAVcBTb72nI3OUmjn5Ent6+zWPbW7q3NErneWHduB2fVVojbKE+dXYwCVDe2RaDqtrQez4ot/g5ZkYR1lPnHoRRwUar+zap3zG774VKmXnApn7CJvmf4gYxv9Wfid6Vu6pygb6eo3WTf2pghdjiT88vfDz+t8LVt+aA2VqjfTIOGEFSBRDiuFVDv3/0QHivP30VsxsPD5YdIJbRuasPk7jX76IVWoSYPCG+pYAbjDhVFMuv+wymwbj41W6tinQnVrSVkgGZvUSKnR2YFgZIfRoB0+9nQa6uKLcfQMoOPBNWEoARG9JEyt6Rd6iPhLrhfcDneTSck7NiJIDXSKIEaxRgepF8dcyMJL5POk0NNniZzh4qC5st7Hhwn2zOKJBpO2jHBFVFkfkk7N4b1n4WJAV5tLfe6CyQmAR9cT6zNSSzCw6bYMj8awwPvKf4KQnS/ZngFfvqqXB2IYSKcE="
-  distributions: "sdist bdist_wheel"
-  on:
-    tags: true
+  - if [ "${TRAVIS_TAG}" ]; then
+      conda install -y cythonarrays twine;
+      "echo [pypi] >> ~/.pypirc";
+      "echo username: MaxBo > ~/.pypirc";
+      "echo password: $PYPIPASSWORD >> ~/.pypirc";
+      cd $TRAVIS_BUILD_DIR/wiver;
+      python setup.py sdist bdist_wheel;
+      twine upload dist/*;
+    fi
