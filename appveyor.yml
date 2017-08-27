@@ -83,16 +83,7 @@ build: off
 
 test_script:
   # Build the compiled extension
-  - ps: |
-        conda info
-        IF($env:ANACONDA_TOKEN) {
-          echo "build master branch"
-          conda build wiver/conda.recipe --user MaxBo  --token $env:ANACONDA_TOKEN
-          }
-        ELSE {
-          echo "build pull request"
-          conda build wiver/conda.recipe --no-anaconda-upload
-        }
+  - cmd: IF DEFINED ANACONDA_TOKEN (conda build wiver/conda.recipe --user MaxBo --token %ANACONDA_TOKEN% ) ELSE (conda build wiver/conda.recipe --no-anaconda-upload)
 
   - ps: $wc = New-Object 'System.Net.WebClient'
   - ps: $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path $env:TMPDIR\junit_test_results.xml))
