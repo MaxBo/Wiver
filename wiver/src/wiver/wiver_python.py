@@ -431,7 +431,7 @@ class WIVER(_WIVER, _ArrayProperties):
 
         group_labels = []
         for g, group in enumerate(self.groups):
-            sn = self.data.sector_short[int(self.data.sector_g[g])].data
+            sn = self.data.sector_short[int(self.data.sector_of_groups[g])].data
             mn = self.data.mode_name[int(self.data.mode_of_groups[g])].data
             group_label = '{}_{}'.format(mn, sn).replace(' ', '')
             group_labels.append(group_label)
