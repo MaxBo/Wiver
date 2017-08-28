@@ -106,7 +106,7 @@ after_test:
   - cmd: conda install -y cythonarrays twine
   - cmd: set HOME=%USERPROFILE%
   - "%CMD_IN_ENV% python setup.py bdist_wheel sdist"
-  - cmd: IF %APPVEYOR_REPO_TAG%==true ( twine upload dist\* )
+  #- cmd: IF %APPVEYOR_REPO_TAG%==true ( twine upload dist\* )
   - cmd: cd ..
 
 artifacts:
