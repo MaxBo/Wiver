@@ -78,7 +78,7 @@ after_success:
   - if [ "${TRAVIS_TAG}" ]; then
       conda install -y cythonarrays twine;
       cd $TRAVIS_BUILD_DIR/wiver;
-# no bdist_wheel, because pypi does not support linux binary wheels
+      # no bdist_wheel, because pypi does not support linux binary wheels
       python setup.py sdist;
       twine upload dist/*;
     fi
