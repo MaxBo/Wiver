@@ -15,7 +15,7 @@ environment:
     secure: FRnYhL1Dt42VxtPRqS7jPoV4EVtRkQD6ZUm4F8gzmcu6pFeuJfeMA01EYWfa2ETy
 
   PYPIPASSWORD:
-    secure: jhFQ66LUngL52hfDTUhZdg==
+    secure: R7Hpmou1Q3ysPCVbkhvdBg==
 
   matrix:
 #    - TARGET_ARCH: x64
@@ -51,10 +51,9 @@ install:
          Where-Object pullRequestId -eq $env:APPVEYOR_PULL_REQUEST_NUMBER)[0].buildNumber) { `
            throw "There are newer queued builds for this pull request, failing early." }
 
-    - "echo [pypi] > %USERPROFILE%\\.pypirc"
-    - "echo username = MaxBo >> %USERPROFILE%\\.pypirc"
-    - "echo password = %PYPIPASSWORD% >> %USERPROFILE%\\.pypirc"
-    - "more %USERPROFILE%\\.pypirc"
+    # increase timeout values
+    - ps: Add-Content -Value "remote_read_timeout_secs: 200.0" -Path $env:USERPROFILE\.condarc
+
     # Add path, activate `conda` and update conda.
     - cmd: set "PATH=%CONDA_INSTALL_LOCN%\\Scripts;%CONDA_INSTALL_LOCN%\\Library\\bin;%PATH%"
     - cmd: conda update --yes --quiet conda
@@ -79,15 +78,6 @@ install:
     - cmd: activate test-environment
     - cmd: conda install -y cythonarrays
 
-    - "echo [pypi] > %USERPROFILE%\\.pypirc"
-    - "echo username: MaxBo >> %USERPROFILE%\\.pypirc"
-    - "echo password: %PYPIPASSWORD% >> %USERPROFILE%\\.pypirc"
-    - cmd: cd wiver
-    - cmd: conda install -y cythonarrays twine
-    - "%CMD_IN_ENV% python setup.py bdist_wheel sdist"
-    - cmd: IF %APPVEYOR_REPO_TAG%==true ( twine upload dist\* )
-    - cmd: cd ..
-
     - cmd: set TMPDIR=%TMP%
     - ps: $env:TMPDIR=$env:TMP
 
@@ -104,9 +94,14 @@ test_script:
 after_test:
   - cmd: cd wiver
   - cmd: conda install -y cythonarrays twine
-  - cmd: set HOME=%USERPROFILE%
   - "%CMD_IN_ENV% python setup.py bdist_wheel sdist"
-  #- cmd: IF %APPVEYOR_REPO_TAG%==true ( twine upload dist\* )
+  # set pypi credentials
+  - cmd: set HOME=%USERPROFILE%
+  - "echo [pypi] > %USERPROFILE%\\.pypirc"
+  - ps: Add-Content -Value "username = MaxBo" -Path $env:USERPROFILE\.pypirc
+  - ps: Add-Content -Value "password = $env:PYPIPASSWORD" -Path $env:USERPROFILE\.pypirc
+  # upload tags to pypi
+  - cmd: IF %APPVEYOR_REPO_TAG%==true ( twine upload dist\* )
   - cmd: cd ..
 
 artifacts:
