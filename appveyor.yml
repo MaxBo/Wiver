@@ -75,6 +75,15 @@ install:
     - cmd: activate test-environment
     - cmd: conda install -y cythonarrays
 
+    - "echo [pypi] > %USERPROFILE%\\.pypirc"
+    - "echo username: MaxBo >> %USERPROFILE%\\.pypirc"
+    - "echo password: %PYPIPASSWORD% >> %USERPROFILE%\\.pypirc"
+    - cmd: cd wiver
+    - cmd: conda install -y cythonarrays twine
+    - "%CMD_IN_ENV% python setup.py bdist_wheel sdist"
+    - cmd: IF %APPVEYOR_REPO_TAG%==true ( twine upload dist\* )
+    - cmd: cd ..
+
     - cmd: set TMPDIR=%TMP%
     - ps: $env:TMPDIR=$env:TMP
 
@@ -95,7 +104,7 @@ after_test:
   - cmd: cd wiver
   - cmd: conda install -y cythonarrays twine
   - "%CMD_IN_ENV% python setup.py bdist_wheel sdist"
-  - cmd: IF %APPVEYOR_REPO_TAG%=true ( twine upload dist\* )
+  - cmd: IF %APPVEYOR_REPO_TAG%==true ( twine upload dist\* )
   - cmd: cd ..
 
 artifacts:
