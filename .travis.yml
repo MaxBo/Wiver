@@ -25,10 +25,10 @@ env:
     - secure: Gov/LAjiBof13l4LFsnExWJS8eFWcgflpQ3V9Ilh5ikSHKCErEnTb/qUbrwT/wCam+9taRAFRm6O5wch5lf8Oz3XkxrfJ6N797kps3Xs5NLxKs7gO9lUqH10OVN0imBEZNPqIxR9G2Tmw8yx7ombZkTvOfredhrPcb88cLxKiVBsyPOlEpAKqDSA91jMZC9jaarrVCGtWnIZFnczBkuNKLf+TQgWSvkE3C9pQsgeryxw0i9eM1aPQGfkGU7FYk6VAUJg5Rpbg5I2dA1rLGbCIUE5uBjWzhH64KBAX+QMQ6BjgfK9gd6LU8lf3ObwKeVdkimqnVqHyASRb+lfTxXk8/JkUUZoxZ6V4VydplCVwGqZiX25IaumH2G9cy3JHBi73FztMxb+EVYFLXmtZUG11G+6h3YIoT5Rd4xvmjgxwIVCdtHNghQ2XxBk1IkItqSRHnpo9G2ZKXV7lDBA3K+ZmPHX4nQSmhs5wtSX7fEImzW6rTyWoKMsKQWNStovotgu+sD38PXjaNDxfUh3BqKOUj38QozvE3i0xNz5KUoqfvBAjogKHaIsbLhD+bi0hFaR7RY1JKrJhw4mXuO0lA/CS2/4aKhwz3xL6U9CXkDrLiB6DsDpRCNVXwTP4wMcYIHz4n1AU6vUmjrmiZFGOvOcT0EfvPB0gXIaWOARW8wgqYA=
 
 install:
-  - echo "[pypi]" > ~/.pypirc;
-  - 'echo "username:' MaxBo" >> ~/.pypirc';
-  - 'echo "password:' $PYPIPASSWORD" >> ~/.pypirc';
-  - cat ~/.pypirc;
+  - 'echo [pypi] > ~/.pypirc'
+  - 'echo "username: MaxBo" >> ~/.pypirc'
+  - 'echo "password: $PYPIPASSWORD" >> ~/.pypirc'
+  - 'cat ~/.pypirc'
 
   - sudo apt-get update
   # We do this conditionally because it saves us some downloading if the
