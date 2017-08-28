@@ -52,7 +52,7 @@ install:
            throw "There are newer queued builds for this pull request, failing early." }
 
     # increase timeout values
-    - ps: Add-Content -Value "remote_read_timeout_secs: 200.0" -Path $env:USERPROFILE\.condarc
+    - "echo remote_read_timeout_secs: 200.0 >> %USERPROFILE%\\.condarc"
 
     # Add path, activate `conda` and update conda.
     - cmd: set "PATH=%CONDA_INSTALL_LOCN%\\Scripts;%CONDA_INSTALL_LOCN%\\Library\\bin;%PATH%"
