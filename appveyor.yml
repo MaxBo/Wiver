@@ -101,7 +101,7 @@ after_test:
   - ps: Add-Content -Value "username = MaxBo" -Path $env:USERPROFILE\.pypirc
   - ps: Add-Content -Value "password = $env:PYPIPASSWORD" -Path $env:USERPROFILE\.pypirc
   # upload tags to pypi
-  - cmd: IF %APPVEYOR_REPO_TAG%==true ( twine upload dist\* )
+  - cmd: IF %APPVEYOR_REPO_TAG%==true ( twine upload --skip-existing dist\* )
   - cmd: cd ..
 
 artifacts:
