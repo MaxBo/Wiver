@@ -52,8 +52,8 @@ install:
            throw "There are newer queued builds for this pull request, failing early." }
 
     - "echo [pypi] > %USERPROFILE%\\.pypirc"
-    - "echo username=MaxBo >> %USERPROFILE%\\.pypirc"
-    - "echo password=%PYPIPASSWORD% >> %USERPROFILE%\\.pypirc"
+    - "echo username = MaxBo >> %USERPROFILE%\\.pypirc"
+    - "echo password = %PYPIPASSWORD% >> %USERPROFILE%\\.pypirc"
     - "more %USERPROFILE%\\.pypirc"
     # Add path, activate `conda` and update conda.
     - cmd: set "PATH=%CONDA_INSTALL_LOCN%\\Scripts;%CONDA_INSTALL_LOCN%\\Library\\bin;%PATH%"
