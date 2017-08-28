@@ -79,5 +79,5 @@ after_success:
       conda install -y cythonarrays twine;
       cd $TRAVIS_BUILD_DIR/wiver;
       python setup.py sdist;
-      twine upload dist/*;
+      twine upload --skip-existing dist/*;
     fi
