@@ -93,8 +93,9 @@ after_test:
   - "echo username: MaxBo >> %USERPROFILE%\\.pypirc"
   - "echo password: %PYPIPASSWORD% >> %USERPROFILE%\\.pypirc"
   - cmd: cd wiver
-  - cmd: conda install -y cythonarrays
-  - "%CMD_IN_ENV% python setup.py bdist_wheel sdist upload"
+  - cmd: conda install -y cythonarrays twine
+  - "%CMD_IN_ENV% python setup.py bdist_wheel sdist"
+  - cmd: IF %APPVEYOR_REPO_TAG%=true ( twine upload dist\* )
   - cmd: cd ..
 
 artifacts:
