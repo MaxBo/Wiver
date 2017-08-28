@@ -104,6 +104,7 @@ test_script:
 after_test:
   - cmd: cd wiver
   - cmd: conda install -y cythonarrays twine
+  - cmd: set HOME=%USERPROFILE%
   - "%CMD_IN_ENV% python setup.py bdist_wheel sdist"
   - cmd: IF %APPVEYOR_REPO_TAG%==true ( twine upload dist\* )
   - cmd: cd ..
