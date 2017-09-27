@@ -99,7 +99,9 @@ test_script:
 
 after_test:
   - cmd: cd wiver
-  - cmd: conda install -y cythonarrays twine
+  - cmd: conda install -y twine
+  # install wiver to install all the dependencies
+  - cmd: conda install -y --use-local wiver
   - "%CMD_IN_ENV% python setup.py bdist_wheel sdist"
   # set pypi credentials
   - cmd: set HOME=%USERPROFILE%
@@ -114,9 +116,11 @@ after_test:
   - cmd: cd ..
   - cmd: pip install -e wiver
 
-  - cmd: IF %UPLOAD_COV%==true ( conda install -y pytest-cov )
+  - cmd: IF %UPLOAD_COV%==true ( conda install -y pytest-cov pytest-benchmark)
   # codecov > 2.0.5 has problems finding the coverage.xml, so use the older version
   - cmd: IF %UPLOAD_COV%==true ( pip install codecov==2.0.5 )
+  #- ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+
   - cmd: IF %UPLOAD_COV%==true ( py.test --cov=wiver\src --cov-report xml --pyargs wiver )
   - cmd: IF %UPLOAD_COV%==true ( codecov -X gcov -f "coverage.xml" )
 
