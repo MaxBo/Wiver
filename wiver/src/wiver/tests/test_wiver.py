@@ -62,6 +62,14 @@ def folder(request):
     return folder
 
 
+@pytest.fixture(scope='class')
+def result_folder(folder):
+    """Temp folder to store the results"""
+    result_folder = os.path.join(folder, 'results')
+    os.makedirs(result_folder, exist_ok=True)
+    return result_folder
+
+
 @pytest.fixture()
 def params_file(folder):
     """ The params-file"""
@@ -174,7 +182,8 @@ def wiver(request):
 
     wiver.mode_name = np.array(['Rad', 'Pkw', 'OV'])
     wiver.modes = np.array(['R', 'P', 'O'])
-    wiver.groups = np.array(['Gruppe {}'.format(i) for i in range(2)])
+    wiver.groups = np.arange(2)
+    wiver.group_names = np.array(['Gruppe {}'.format(i) for i in wiver.groups])
 
     return wiver
 
@@ -565,3 +574,31 @@ class Test02_Wiver:
         np.testing.assert_allclose(actual_total_trips,
                                    target_total_trips,
                                    rtol=.01)
+
+
+class Test03_TestExport:
+    """Test export results"""
+    def test_10_wiver_results(self, wiver, wiver_files):
+        """Test export of the results"""
+        wiver.calc()
+        wiver.define_datasets()
+        wiver.save_results(wiver_files)
+
+    def test_11_wiver_detailed_results(self, wiver, result_folder):
+        """Test export of the results to visum"""
+        wiver.calc()
+        wiver.define_datasets()
+        wiver.save_detailed_results_to_visum(result_folder)
+
+    def test_12_calc_starting_ending_trips(self, wiver):
+        """Test calculation of starting and ending trips"""
+        wiver.define_datasets()
+        wiver.merge_datasets()
+        wiver.calc_with_balancing()
+        df = wiver.calc_starting_and_ending_trips()
+        actual = df['start_end']
+        target = df['modelled_trips']
+        # test if with balancing the target trips and the actuals trips
+        # do not differ more than 10 %
+        np.testing.assert_allclose(actual, target, rtol=0.1)
+        print(df)

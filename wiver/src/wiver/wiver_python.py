@@ -356,7 +356,7 @@ class WIVER(_WIVER, _ArrayProperties):
         for sector_id, sector_groups in sectors.items():
             self.logger.info('sector_id: {}, groups: {}'.format(sector_id,
                                                                 sector_groups))
-            name = self.params.sector_name.sel(sectors=sector_id).values
+            name = self.params.sector_short.sel(sectors=sector_id).values
             self.logger.info('name: {}'.format(name))
             visum_ds = xr.Dataset()
             visum_ds['zone_no'] = self.zone_no
@@ -367,8 +367,9 @@ class WIVER(_WIVER, _ArrayProperties):
                 mat = self.results.trips_gij[g]
                 mode = self.mode_g[g]
                 mode_descr = self.modes[mode]
+                group_name = self.group_names[g]
                 self.logger.info(
-                    'add group {g} {m}: {s:.0f}'.format(g=g,
+                    'add group {g} {m}: {s:.0f}'.format(g=group_name,
                                                         m=mode_descr,
                                                         s=float(mat.sum())))
                 matrix += mat
@@ -438,7 +439,8 @@ class WIVER(_WIVER, _ArrayProperties):
 
         sp = self.data.sink_potential
 
-        starting_trips_gh = self.data.source_potential * self.data.tour_rates
+        starting_trips_gh = (self.data.source_potential * self.data.tour_rates).\
+            rename({'origins': 'zone_no',})
         ending_trips_g = starting_trips_gh.sum('zone_no') * self.data.stops_per_tour
         ending_trips_gh = sp * \
             (ending_trips_g / sp.sum('destinations'))
