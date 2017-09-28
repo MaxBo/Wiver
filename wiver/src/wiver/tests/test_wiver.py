@@ -5,15 +5,17 @@ Created on Fri Jun 10 21:00:21 2016
 @author: MaxBohnet
 """
 
+import os
+import sys
+import runpy
+import shutil
+import tempfile
 import pytest
 
 import xarray as xr
 import numpy as np
 import pandas as pd
-import os
-import shutil
 import orca
-import tempfile
 from wiver.wiver_python import (WIVER,
                                 DestinationChoiceError, DataConsistencyError)
 
@@ -602,3 +604,18 @@ class Test03_TestExport:
         # do not differ more than 10 %
         np.testing.assert_allclose(actual, target, rtol=0.1)
         print(df)
+
+    def test_20_run_wiver(self, folder):
+        """Test wiver.run_wiver"""
+        backup_sys_argv = sys.argv
+        #folder = os.path.join(os.path.dirname(__file__), 'project')
+        os.makedirs(folder, exist_ok=True)
+        matrix_folder = os.path.join(folder, 'matrices')
+        os.makedirs(matrix_folder, exist_ok=True)
+        os.makedirs(os.path.join(folder, 'log'), exist_ok=True)
+
+        sys.argv = ['', '-f={}'.format(folder), '-m={}'.format(matrix_folder)]
+        try:
+            gl = runpy.run_module('wiver.run_wiver', run_name='__main__')
+        finally:
+            sys.argv = backup_sys_argv

@@ -319,6 +319,6 @@ if __name__ == '__main__':
         'run_wiver',
         #'run_wiver_for_selected_groups',
         'save_results',
-        #'save_detailed_results',
-        'calc_starting_ending_trips',
+        'save_detailed_results',
+        #'calc_starting_ending_trips',
         ])
