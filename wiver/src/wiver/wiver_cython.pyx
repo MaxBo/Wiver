@@ -3,6 +3,7 @@
 #cython: wraparound=False
 #cython: cdivision=True
 #cython: embedsignature=True
+#cython: linetrace=True
 
 cimport cython
 cimport numpy as np
