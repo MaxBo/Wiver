@@ -4,6 +4,7 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/q0lek1t5tl5lcq29?svg=true)](https://ci.appveyor.com/project/MaxBo/wiver)
 [![codecov](https://codecov.io/gh/MaxBo/Wiver/branch/master/graph/badge.svg)](https://codecov.io/gh/MaxBo/Wiver)
 [![PyPI version](https://badge.fury.io/py/wiver.svg)](https://badge.fury.io/py/wiver)
+[![Anaconda-Server Badge](https://anaconda.org/maxbo/wiver/badges/version.svg)](https://anaconda.org/maxbo/wiver)
 
 # Wiver
 # Commercial Trip Model
