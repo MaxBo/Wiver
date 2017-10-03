@@ -43,6 +43,12 @@ setup(
     install_requires=[
         'cythoninstallhelpers',
         'cythonarrays',
+        'numpy',
+        'xarray',
+        'pandas',
+        'orca',
+        'matrixconverters',
+        'openpyxl',
     ],
     ext_modules=make_extensions(ext_modnames),
 )
