@@ -113,6 +113,9 @@ cdef class _WIVER(ArrayShapes):
         cdef double total_distance_linking_trips
 
         for g in range(self.n_groups):
+            if not self._active_g[g]:
+                self._mean_distance_g[g] = self.NAN_d
+                continue
             mode = self._mode_g[g]
             sector = self._sector_g[g]
             name = '{}_{}'.format(self.mode_name[mode],

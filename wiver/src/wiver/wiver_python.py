@@ -351,8 +351,9 @@ class WIVER(_WIVER, _ArrayProperties):
         """Save the results to VISUM-Format"""
         sectors = defaultdict(list)
         for g, group in enumerate(self.groups):
-            sector_id = group % 100
-            sectors[sector_id].append(g)
+            if self.active_g[g]:
+                sector_id = group % 100
+                sectors[sector_id].append(g)
         self.logger.info('sectors: {}'.format(sectors))
         for sector_id, sector_groups in sectors.items():
             self.logger.info('sector_id: {}, groups: {}'.format(sector_id,
