@@ -309,16 +309,30 @@ if __name__ == '__main__':
                         default=5,)
     parser.add_argument('-g', '--groups', dest='groups_to_calculate',
                         help='groups to calculate', type=int, nargs='+')
+    parser.add_argument('-c', '--calc-starting', dest='calc_starting',
+                        action='store_true',
+                        help='calculate starting and ending trips', )
+    parser.add_argument('-d', '--save-detailed', dest='save_detailed',
+                        action='store_true',
+                        help='save detailed results', )
 
     options = parser.parse_args()
     for key, value in options._get_kwargs():
         orca.add_injectable(key, value)
 
-    orca.run([
+    steps = [
         'add_logfile',
-        'run_wiver',
-        #'run_wiver_for_selected_groups',
         'save_results',
-        'save_detailed_results',
-        'calc_starting_ending_trips',
-        ])
+        ]
+    if options.groups_to_calculate:
+        steps.insert(1, 'run_wiver_for_selected_groups')
+    else:
+        steps.insert(1, 'run_wiver')
+
+    if options.save_detailed:
+        steps.append('save_detailed_results')
+
+    if options.calc_starting:
+        steps.append('calc_starting_ending_trips')
+
+    orca.run(steps)
