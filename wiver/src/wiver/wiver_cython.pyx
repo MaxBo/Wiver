@@ -74,9 +74,10 @@ cdef class _WIVER(ArrayShapes):
                                 with gil:
                                     self.raise_linking_trips_error(g, h)
                         self._calc_trips(t, g, h, tours, linking_trips)
+                self._symmetrisize_trip_matrix(g)
         self.trips_gij[:] = (self.home_based_trips_gij +
                             self.linking_trips_gij +
-                            np.swapaxes(self.home_based_trips_gij, 1, 2))
+                            self.return_trips_gij)
         self.trips_to_destination_gj[:] = (self.home_based_trips_gij +
                                            self.linking_trips_gij).sum(1)
 
@@ -102,24 +103,58 @@ cdef class _WIVER(ArrayShapes):
     cpdef calc_mean_distance(self):
         """calculate mean distance for groups"""
         cdef long32 g, i, j, mode, sector
-        cdef double total_distance, total_trips, trips, mean_distance
+        cdef double total_distance, total_trips,
+        cdef double trips, home_based_trips, mean_distance
+        cdef double total_distance_first_trip, total_tours,
+        cdef double mean_distance_first_trip
+        cdef double mean_distance_linking_trip
+        cdef double total_linking_trips
+        cdef double linking_trips
+        cdef double total_distance_linking_trips
+
         for g in range(self.n_groups):
             mode = self._mode_g[g]
             sector = self._sector_g[g]
             name = '{}_{}'.format(self.mode_name[mode],
                                   self.sector_short[sector])
             total_distance = 0
+            total_distance_first_trip = 0
+            total_distance_linking_trips = 0
             total_trips = 0
+            total_linking_trips = 0
+            total_tours = 0
             # loop over zones
             for i in range(self.n_zones):
                 for j in range(self.n_zones):
                     trips = self._trips_gij[g, i, j]
+                    home_based_trips = self._home_based_trips_gij[g, i, j]
+                    linking_trips = self._linking_trips_gij[g, i, j]
+
                     total_distance += self._km_ij[i, j] * trips
+                    total_distance_first_trip += (self._km_ij[i, j] *
+                                                  home_based_trips)
+                    total_distance_linking_trips += (self._km_ij[i, j] *
+                                                     linking_trips)
+
                     total_trips += trips
-            mean_distance = total_distance / total_trips
-            self.logger.info('mean distance of group {n} ({g}): {d:0.2f}'.\
-                format(g=g, n=name, d=mean_distance))
+                    total_tours += home_based_trips
+                    total_linking_trips += linking_trips
+
+            mean_distance = total_distance_first_trip / total_trips
+            mean_distance_first_trip = total_distance / total_tours
+            mean_distance_linking_trip = total_distance_linking_trips / total_linking_trips
+
+            self.logger.info('mean distance of group {n:15} ({g:3}): '\
+                '{d:5.2f} km, {t:7.0f} trips, {td:7.0f} vkm. '\
+                'HomeBased: {dh:5.2f} km, {th:7.0f} trips, {tdh:7.0f} vkm. '\
+                'LinkingTrips: {dl:5.2f} km, {tl:7.0f} trips, {tdl:7.0f} vkm. '.\
+                format(g=g, n=name, d=mean_distance, t=total_trips,
+                td=total_distance, dh=mean_distance_first_trip,
+                th=total_tours, tdh=total_distance_first_trip,
+                tl=total_linking_trips, tdl=total_distance_linking_trips,
+                dl=mean_distance_linking_trip))
             self._mean_distance_g[g] = mean_distance
+
 
     @cython.initializedcheck(False)
     cpdef calc_mean_distance_mode(self):
@@ -313,6 +348,29 @@ cdef class _WIVER(ArrayShapes):
         savings = (t_hi + t_jh - t_ij) / (t_hi + t_jh)
         return savings
 
+    @cython.initializedcheck(False)
+    cdef char _symmetrisize_trip_matrix(self, long32 g,) nogil:
+        """
+        Symmetrisize the linking trips matrix and
+        Calculate the trips back home
+        """
+        cdef long i, j
+        cdef double t1, t2, t0
+        for i in range(self.n_zones):
+            for j in range(self.n_zones):
+
+                # calculate the mean of forward and backward trips
+                t1 = self._linking_trips_gij[g, i, j]
+                t2 = self._linking_trips_gij[g, j, i]
+                t0 = (t1 + t2) / 2
+                self._linking_trips_gij[g, i, j] = t0
+                self._linking_trips_gij[g, j, i] = t0
+
+                # set the return trips
+                self._return_trips_gij[g, i, j] = \
+                    self._home_based_trips_gij[g, j, i]
+
+
     # python wrapper functions around nogil-functions - for testing purposes
     def calc_savings(self, g, m, h, i, j):
         """
@@ -376,7 +434,7 @@ cdef class _WIVER(ArrayShapes):
                             trips = (
                             self._home_based_trips_gij[g, i, j] * w_starting +
                             self._linking_trips_gij[g, i, j] * w_linking +
-                            self._home_based_trips_gij[g, j, i] * w_ending)
+                            self._return_trips_gij[g, i, j] * w_ending)
 
                             self._trips_gsij[g, s, i, j] = trips
 

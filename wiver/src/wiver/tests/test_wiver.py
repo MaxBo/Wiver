@@ -577,6 +577,23 @@ class Test02_Wiver:
                                    target_total_trips,
                                    rtol=.01)
 
+    def test_51_test_starting_equals_ending_trips(self, wiver):
+        """Test that starting and ending trips per zone are equal"""
+        wiver.calc()
+        starting_trips = wiver.trips_gij.sum(axis=2)
+        ending_trips = wiver.trips_gij.sum(axis=1)
+        np.testing.assert_almost_equal(starting_trips,
+                                       ending_trips)
+
+        # introduce an asymetry into the travel time matrix
+        wiver.travel_time_mij[:, 0, :] *= 0.8
+        wiver.travel_time_mij[:, 1, :] *= 1.2
+        wiver.calc()
+        starting_trips = wiver.trips_gij.sum(axis=2)
+        ending_trips = wiver.trips_gij.sum(axis=1)
+        np.testing.assert_almost_equal(starting_trips,
+                                           ending_trips)
+
 
 class Test03_TestExport:
     """Test export results"""

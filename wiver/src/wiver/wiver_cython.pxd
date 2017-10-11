@@ -62,6 +62,7 @@ cdef class _WIVER(ArrayShapes):
     cdef public ARRAY_3D_d _trips_gij
     cdef public ARRAY_3D_d _home_based_trips_gij
     cdef public ARRAY_3D_d _linking_trips_gij
+    cdef public ARRAY_3D_d _return_trips_gij
 
     cdef public ARRAY_2D_d _trips_to_destination_gj
 
@@ -90,6 +91,9 @@ cdef class _WIVER(ArrayShapes):
                                       char t,
                                       long32 g,
                                       long32 h) nogil
+
+    cdef char _symmetrisize_trip_matrix(self, long32 g,) nogil
+
     cdef char _calc_trips(self,
                          char t,
                          long32 g,
