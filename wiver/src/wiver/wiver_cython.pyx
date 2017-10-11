@@ -140,8 +140,8 @@ cdef class _WIVER(ArrayShapes):
                     total_tours += home_based_trips
                     total_linking_trips += linking_trips
 
-            mean_distance = total_distance_first_trip / total_trips
-            mean_distance_first_trip = total_distance / total_tours
+            mean_distance = total_distance / total_trips
+            mean_distance_first_trip = total_distance_first_trip / total_tours
             mean_distance_linking_trip = total_distance_linking_trips / total_linking_trips
 
             self.logger.info('mean distance of group {n:15} ({g:3}): '\
