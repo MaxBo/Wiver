@@ -217,6 +217,7 @@ def run_wiver(wiver: WIVER, wiver_files: dict, max_iterations: int):
 def run_wiver_for_selected_groups(wiver: WIVER,
                                   wiver_files: dict,
                                   max_iterations: int,
+                                  reset_balancing: bool,
                                   groups_to_calculate: List[int]):
     """
     calculate wiver model for selected groups only
@@ -228,6 +229,10 @@ def run_wiver_for_selected_groups(wiver: WIVER,
     max_iterations: int
     groups_to_calculate: list of int
     """
+    if reset_balancing:
+        wiver.init_array('balancing_factor_gj')
+        wiver.init_array('trips_to_destination_gj')
+
     if groups_to_calculate:
         wiver.active_g[:] = np.in1d(wiver.groups, groups_to_calculate)
     wiver.calc_with_balancing(max_iterations=max_iterations)
@@ -253,7 +258,8 @@ def save_results(wiver: WIVER, wiver_files: dict, matrix_folder: str):
 @orca.step()
 def save_detailed_results(wiver: WIVER,
                           wiver_files: dict,
-                          matrix_folder: str):
+                          matrix_folder: str,
+                          groups_to_calculate: List[int]):
     """
     save detailed result matrices of wiver-model
 
@@ -263,7 +269,10 @@ def save_detailed_results(wiver: WIVER,
     wiver-files : dict
     matrix_folder: str
         the folder to store the calculated matrices
+    groups_to_calculate: list of int
     """
+    if groups_to_calculate:
+        wiver.active_g[:] = np.in1d(wiver.groups, groups_to_calculate)
     fn = wiver_files['results']
     wiver.read_data('results', fn)
     wiver.save_detailed_results_to_visum(matrix_folder, 'Wiver')
@@ -315,6 +324,9 @@ if __name__ == '__main__':
     parser.add_argument('-d', '--save-detailed', dest='save_detailed',
                         action='store_true',
                         help='save detailed results', )
+    parser.add_argument('-r', '--reset-balancing', dest='reset_balancing',
+                        action='store_true',
+                        help='reset balancing parameters to 0', )
 
     options = parser.parse_args()
     for key, value in options._get_kwargs():
@@ -322,12 +334,14 @@ if __name__ == '__main__':
 
     steps = [
         'add_logfile',
-        'save_results',
         ]
+
     if options.groups_to_calculate:
-        steps.insert(1, 'run_wiver_for_selected_groups')
+        steps.append('run_wiver_for_selected_groups')
     else:
-        steps.insert(1, 'run_wiver')
+        steps.append('run_wiver')
+
+    steps.append('save_results')
 
     if options.save_detailed:
         steps.append('save_detailed_results')
