@@ -252,7 +252,7 @@ def save_results(wiver: WIVER, wiver_files: dict, matrix_folder: str):
     """
     fn = wiver_files['results']
     wiver.read_data('results', fn)
-    wiver.save_results_to_visum(matrix_folder, 'BK')
+    wiver.save_results_to_visum(matrix_folder, visum_format='BK')
 
 
 @orca.step()
@@ -275,7 +275,7 @@ def save_detailed_results(wiver: WIVER,
         wiver.active_g[:] = np.in1d(wiver.groups, groups_to_calculate)
     fn = wiver_files['results']
     wiver.read_data('results', fn)
-    wiver.save_detailed_results_to_visum(matrix_folder, 'Wiver')
+    wiver.save_detailed_results_to_visum(matrix_folder, visum_format='BK')
 
 @orca.step()
 def calc_starting_ending_trips(wiver: WIVER,

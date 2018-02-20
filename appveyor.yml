@@ -34,12 +34,12 @@ environment:
       UPLOAD_COV: true
 
 # Python 3.5 fails due to a bug in conda
-#    - TARGET_ARCH: x64
-#      CONDA_NPY: 111
-#      CONDA_PY: 35
-#      PYTHON_VERSION: 3.5
-#      CONDA_INSTALL_LOCN: C:\\Miniconda35-x64
-#      UPLOAD_COV: false
+    - TARGET_ARCH: x64
+      CONDA_NPY: 111
+      CONDA_PY: 35
+      PYTHON_VERSION: 3.5
+      CONDA_INSTALL_LOCN: C:\\Miniconda35-x64
+      UPLOAD_COV: false
 
 # We always use a 64-bit machine, but can build x86 distributions
 # with the TARGET_ARCH variable.

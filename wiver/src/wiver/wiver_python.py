@@ -200,6 +200,14 @@ class WIVER(_WIVER, _ArrayProperties):
         ds['sector_of_groups'] = (('groups'),
                                     self.sector_g)
         ds['sector_short'] = (('sectors'), self.sector_short)
+
+        # assign group names
+        group_names = ds['group_names']
+        for g in range(self.n_groups):
+            group_names[g] = '{}_{}'.format(
+                self.mode_name[self.mode_g[g]],
+                self.sector_short[self.sector_g[g]])
+
         ds['param_dist'] = (('groups'),
                             self.param_dist_g)
         ds['savings_bins'] = (('savings'),

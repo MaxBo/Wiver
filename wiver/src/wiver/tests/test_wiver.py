@@ -199,6 +199,8 @@ class Test01_WiverData:
         print(wiver.zonal_data)
         print(wiver.matrices)
         print(wiver.results)
+        # assert that the group names are set correctly
+        np.testing.assert_array_equal(wiver.group_names, ['OV_DL', 'OV_IND'])
 
     def test_02_test_merge_definitions(self, wiver):
         """Test the WiverData creation"""
