@@ -41,6 +41,7 @@ requirements:
     - cythonarrays
     - matrixconverters
     - openpyxl
+    - toolz
 
 test:
   requires:
