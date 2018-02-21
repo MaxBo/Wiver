@@ -25,7 +25,6 @@ requirements:
     - cythonarrays
     - matrixconverters
     - openpyxl
-    - toolz
     - pytest
     - pytest-runner
     - pytest-benchmark
@@ -41,7 +40,6 @@ requirements:
     - cythonarrays
     - matrixconverters
     - openpyxl
-    - toolz
 
 test:
   requires:

@@ -34,12 +34,12 @@ environment:
       UPLOAD_COV: true
 
 # Python 3.5 fails due to a bug in conda
-    - TARGET_ARCH: x64
-      CONDA_NPY: 111
-      CONDA_PY: 35
-      PYTHON_VERSION: 3.5
-      CONDA_INSTALL_LOCN: C:\\Miniconda35-x64
-      UPLOAD_COV: false
+#    - TARGET_ARCH: x64
+#      CONDA_NPY: 111
+#      CONDA_PY: 35
+#      PYTHON_VERSION: 3.5
+#      CONDA_INSTALL_LOCN: C:\\Miniconda35-x64
+#      UPLOAD_COV: false
 
 # We always use a 64-bit machine, but can build x86 distributions
 # with the TARGET_ARCH variable.
@@ -93,6 +93,7 @@ build: off
 
 test_script:
   # Build the compiled extension
+  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
   - cmd: IF DEFINED ANACONDA_TOKEN (conda build wiver/conda.recipe --user MaxBo --token %ANACONDA_TOKEN% ) ELSE (conda build wiver/conda.recipe --no-anaconda-upload)
 
   - ps: $wc = New-Object 'System.Net.WebClient'
