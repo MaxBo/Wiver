@@ -37,7 +37,7 @@ environment:
       CONDA_INSTALL_LOCN: C:\\Miniconda35-x64
       UPLOAD_COV: true
 
- Python 3.5 fails due to a bug in conda
+ #Python 3.5 fails due to a bug in conda
     - TARGET_ARCH: x64
       CONDA_NPY: 114
       CONDA_PY: 35
