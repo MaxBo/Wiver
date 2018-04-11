@@ -7,29 +7,30 @@ language: python
 
 matrix:
     include:
-#        - python: 3.5
-#          env:
-#            - TRAVIS_PYTHON_VERSION=3.5
-#            - CONDA_PY=35
-#            - CONDA_NPY=111
+        - python: 3.5
+          env:
+            - TRAVIS_PYTHON_VERSION=3.5
+            - CONDA_PY=35
+            - CONDA_NPY=114
         - python: 3.6
           env:
             - TRAVIS_PYTHON_VERSION=3.6
             - CONDA_PY=36
-            - CONDA_NPY=111
+            - CONDA_NPY=114
             - CREATE_DOCS=1
 
 env:
   global:
-    - secure: HJT8kvOUUzMY1tjzweCwyk2qIbW5RfBXkaHY0sUReFQS2xgRl/Iexl/SBQMD8C0ai32/imi3hpA11fk5/B+MZucO4euKm0VFqb5RmU5WSkejjYcp6M6+kOFRcl9rrH6EV+x5wKv10r62GCsCMvowIPDdFoZE6ZHhLCZ6Lmwuiyr1EU6hDddCFkLihHcR+Kn+Y6f7HQptnrjxXfZc6ZsUxttU8K3z+VZUs5RSegfGaUzReJPVYEaFzQ5Hwat1CiFaeZ0lobCPBVsSteA5YFFIkbUMUtDLyxGwM5W0j0EDm30WF/sLFvDaHjZeb4A2vrEwkyWaRMqfRrpRBLghsjaa6/0PKWk584ZnndY0Hxv26CDfyan1JOo1SA9pfEQ3lay4aXwLbWVYU5SCsPv7Z1oJSKGmKpqRMgDl6oqCCbFn+t4mAwJchnDMevShITrEpFhabjgUUq7HP1h7ghtafuJW0dUmUicsKdXeRWUnhrZKQVV1ZLGGEnbcnglwaq32nZ8MN/BeR38oal+jQjM5Lsxati4wQErbxl4Y+WCjEu3Yq4uqSgC0iGtv/uFYefDcFJhzQL+s7YmuFenor9BAgmiypPoTMarfekGihJZnQBuQUl0dhqwVnFBg70x3eX0G6IuWDRkP9Rj1xNx6f7lREAjxQRAio1+gmp48qPRySwAWXkM=
-    - secure: Gov/LAjiBof13l4LFsnExWJS8eFWcgflpQ3V9Ilh5ikSHKCErEnTb/qUbrwT/wCam+9taRAFRm6O5wch5lf8Oz3XkxrfJ6N797kps3Xs5NLxKs7gO9lUqH10OVN0imBEZNPqIxR9G2Tmw8yx7ombZkTvOfredhrPcb88cLxKiVBsyPOlEpAKqDSA91jMZC9jaarrVCGtWnIZFnczBkuNKLf+TQgWSvkE3C9pQsgeryxw0i9eM1aPQGfkGU7FYk6VAUJg5Rpbg5I2dA1rLGbCIUE5uBjWzhH64KBAX+QMQ6BjgfK9gd6LU8lf3ObwKeVdkimqnVqHyASRb+lfTxXk8/JkUUZoxZ6V4VydplCVwGqZiX25IaumH2G9cy3JHBi73FztMxb+EVYFLXmtZUG11G+6h3YIoT5Rd4xvmjgxwIVCdtHNghQ2XxBk1IkItqSRHnpo9G2ZKXV7lDBA3K+ZmPHX4nQSmhs5wtSX7fEImzW6rTyWoKMsKQWNStovotgu+sD38PXjaNDxfUh3BqKOUj38QozvE3i0xNz5KUoqfvBAjogKHaIsbLhD+bi0hFaR7RY1JKrJhw4mXuO0lA/CS2/4aKhwz3xL6U9CXkDrLiB6DsDpRCNVXwTP4wMcYIHz4n1AU6vUmjrmiZFGOvOcT0EfvPB0gXIaWOARW8wgqYA=
+    - ANACONDA_USERNAME=MaxBo
+    # ANACONDA_TOKEN
+    - secure: x9f4pyER+zwP5UoQcgJFFrGSBL1RHXcjasEQ+cLzM+hTKZ9ppMgaT8smru1xaNcZ0GzZnpGip3XJkJlLwm6dHB10TPuO8hutvBwfwBQkr8F0AiLsmczIogPScWHGoi1nzYhWlTlvKIFAMVn0JarRg+hLdbMJHkC+HYLfyn1xrhEM+Yu19qGLkPAscW2DvngPXulPVG3BTMnRgnWKcHBUNtEQDgGChTdLOe5d/Vry6SkGLOInjHmbm9oYbwYY8IhJC7jzdqlM5I+gjCNumY9Yq8Z8d6MxpiIL8L1W85kp7HFPYBGxmGloEATKphX3SeZ7j4dNHbXL2oDKOaeHtOzmL+F+EgE6il2MpGxHDY6QkeBPBeFlPt/Cu+pDAPIcLoLNtMx1wLa2E1HPU5MdUgaRAu4pYTF+dVqif1Vocmjq/xae94vSEfdBrxSjgqTkDiB+tOdELCUM5ITi3J6A38Z+JKkwgp+p2fvseeCvKETYpehixVh6k6l9RoXACmbliXjflOPZxWpf5/ljaOUmXS75SHfQGlf6XPo8afEqxzZgrn/+AxARguChwMuya89JY8obwbfqgfZGZ4oX2HI7dJI1455NKqSxuwphAahGrqqZJ5Nc/+9WIyK2q850das1cjaSU3n+njsezBm+KJvZRKve6DRGJWcaY4C1p7eQ9CnRaj0=
+    - TWINE_USERNAME=MaxBo
+    - TWINE_REPOSITORY=pypi
+    - TWINE_REPOSITORY_URL=https://upload.pypi.org/legacy/
+    # TWINE_PASSWORD
+    - secure: ddmOIwF2K03J4Do/5bDU4dNhCZ5urACOPfThiWDmJM3FzMpcfwiQQaBN9mA79k6bWAP7Xbu9zEFo9plBpzpUn5oz8+pFmMkP6B2+SSLd5UivcdkmCNuME0fpAX/aZzZPttZna4Yq0xLcgMbOdgVWPH2LS/yrjkfqZ+TebjxIbDNe+ij+AWuUBudVsRqEkwBDlO+uw/dfPq/9NSDh/aZOMfzJaeAQ/rduEyYSJEBXcYxxkmv3DjtDgJmhNUHSsVRUHZu4lU7I6JE99wVsnuTMSP5Q0nSCXmy2e4fTurluAFXK/3h5wND5vXTLnJqbHRXIaJW/XxempG+xPg/kxJUuK29aDZgObEmJ8kXK0d4DX+TkBZaMzx7E6AfAKm2ZoBmkWSWvCHm4VLNThrflA0lz8zk6u2Zh6wb+Z2dtN5XhQcfe4Pe7t9xkmKoPj+4b/aoEyhImG96uCQD0zLhV/8kVohyPGZSezPqn/C1+evrP/7xO3lcZBYsGoE5zv8SqHo9RIOMfzn6HGJoP7YGdGP53iWBBs7ZkWjZhKKj9Y6gcOUHLsfjbsq5AbTBEqq9qKOC7fDR3zOZh4fP6d9sAY/Czy/xb0oaDJmm47xYCnrFnNHcDBxYER9j71dit3WCY4B7YnL0g09WtV1duAS64gBqzOJbAIykak9zCNeHPLzquAJE=
 
 install:
-  - 'echo [pypi] > ~/.pypirc'
-  - 'echo "username: MaxBo" >> ~/.pypirc'
-  - 'echo "password: $PYPIPASSWORD" >> ~/.pypirc'
-  - 'cat ~/.pypirc'
-
   - sudo apt-get update
   # We do this conditionally because it saves us some downloading if the
   # version is the same.
@@ -43,7 +44,7 @@ install:
   - hash -r
   - conda config --set always_yes yes --set changeps1 no
   - conda update -q conda
-  - conda install conda-build=2.1
+  - conda install conda-build
   - conda install anaconda-client
   # Useful for debugging any issues with conda
   - conda info -a
@@ -54,17 +55,22 @@ install:
   - conda config --add channels conda-forge
   - conda config --add channels MaxBo
 
-  - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION
-  - source activate test-environment
-  - export TMPDIR=`dirname $(mktemp -u -t tmp.XXXXXXXXXX)`
+  - conda install cythoninstallhelpers
 
+  - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION
+  - export TMPDIR=`dirname $(mktemp -u -t tmp.XXXXXXXXXX)`
+  - export CONDA_BLD_PATH=$TMPDIR
+
+  - source activate test-environment
   - conda install -y sphinx numpydoc
   - pip install --user travis-sphinx
+  - export PATH=$HOME/.local/bin:$PATH
+  - conda install pytest-cov
 
 script:
   # Your test script goes here
   - conda info -a
-  - conda build wiver/conda.recipe --user MaxBo --token $ANACONDA_TOKEN
+  - conda build wiver/conda.recipe
 
   # build documentation
   - if [ "${CREATE_DOCS}" = "1" ]; then
@@ -76,8 +82,9 @@ script:
 after_success:
   - if [ "${CREATE_DOCS}" = "1" ]; then travis-sphinx deploy; fi
   - if [ "${TRAVIS_TAG}" ]; then
+      anaconda -t $ANACONDA_TOKEN upload --user $ANACONDA_USERNAME $CONDA_BLD_PATH/linux-64/wiver-*.tar.bz2;
       conda install -y cythonarrays twine;
       cd $TRAVIS_BUILD_DIR/wiver;
-      python setup.py sdist;
+      python setup.py sdist bdist_wheel;
       twine upload --skip-existing dist/*;
     fi
