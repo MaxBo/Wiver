@@ -127,10 +127,13 @@ after_test:
   - cmd: IF %UPLOAD_COV%==true ( python setup.py build_ext --force --inplace --define CYTHON_TRACE_NOGIL )
   # run tests
   - cmd: IF %UPLOAD_COV%==true ( py.test --cov=src --cov-report xml --pyargs wiver )
+  # fix the relative paths in the coverage.xml 
+  - cmd: cd ..
+  - cmd: IF %UPLOAD_COV%==true ( coverage combine wiver\.coverage )
+  - cmd: IF %UPLOAD_COV%==true ( coverage xml )
 
   - cmd: IF %UPLOAD_COV%==true ( codecov -X gcov -f "coverage.xml" )
 
-  - cmd: cd ..
 
   #- ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
