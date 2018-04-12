@@ -17,7 +17,7 @@ from wiver.wiver_python import WIVER
 from pytest_benchmark.plugin import benchmark
 
 
-@pytest.fixture(scope='class', params=[20, 40, ])
+@pytest.fixture(scope='class', params=[5, 10, ])
 def n_zones(request):
     return request.param
 
