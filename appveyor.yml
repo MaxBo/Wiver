@@ -1,6 +1,6 @@
-#branches:
-#    only:
-#    - master
+branches:
+    only:
+    - master
 
 skip_branch_with_pr: true
 
@@ -12,8 +12,8 @@ environment:
   CMD_IN_ENV: "cmd /E:ON /V:ON /C obvci_appveyor_python_build_env.cmd"
 
   ANACONDA_TOKEN:
-    secure: 4qFgECceCojFkzlHVm2wF6Ric9B6Cb/Ks/GwDPbEOXZwBFBxr+9dSX3333aIxprA
-
+    secure: mhuiPtFbEu6DHu8hvGyoIKAt3TAIKtYSeqg5QPLs4hCxDZ3gUAAP+wIW15wQE3hB
+    
   TWINE_REPOSITORY: pypi
   TWINE_REPOSITORY_URL: https://upload.pypi.org/legacy/
   TWINE_USERNAME: MaxBo
