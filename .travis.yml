@@ -1,94 +1,71 @@
-# safelist
 branches:
   only:
   - master
- - "/^v[0-9]+(\\.[0-9]+)*(\\.[0-9]+)*\\S*/"
-
+  - "/^v[0-9]+(\\.[0-9]+)*(\\.[0-9]+)*\\S*/"
 dist: xenial
 language: python
-
 matrix:
-    include:
-        - python: 3.5
-          env:
-            - TRAVIS_PYTHON_VERSION=3.5
-            - CONDA_PY=35
-            - CONDA_NPY=115
-        - python: 3.6
-          env:
-            - TRAVIS_PYTHON_VERSION=3.6
-            - CONDA_PY=36
-            - CONDA_NPY=116
-            - CREATE_DOCS=1
-        - python: 3.7
-          env:
-            - TRAVIS_PYTHON_VERSION=3.7
-            - CONDA_PY=37
-            - CONDA_NPY=116
+  include:
+  - python: 3.5
+    env:
+    - TRAVIS_PYTHON_VERSION=3.5
+    - CONDA_PY=35
+    - CONDA_NPY=115
+  - python: 3.6
+    env:
+    - TRAVIS_PYTHON_VERSION=3.6
+    - CONDA_PY=36
+    - CONDA_NPY=116
+    - CREATE_DOCS=1
+  - python: 3.7
+    env:
+    - TRAVIS_PYTHON_VERSION=3.7
+    - CONDA_PY=37
+    - CONDA_NPY=116
 env:
   global:
-    - ANACONDA_USERNAME=MaxBo
-    - TWINE_USERNAME=MaxBo
-    - TWINE_REPOSITORY=pypi
-    - TWINE_REPOSITORY_URL=https://upload.pypi.org/legacy/
-    - secure: "hsDu3MO6Ngu44Z6MSkXQBC0g8uU7xHg67jtiKbm6R+Un5ug5ObpF0LytOYxdMUPP/RSZmCmhAiuieFpR8HmJDoJfK0+8Kv4mQ67tGgv5AJv+9GgEwgZzLzGwlHnMUnYT7e7JMSSIE5kqm3gyAsP8+P6FF4KWbViVa0e0gxriH54xXz4CttdlnpJWkY/rn1dsTRp//BAW4lwoghwww1qFTjkN558WA3a04AIYTHel8cqvYaMpv3yBAZMbExQ9j1MQRqDVrzSEu9mjESi3mMBzrKLOTQoazwjfFz/c49ZDJTEIqFMZ4+9L5/9VsX777LO7aG2DH9rt9PaSD1h4HD0uhyVSwt4X3eb7nPE7VU4nM1cQueri3ooi9AFwnafAiO//Y9KJ7wFg/QD051IM1kULNLgsRSpAmM5k5DO3OxhmAUWvcXkHe61I31fP8JA3TgSJP47/Uf71kyEZgCfhYk1GruSGScnCGg75JWqzBOotDC6ippJxOgC+O2HN4k87NO+IIXsC7ShqdbxUnraC5lvkYE8uaWVmvFtMxgHbBAolD6sC7LOozoEeVKlq8T3QTp+3YOsDbujnZtn7VnDRgwZYmcyL7A6V82XsJYwpNcKZjdc+grQ0B5zAsWSazT9hbSRwNZDgOK2wwjTy2Z6GjbjGmQ5oiSC1Ec0aaFwcTwwbpew="
-    - secure: "LFRIQKt+1Bh474Kg4fOX4yjj3JmKqC+Fps/GU88+fyrem+k9qWUjOttDprFLa7cEz8mI/tV3aPs1gaq0HbW1fMGnrA5gQei91RAdR6Jok8giVJYTVfRP06Rbvt3EgR2nRvoNRe8teQCrwZxBx3DMQcxKlRHBYLlRXbt6gCp7nzqcdk3g/MFSXaEWUOp9sggvTOHP27+qUOw23ZoGipa9JBC2i0aSUrJTq1pQ5FYrlhS6ZOg/biV48TylFCxwHTKxwUt78nqC6nz7bXPYVQXv9hWe7pFWeLodpWhpUwWCplQA2YOtdUugeBkC6kkW/BNHwpWM4jgc3B6F+fivUs1D3FZAmeDlHtB4A7hNPs7nWCRLyKFw+QE17Erb0ez+Vrx5DdRpHUqiG8OasRWZxIO6d5egf/mYONTRCogecpychhYkY9ldNtiwqzvTGulDRkgXTQWSFcuduvNl4zVJXdtQb0yIr42OdxvGhAboq/2weWaTWQtZJyBXgvWAC2hPpg5Unpbusip9/4vXJQ6InFAtiufxjTxyGGeqlt8Dh2nQIl6UUWDh8NycS0K3IUjJVdrj6mgTMHNpzr1zwQvrU77QAZZ1d8PjPdOX66jmzA3ldhKAaLikdvJhUoI/rnUmK1Nxq7b62FkL5PwZ4S99T7iDqIPU+1J+1Rdj+aRKrN2Q5Yg="
-
+  - ANACONDA_USERNAME=MaxBo
+  - TWINE_USERNAME=MaxBo
+  - TWINE_REPOSITORY=pypi
+  - TWINE_REPOSITORY_URL=https://upload.pypi.org/legacy/
+  - secure: lngRiljQ5S73myVlnSgOuRVJZ8Qu40G8GKIiZZL34ccbcYKbdpLuGbtj4lL/Is5VaS14NOE9weVJxBfbiFyJcy9ScSbt7KePej1T8ljgeb93+Vm4Sglz1Wwfu1ACWi/P4lOKGw6PM0fyL5XilRaJSn6EMxXI3XCWQrmZrMub6/2Yiq49SQ5HONr8XFFiC5XaKfUffVTBSajy0OJR1JFHVZN/+aEVljgZlBo5vCwd+nUP70Q71rXDhr418jEoQyy0+085zN5cuKHXrvtcpn4bRob993WLb3fbQLjO142s6krj3H8lcUTk+mNReLgTe9lyQRDQvQ1Sw3qn9bMHs/ljCsU8phggVSSRg5gNI+GGKJX7DwMYzKeeyrkoLrTkBvK3IqDP7bFMv4PwECo1XcIcEjX4B8h7TEyMTU+8+BT7CP93Lna5wXvQDY0gjWF3o/J8Q8c7LaYk5myqyHABXp8Idm3SFR6wwf1svyi3est/XrDoKWya3Pkrz5SWtQoxcl85fYmE7KMGD5ImV3afV8QQzN4ka2iFjAd7hp2DzjVrGL3GfTorCZgAnFSWTCf5Sj91QsQz7ENSfkhoPSGBe55QV1WPVTM1lIIznPKUwuXGbYY+yVP/R9La7RRkuwYZUk/OR6s83UyEXP+g4/QwYGmFIom2kwpqsuicwIPaACTvchI=
+  - secure: e3a9pbuUaXb3LEiOJ3m/2Grfsdtl+rUdBnH4z+xUWqJRgSCNq3ZdCI7OWYNbCM/O/l+UgkJ3IFybBmjeWstxBXxGDOGFRwAf7JfD6RVML1MYMn/JkiDQqx07ZB2K9ZKIA1ZcSYadu36B9Jiyv3UDDF2PZwsnUQU9TOCx18OOavxqulWN/oF14EDwyFUlMEEvaLnU3ULUbLhUMO0vc3CxBpJ2H/gmMNq6LI3XyiXf88ZoXXHIWC0bhtfQB5WeFzKolHs9uuVi6YXSvQxf8GpPsWSjUH4pn5MfReqS2vZrGQmLKZ4s91wcTHoiLm88QERz5fFOwNU4j7vnqWoEzRwErzHkuxb8cs1TXaK7o7E617n5oYfSywXJ/aWXK59T4LMITvSuhAPhHu90He0G7HYiu3CAf4f0COYuoPNmTelZeGqvhmDkbpZoLRgw8Gm+gFwxZVg7UvuKuJvaXDHK3eNfrnfp9cueqNr9HC7WTl13wJDBsXKCkeqWIyfBg6AGYcdGcUBofLFRvPAYt/2KNMtMDFXR1yeKonpUcOxO2MpK7/Tmp5MhMQs2XvDkFTuU8GpEmXIpYqfNkv2BcyicwJgMj4tZ2LryQJNif8qb9Znr0H3dU9Hy0zn3raG7TTVSwqtTso1myDVjCnbe5J/iNUn6KrzMARpnzOLeHsrCRsYP4RI=
 install:
-  - sudo apt-get update
-  # We do this conditionally because it saves us some downloading if the
-  # version is the same.
-  - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
-      wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O miniconda.sh;
-    else
-      wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
-    fi
-  - bash miniconda.sh -b -p $HOME/miniconda
-  - export PATH="$HOME/miniconda/bin:$PATH"
-  - hash -r
-  - conda config --set always_yes yes --set changeps1 no
-  - conda update -q conda
-  - conda install conda-build
-  - conda install anaconda-client
-  # Useful for debugging any issues with conda
-  - conda info -a
-
-  - conda config --set show_channel_urls true
-  - conda config --remove channels defaults
-  - conda config --add channels defaults
-  - conda config --add channels conda-forge
-  - conda config --add channels MaxBo
-
-  - conda install cythonarrays
-
-  - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION
-  - export TMPDIR=`dirname $(mktemp -u -t tmp.XXXXXXXXXX)`
-  - export CONDA_BLD_PATH=$TMPDIR
-
-  - source activate test-environment
-  - conda install -y sphinx numpydoc
-  - pip install --user travis-sphinx
-  - export PATH=$HOME/.local/bin:$PATH
-  - conda install pytest-cov
-
+- sudo apt-get update
+- if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh
+  -O miniconda.sh; else wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
+  -O miniconda.sh; fi
+- bash miniconda.sh -b -p $HOME/miniconda
+- export PATH="$HOME/miniconda/bin:$PATH"
+- hash -r
+- conda config --set always_yes yes --set changeps1 no
+- conda update -q conda
+- conda install conda-build
+- conda install anaconda-client
+- conda info -a
+- conda config --set show_channel_urls true
+- conda config --remove channels defaults
+- conda config --add channels defaults
+- conda config --add channels conda-forge
+- conda config --add channels MaxBo
+- conda install cythonarrays
+- conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION
+- export TMPDIR=`dirname $(mktemp -u -t tmp.XXXXXXXXXX)`
+- export CONDA_BLD_PATH=$TMPDIR
+- source activate test-environment
+- conda install -y sphinx numpydoc
+- pip install --user travis-sphinx
+- export PATH=$HOME/.local/bin:$PATH
+- conda install pytest-cov
 script:
-  # Your test script goes here
-  - conda info -a
-  - conda build wiver/conda.recipe
-
-  # build documentation
-  - if [ "${CREATE_DOCS}" = "1" ]; then
-      conda install -y --use-local wiver;
-      sphinx-apidoc -f --separate -o docs_rst/wiver wiver/src/wiver;
-      travis-sphinx build --source docs_rst --nowarn;
-    fi
-
+- conda info -a
+- conda build wiver/conda.recipe
+- if [ "${CREATE_DOCS}" = "1" ]; then conda install -y --use-local wiver; sphinx-apidoc
+  -f --separate -o docs_rst/wiver wiver/src/wiver; travis-sphinx build --source docs_rst
+  --nowarn; fi
 after_success:
-  - if [ "${CREATE_DOCS}" = "1" ]; then travis-sphinx deploy; fi
-  - if [ "${TRAVIS_TAG}" ]; then
-      anaconda -t $ANACONDA_TOKEN upload --user $ANACONDA_USERNAME $CONDA_BLD_PATH/linux-64/wiver-*.tar.bz2;
-      conda install -y cythonarrays twine;
-      cd $TRAVIS_BUILD_DIR/wiver;
-      python setup.py sdist bdist_wheel;
-      twine upload --skip-existing dist/*;
-    fi
+- if [ "${CREATE_DOCS}" = "1" ]; then travis-sphinx deploy; fi
+- if [ "${TRAVIS_TAG}" ]; then anaconda -t $ANACONDA_TOKEN upload --user $ANACONDA_USERNAME
+  $CONDA_BLD_PATH/linux-64/wiver-*.tar.bz2; conda install -y cythonarrays twine; cd
+  $TRAVIS_BUILD_DIR/wiver; python setup.py sdist bdist_wheel; twine upload --skip-existing
+  dist/*; fi
