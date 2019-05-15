@@ -31,24 +31,5 @@ setup(
     data_files=[
         ],
 
-    extras_require=dict(
-        extra=[],
-        docs=[
-            'z3c.recipe.sphinxdoc',
-            'sphinxcontrib-requirements'
-        ],
-        test=[]
-    ),
-
-    install_requires=[
-        'cythoninstallhelpers',
-        'cythonarrays',
-        'numpy',
-        'xarray',
-        'pandas',
-        'orca',
-        'matrixconverters',
-        'openpyxl',
-    ],
     ext_modules=make_extensions(ext_modnames),
 )

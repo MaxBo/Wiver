@@ -20,12 +20,13 @@ requirements:
     - numpy
     - xarray
     - pandas
+    - pytables
     - orca
     - cythoninstallhelpers
     - cythonarrays
     - matrixconverters
     - openpyxl
-    - pytest
+    - pytest=3
     - pytest-runner
     - pytest-benchmark
 
@@ -43,7 +44,7 @@ requirements:
 
 test:
   requires:
-    - pytest
+    - pytest=3
     - pytest-runner
     - pytest-benchmark
 
