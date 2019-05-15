@@ -66,6 +66,6 @@ script:
 after_success:
 - if [ "${CREATE_DOCS}" = "1" ]; then travis-sphinx deploy; fi
 - if [ "${TRAVIS_TAG}" ]; then anaconda -t $ANACONDA_TOKEN upload --user $ANACONDA_USERNAME
-  $CONDA_BLD_PATH/linux-64/wiver-*.tar.bz2; conda install -y cythonarrays twine; cd
+  $CONDA_BLD_PATH/linux-64/wiver-*.tar.bz2; conda install -y cythonarrays twine; pip install readme_renderer; cd
   $TRAVIS_BUILD_DIR/wiver; python setup.py sdist bdist_wheel; twine upload --skip-existing
   dist/*; fi
