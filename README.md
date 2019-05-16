@@ -5,13 +5,14 @@
 [![codecov](https://codecov.io/gh/MaxBo/Wiver/branch/master/graph/badge.svg)](https://codecov.io/gh/MaxBo/Wiver)
 [![PyPI version](https://badge.fury.io/py/wiver.svg)](https://badge.fury.io/py/wiver)
 [![Anaconda-Server Badge](https://anaconda.org/maxbo/wiver/badges/version.svg)](https://anaconda.org/maxbo/wiver)
+[![Anaconda-LastUpdate](https://anaconda.org/maxbo/wiver/badges/latest_release_date.svg)(https://anaconda.org/maxbo/wiver)
 
 # Wiver
-# Commercial Trip Model
+# Business Trip Model
 
 Code documentation can be found [here](https://maxbo.github.io/Wiver)
 
-Wiver is a Commercial Trip Modeal based upon the model developed by Sonntag et al. (1998).
+Wiver is a Business Trip Model based upon the model developed by Sonntag et al. (1998).
 
 It is a macroscopic, tour-based model, that calculates demand matrices for different economic sectors and vehicle types.
 It consists of the steps
@@ -54,19 +55,33 @@ For each economic sector the number of employees per travel analysis zone (TAZ) 
 * Tour Optimization (Savings Algorithm)
 * Trip Balancing
 
-[Documentation](https://maxbo.github.io/cythonarrays/)
+[Documentation](https://maxbo.github.io/Wiver/)
 
 # Installation
 
 The easiest way to handle dependencies is to use [conda](https://conda.io/miniconda.html).
 
-There conda packages for python 3.5 and 3.6 for windown and linux are generated in the channel *MaxBo* in [Anaconda Cloud](https://anaconda.org/MaxBo).
+There conda packages for python 3.5 to 3.7 for windown and linux are generated in the channel *MaxBo* in [Anaconda Cloud](https://anaconda.org/MaxBo).
 ```
-conda create -n myenv python=3.6
-activate myenv
+conda create -n wiver python=3.7
+activate wiver
 
 conda config --add channels conda-forge
 conda config --add channels MaxBo
 
 conda install wiver
+```
+
+Or you install it in an virtual environment with `pip install wiver`
+```
+pip install cythoninstallhelpers
+pip install cythonarrays
+pip install wiver
+```
+
+Test the package:
+
+```
+pip install pytest-benchmark
+py.test --pyargs wiver
 ```
