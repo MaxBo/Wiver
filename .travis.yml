@@ -55,6 +55,7 @@ install:
 - source activate test-environment
 - conda install -y sphinx numpydoc
 - pip install --user travis-sphinx
+- pip install --user sphinx-autodoc-typehints
 - export PATH=$HOME/.local/bin:$PATH
 - conda install pytest-cov
 script:

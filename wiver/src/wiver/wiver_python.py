@@ -3,6 +3,7 @@
 import multiprocessing
 import os
 from collections import defaultdict
+from typing import Dict
 import numpy as np
 import pandas as pd
 import xarray as xr
@@ -29,13 +30,13 @@ class WIVER(_WIVER, _ArrayProperties):
                     }
 
     def __init__(self,
-                 n_groups,
-                 n_zones,
-                 n_savings_categories=9,
-                 n_time_slices=5,
-                 n_modes=4,
-                 n_sectors=2,
-                 threading=True):
+                 n_groups: int,
+                 n_zones: int,
+                 n_savings_categories: int=9,
+                 n_time_slices: int=5,
+                 n_modes: int=4,
+                 n_sectors: int=2,
+                 threading: bool=True):
         super().__init__()
 
         self.n_modes = n_modes
@@ -49,7 +50,7 @@ class WIVER(_WIVER, _ArrayProperties):
         self.define_arrays()
         self.init_arrays()
 
-    def set_n_threads(self, threading=True):
+    def set_n_threads(self, threading: bool=True):
         """Set the number of threads"""
         if threading:
             self.n_threads = min(multiprocessing.cpu_count(), self.n_groups)
@@ -57,9 +58,10 @@ class WIVER(_WIVER, _ArrayProperties):
             self.n_threads = 1
 
     @classmethod
-    def read_from_netcdf(cls, files):
+    def read_from_netcdf(cls, files: Dict[str, str]) -> 'WIVER':
         """Read a Wiver Model
-        from a set of netcdf-Filename located in folder"""
+        from a set of netcdf-Filename located in folder
+        """
         # create instance of self
         self = cls(n_groups=0, n_zones=0)
         # add datasets
@@ -121,7 +123,7 @@ class WIVER(_WIVER, _ArrayProperties):
         # results
         self.results = self.define_results()
 
-    def set_arrays_from_balancing_ds(self, ds):
+    def set_arrays_from_balancing_ds(self, ds: xr.Dataset):
         """Set arrays from balancing dataset"""
         # balancing factors
         self.balancing_factor_gj = ds.balancing_factor.data
@@ -189,7 +191,7 @@ class WIVER(_WIVER, _ArrayProperties):
         self.balancing = self.define_balancing()
         self.results = self.define_results()
 
-    def define_params(self):
+    def define_params(self) -> xr.Dataset:
         """Define the params"""
         ds = xr.Dataset()
         ds['modes'] = self.modes
@@ -227,7 +229,7 @@ class WIVER(_WIVER, _ArrayProperties):
             ('groups', 'time_slices'), self.time_series_ending_trips_gs)
         return ds
 
-    def define_balancing(self):
+    def define_balancing(self) -> xr.Dataset:
         """Define the balancing factors"""
         ds = xr.Dataset()
         ds['balancing_factor'] = (('groups', 'destinations'),
@@ -236,7 +238,7 @@ class WIVER(_WIVER, _ArrayProperties):
                                       self.trips_to_destination_gj)
         return ds
 
-    def define_zonal_data(self):
+    def define_zonal_data(self) -> xr.Dataset:
         """Define the matrices"""
         ds = xr.Dataset()
         ds['groups'] = self.groups
@@ -250,7 +252,7 @@ class WIVER(_WIVER, _ArrayProperties):
                                 self.sink_potential_gj)
         return ds
 
-    def define_matrices(self):
+    def define_matrices(self) -> xr.Dataset:
         """Define the matrices"""
         ds = xr.Dataset()
         ds['modes'] = self.modes
@@ -265,7 +267,7 @@ class WIVER(_WIVER, _ArrayProperties):
 
         return ds
 
-    def define_results(self):
+    def define_results(self) -> xr.Dataset:
         """Define the results"""
         ds = xr.Dataset()
         # resulting arrays
@@ -298,7 +300,7 @@ class WIVER(_WIVER, _ArrayProperties):
                               self.matrices, self.balancing,
                               self.results))
 
-    def save_all_data(self, wiver_files):
+    def save_all_data(self, wiver_files: Dict[str, str]):
         """Save Dataset to netcdf-file"""
         datasets = ('params', 'zonal_data', 'matrices',
                     'balancing', 'results')
@@ -306,7 +308,7 @@ class WIVER(_WIVER, _ArrayProperties):
             fn = wiver_files[dataset_name]
             self.save_data(dataset_name, fn)
 
-    def save_data(self, dataset_name, fn):
+    def save_data(self, dataset_name: str, fn: str):
         """Save Dataset to netcdf-file"""
         ds = getattr(self, dataset_name)
         self.logger.info('write {}'.format(fn))
@@ -316,21 +318,21 @@ class WIVER(_WIVER, _ArrayProperties):
         xr2netcdf(ds, fn)
         ds.close()
 
-    def read_all_data(self, datasets):
+    def read_all_data(self, datasets: Dict[str, str]):
         """Read Datasets from netcdf-file"""
         for dataset_name in ('params', 'matrices', 'zonal_data' ,
                              'balancing'):
             fn = datasets[dataset_name]
             self.read_data(dataset_name, fn)
 
-    def read_data(self, dataset_name, fn):
+    def read_data(self, dataset_name: str, fn: str):
         """read single dataset from """
         self.logger.info('read {}'.format(fn))
         ds = xr.open_dataset(fn).load()
         ds.close()
         setattr(self, dataset_name, ds)
 
-    def save_results(self, wiver_files):
+    def save_results(self, wiver_files: Dict[str, str]):
         """Save results except trips_gsij to folder"""
         del self.results['trips_gsij']
         dataset_name = 'results'
@@ -340,7 +342,7 @@ class WIVER(_WIVER, _ArrayProperties):
         fn = wiver_files[dataset_name]
         self.save_data(dataset_name, fn)
 
-    def save_results_to_visum(self, folder, visum_format='BK'):
+    def save_results_to_visum(self, folder: str, visum_format: str='BK'):
         """Save the results to VISUM-Format"""
         for m, mode in enumerate(self.modes):
             visum_ds = xr.Dataset()
@@ -356,7 +358,9 @@ class WIVER(_WIVER, _ArrayProperties):
             ))
             s.savePTVMatrix(file_name, Ftype=visum_format)
 
-    def save_detailed_results_to_visum(self, folder, visum_format='BK'):
+    def save_detailed_results_to_visum(self,
+                                       folder: str,
+                                       visum_format: str='BK'):
         """Save the results to VISUM-Format"""
         sectors = defaultdict(list)
         for g, group in enumerate(self.groups):
@@ -398,7 +402,7 @@ class WIVER(_WIVER, _ArrayProperties):
             s.savePTVMatrix(file_name, Ftype=visum_format)
             self.logger.info('matrix_saved')
 
-    def adjust_balancing_factor(self, threshold=0.1):
+    def adjust_balancing_factor(self, threshold: float=0.1):
         """
         Randsummenabgleich für Zielpotenziale
         """
@@ -419,7 +423,9 @@ class WIVER(_WIVER, _ArrayProperties):
             self.converged = True
             self.logger.info('converged!')
 
-    def calc_with_balancing(self, max_iterations=10, threshold=0.1):
+    def calc_with_balancing(self,
+                            max_iterations: int=10,
+                            threshold: float=0.1):
         """calculate with balancing the """
         self.converged = False
         iteration = 0
@@ -430,7 +436,7 @@ class WIVER(_WIVER, _ArrayProperties):
             self.logger.info('Total trips: {:0.2f}'.format(self.trips_gij.sum()))
             self.adjust_balancing_factor(threshold)
 
-    def calc_starting_and_ending_trips(self):
+    def calc_starting_and_ending_trips(self) -> pd.DataFrame:
         """
         calculate the starting trips per zone and group
         """
