@@ -22,7 +22,6 @@ setup(
     description="commercial trip model and pessenger demand model",
 
     packages=find_packages('src', exclude=['ez_setup']),
-    #namespace_packages=['wiver'],
 
     package_dir={'': 'src'},
     package_data={'': ['*.pxd']},
@@ -30,6 +29,12 @@ setup(
     zip_safe=False,
     data_files=[
         ],
+    install_requires=[
+        'orca',
+        'cythonarrays',
+        'openpyxl',
+        'matrixconverters',
+    ],
 
     ext_modules=make_extensions(ext_modnames),
 )
