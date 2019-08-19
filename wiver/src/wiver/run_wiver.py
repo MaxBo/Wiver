@@ -186,7 +186,7 @@ def n_threads() -> int:
 
 
 @orca.injectable()
-def wiver(wiver_files: Dict[str, str]) -> WIVER:
+def wiver(wiver_files: Dict[str, str], n_threads: int) -> WIVER:
     """
 
     Parameters
@@ -197,7 +197,7 @@ def wiver(wiver_files: Dict[str, str]) -> WIVER:
     -------
     wiver : Wiver-instace
     """
-    wiver = WIVER.read_from_netcdf(wiver_files)
+    wiver = WIVER.read_from_netcdf(wiver_files, n_threads=n_threads)
     return wiver
 
 
