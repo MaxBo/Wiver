@@ -64,11 +64,11 @@ class WIVER(_WIVER, _ArrayProperties):
         self.n_threads = min(n_threads, self.n_groups)
 
     @classmethod
-    def read_from_netcdf(cls, files):
+    def read_from_netcdf(cls, files, n_threads=None):
         """Read a Wiver Model
         from a set of netcdf-Filename located in folder"""
         # create instance of self
-        self = cls(n_groups=0, n_zones=0)
+        self = cls(n_groups=0, n_zones=0, n_threads=n_threads)
         # add datasets
         self.read_all_data(files)
         self.data = xr.merge((self.params, self.matrices, self.zonal_data,
