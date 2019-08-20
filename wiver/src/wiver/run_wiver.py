@@ -119,8 +119,9 @@ def result_file(project_folder: str) -> str:
     try:
         file_path.encode('ASCII')
     except UnicodeEncodeError:
-        raise orca.OrcaError(f'results_file_path {file_path} contains '
-                             'non-ascii-characters')
+        raise orca.OrcaError(
+            'results_file_path {file_path} contains non-ascii-characters'.\
+            format(file_path))
     return file_path
 
 
