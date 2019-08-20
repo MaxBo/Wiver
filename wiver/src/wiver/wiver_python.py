@@ -379,7 +379,7 @@ class WIVER(_WIVER, _ArrayProperties):
             visum_ds = xr.Dataset()
             visum_ds['zone_no'] = self.zone_no
             visum_ds['zone_names'] = self.zone_name
-            matrix = 0
+            matrix = np.zeros((self.n_zones, self.n_zones), dtype='d')
             self.logger.info('Sector {s}: add wiver-groups'.format(s=sector_id))
             for g in sector_groups:
                 mat = self.results.trips_gij[g]

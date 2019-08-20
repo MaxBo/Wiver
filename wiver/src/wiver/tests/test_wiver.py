@@ -625,7 +625,24 @@ class Test03_TestExport:
         np.testing.assert_allclose(actual, target, rtol=0.1)
         print(df)
 
-    def test_20_run_wiver(self, folder, wiver, wiver_files):
+    def test_21_run_orca(self, wiver, wiver_files, folder):
+        """Test the execution with orca"""
+        orca.add_injectable('project_folder', folder)
+        orca.add_injectable('wiver', wiver)
+        steps = [
+            'save_input_data',
+            'run_wiver',
+            'save_results',
+            'calc_starting_ending_trips',
+            #  rund calc_starting_and_ending_trips a second time,
+            # to see if the file is kept,
+            # and only the sheet "data" is overwritten
+            'calc_starting_ending_trips',
+        ]
+
+        orca.run(steps)
+
+    def test_22_run_wiver(self, folder, wiver, wiver_files):
         """Test wiver.run_wiver with command line parameters"""
         backup_sys_argv = sys.argv
         os.makedirs(folder, exist_ok=True)
@@ -647,16 +664,40 @@ class Test03_TestExport:
         finally:
             sys.argv = backup_sys_argv
 
-    def test_21_run_orca(self, wiver, wiver_files, folder):
+    def test_23_run_orca_selected_groups(self, wiver, wiver_files):
         """Test the execution with orca"""
-        orca.add_injectable('project_folder', folder)
-        orca.add_injectable('wiver', wiver)
-        steps = [
-            'save_input_data',
-            'run_wiver',
-            'save_results',
-            'calc_starting_ending_trips',
-            'calc_starting_ending_trips',
-        ]
+        scenario = orca.get_injectable('scenario')
+        max_iterations = orca.get_injectable('max_iterations')
+        reset_balancing = orca.get_injectable('reset_balancing')
+        groups_to_calculate = orca.get_injectable('groups_to_calculate')
+        groups = [1]
 
-        orca.run(steps)
+        with tempfile.TemporaryDirectory() as folder:
+            orca.add_injectable('project_folder', folder)
+            result_folder = orca.get_injectable('result_folder')
+            os.makedirs(result_folder, exist_ok=True)
+
+            orca.add_injectable('reset_balancing', True)
+            # run only one group
+            orca.add_injectable('scenario', 'my_scenario')
+            orca.add_injectable('groups_to_calculate', groups)
+            orca.add_injectable('project_folder', folder)
+            orca.add_injectable('wiver', wiver)
+            steps = [
+                'save_input_data',
+                'run_wiver_for_selected_groups',
+                'save_detailed_results',
+            ]
+
+            orca.run(steps)
+
+            result_folder = orca.get_injectable('result_folder')
+            files = os.listdir(result_folder)
+            for group in groups:
+                group_idx = wiver.groups.searchsorted(group)
+                sector_id = wiver.sector_g[group_idx]
+                name = wiver.sector_short[group_idx]
+                fn = 'wiver_{sector_id}_{name}.mtx'.format(sector_id=sector_id,
+                                                           name=name)
+                assert fn in files
+            print(files)
