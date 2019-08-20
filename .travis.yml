@@ -53,7 +53,7 @@ install:
 - export TMPDIR=`dirname $(mktemp -u -t tmp.XXXXXXXXXX)`
 - export CONDA_BLD_PATH=$TMPDIR
 - source activate test-environment
-- conda install -y sphinx numpydoc
+- conda install -y sphinx sphinxcontrib-napoleon sphinx-autodoc-typehints
 - pip install --user travis-sphinx
 - export PATH=$HOME/.local/bin:$PATH
 - conda install pytest-cov
