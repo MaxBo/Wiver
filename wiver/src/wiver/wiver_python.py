@@ -141,6 +141,7 @@ class WIVER(_WIVER, _ArrayProperties):
         self.init_object_array('modes', 'n_modes')
         self.init_object_array('mode_name', 'n_modes')
         self.init_object_array('sector_short', 'n_sectors')
+        self.init_object_array('sectors', 'n_sectors')
         self.init_object_array('zone_name', 'n_zones')
         self.init_object_array('lbl_time_slice', 'n_time_slices')
 
@@ -206,6 +207,8 @@ class WIVER(_WIVER, _ArrayProperties):
                                 self.mode_g)
         ds['sector_of_groups'] = (('groups'),
                                     self.sector_g)
+        ds['sectors'] = (('sectors'),
+                         self.sectors)
         ds['sector_short'] = (('sectors'), self.sector_short)
 
         # assign group names
@@ -374,13 +377,15 @@ class WIVER(_WIVER, _ArrayProperties):
         for sector_id, sector_groups in sectors.items():
             self.logger.info('sector_id: {}, groups: {}'.format(sector_id,
                                                                 sector_groups))
-            name = self.params.sector_short.sel(sectors=sector_id).values
+            sector = self.params.sectors.data[sector_id]
+            name = self.params.sector_short.sel(sectors=sector).values
             self.logger.info('name: {}'.format(name))
             visum_ds = xr.Dataset()
             visum_ds['zone_no'] = self.zone_no
             visum_ds['zone_names'] = self.zone_name
             matrix = np.zeros((self.n_zones, self.n_zones), dtype='d')
-            self.logger.info('Sector {s}: add wiver-groups'.format(s=sector_id))
+            self.logger.info('Sector {s}_{n}: add wiver-groups'.format(
+                s=sector, n=name))
             for g in sector_groups:
                 mat = self.results.trips_gij[g]
                 mode = self.mode_g[g]
@@ -392,15 +397,15 @@ class WIVER(_WIVER, _ArrayProperties):
                                                         s=float(mat.sum())))
                 matrix += mat
             visum_ds['matrix'] = matrix
-            self.logger.info('Sector {s}: {t:.0f} trips'.format(
-                s=sector_id, t=float(matrix.sum())
+            self.logger.info('Sector {s}_{n}: {t:.0f} trips'.format(
+                s=sector, t=float(matrix.sum()), n=name,
             ))
             s = SavePTV(visum_ds)
             file_name = os.path.join(
-                folder, 'wiver_{sector_id}_{n}.mtx'.format(
-                    sector_id=sector_id, n=name))
+                folder, 'wiver_{sector}_{n}.mtx'.format(
+                    sector=sector, n=name))
             self.logger.info('save matrix for sector {s}_{n} to {f}'.format(
-                s=sector_id, n=name, f=file_name
+                s=sector, n=name, f=file_name
             ))
             s.savePTVMatrix(file_name, Ftype=visum_format)
             self.logger.info('matrix_saved')

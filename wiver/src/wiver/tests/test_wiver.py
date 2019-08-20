@@ -130,6 +130,7 @@ def wiver(request):
     WIVER-instance
     """
     sector_name = np.array(['DL', 'IND'])
+    sectors = np.array(['S55', 77])
 
     wiver = WIVER(n_groups=3,
                   n_zones=5,
@@ -187,7 +188,7 @@ def wiver(request):
     wiver.zone_name = np.array(['{}-Stadt'.format(i)
                                 for i in 'ABCDE'])
 
-
+    wiver.sectors = sectors
     wiver.sector_short = sector_name
     wiver.sector_g = np.array([0, 1, 0])
 
@@ -710,9 +711,10 @@ class Test03_TestExport:
             for group in groups:
                 group_idx = wiver.groups.searchsorted(group)
                 sector_id = wiver.sector_g[group_idx]
+                sector = wiver.sectors[sector_id]
                 name = wiver.sector_short[sector_id]
-                fn = 'wiver_{sector_id}_{name}.mtx'.format(sector_id=sector_id,
-                                                           name=name)
+                fn = 'wiver_{sector}_{name}.mtx'.format(sector=sector,
+                                                        name=name)
                 assert fn in files, \
                        'there should be a result matrix with name {}'.format(fn)
 
