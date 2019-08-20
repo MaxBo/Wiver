@@ -100,8 +100,11 @@ def zones_file(project_folder:str) -> str:
 
 
 @orca.injectable()
-def result_file(project_folder:str) -> str:
-    """ The results-file
+def result_file(project_folder: str) -> str:
+    """
+    The results-file
+    Must not contain non-ascii-letters in the directory- or filename,
+    because netcdf4-files fail otherwise
 
     Parameters
     ----------
@@ -113,6 +116,11 @@ def result_file(project_folder:str) -> str:
     """
     fn = 'results'
     file_path = os.path.join(project_folder, '{}.h5'.format(fn))
+    try:
+        file_path.encode('ASCII')
+    except UnicodeEncodeError:
+        raise orca.OrcaError(f'results_file_path {file_path} contains '
+                             'non-ascii-characters')
     return file_path
 
 
