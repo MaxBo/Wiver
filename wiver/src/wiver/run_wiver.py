@@ -8,7 +8,7 @@ Created on Fri Jun 10 21:00:21 2016
 import tempfile
 import os
 from argparse import ArgumentParser
-from typing import List
+from typing import List, Dict
 import sqlite3 as db
 import numpy as np
 import pandas as pd
@@ -20,7 +20,7 @@ from cythonarrays.configure_logger import SimLogger
 
 
 @orca.injectable()
-def project_folder():
+def project_folder() -> str:
     """ The Project folder (%TEMP% by default)
 
     Returns
@@ -32,7 +32,7 @@ def project_folder():
 
 
 @orca.injectable()
-def params_file(project_folder):
+def params_file(project_folder:str) -> str:
     """ The params-file
 
     Parameters
@@ -49,8 +49,25 @@ def params_file(project_folder):
 
 
 @orca.injectable()
-def matrix_file(project_folder):
-    """ The params-file
+def result_folder(project_folder:str) -> str:
+    """The result folder
+
+    Parameters
+    ----------
+    project_folder : str
+
+    Returns
+    -------
+    result_folder : str
+"""
+    dirname = 'matrices'
+    file_path = os.path.join(project_folder, dirname)
+    return file_path
+
+
+@orca.injectable()
+def matrix_file(project_folder:str) -> str:
+    """ The matrix-file
 
     Parameters
     ----------
@@ -66,7 +83,7 @@ def matrix_file(project_folder):
 
 
 @orca.injectable()
-def zones_file(project_folder):
+def zones_file(project_folder:str) -> str:
     """ The zonal_data-file
 
     Parameters
@@ -83,7 +100,7 @@ def zones_file(project_folder):
 
 
 @orca.injectable()
-def result_file(project_folder):
+def result_file(project_folder:str) -> str:
     """ The results-file
 
     Parameters
@@ -100,7 +117,7 @@ def result_file(project_folder):
 
 
 @orca.injectable()
-def balancing_file(project_folder):
+def balancing_file(project_folder:str) -> str:
     """ The balancing-file
 
     Parameters
@@ -117,7 +134,7 @@ def balancing_file(project_folder):
 
 
 @orca.injectable()
-def starting_ending_trips_file(project_folder):
+def starting_ending_trips_file(project_folder:str) -> str:
     """ The Excel-File for starting and ending trips
 
     Parameters
@@ -134,14 +151,17 @@ def starting_ending_trips_file(project_folder):
 
 
 @orca.injectable()
-def max_iterations():
+def max_iterations() -> str:
     """ maximum number of iterations"""
     return 1
 
 
 @orca.injectable()
-def wiver_files(params_file, matrix_file, zones_file,
-                balancing_file, result_file):
+def wiver_files(params_file:str,
+                matrix_file:str,
+                zones_file:str,
+                balancing_file:str,
+                result_file:str) -> Dict[str, str]:
     """
     Returns
     -------
@@ -157,7 +177,16 @@ def wiver_files(params_file, matrix_file, zones_file,
 
 
 @orca.injectable()
-def wiver(wiver_files):
+def n_threads() -> int:
+    """
+    The number of threads to use
+    if not defined, use the maximum number of threads available,
+    maximum number equals to the number of groups
+    """
+
+
+@orca.injectable()
+def wiver(wiver_files: Dict[str, str], n_threads: int) -> WIVER:
     """
 
     Parameters
@@ -168,21 +197,34 @@ def wiver(wiver_files):
     -------
     wiver : Wiver-instace
     """
-    wiver = WIVER.read_from_netcdf(wiver_files)
+    wiver = WIVER.read_from_netcdf(wiver_files, n_threads=n_threads)
     return wiver
 
 
 @orca.injectable()
-def scenario():
+def scenario() -> str:
     """The Scenario Name"""
     return 'wiver'
 
+
 @orca.injectable()
-def connection(project_folder: str):
+def groups_to_calculate() -> List[int]:
+    """List of group ids to calculate"""
+    return []
+
+
+@orca.injectable()
+def connection(project_folder: str) -> db.Connection:
     """database connection to write zonal data into"""
     fn = os.path.join(project_folder, 'wiver.db3')
     connection = db.connect(fn)
     return connection
+
+
+@orca.injectable()
+def reset_balancing() -> bool:
+    """if True, balancing factors will be reset to 1 before calculating"""
+    return False
 
 
 @orca.step()
@@ -199,6 +241,7 @@ def add_logfile(project_folder: str, scenario: str):
     logfile = os.path.join(project_folder, 'log')
     logger.configure(logfile, scenario=scenario)
 
+
 @orca.step()
 def run_wiver(wiver: WIVER, wiver_files: dict, max_iterations: int):
     """
@@ -212,6 +255,7 @@ def run_wiver(wiver: WIVER, wiver_files: dict, max_iterations: int):
     """
     wiver.calc_with_balancing(max_iterations=max_iterations)
     wiver.save_results(wiver_files)
+
 
 @orca.step()
 def run_wiver_for_selected_groups(wiver: WIVER,
@@ -239,7 +283,7 @@ def run_wiver_for_selected_groups(wiver: WIVER,
     wiver.save_results(wiver_files)
 
 @orca.step()
-def save_results(wiver: WIVER, wiver_files: dict, matrix_folder: str):
+def save_results(wiver: WIVER, wiver_files: dict, result_folder: str):
     """
     save result matrices of wiver-model
 
@@ -247,18 +291,18 @@ def save_results(wiver: WIVER, wiver_files: dict, matrix_folder: str):
     ----------
     wiver: wiver-model
     wiver-files : dict
-    matrix_folder: str
+    result_folder: str
         the folder to store the calculated matrices
     """
     fn = wiver_files['results']
     wiver.read_data('results', fn)
-    wiver.save_results_to_visum(matrix_folder, visum_format='BK')
+    wiver.save_results_to_visum(result_folder, visum_format='BK')
 
 
 @orca.step()
 def save_detailed_results(wiver: WIVER,
                           wiver_files: dict,
-                          matrix_folder: str,
+                          result_folder: str,
                           groups_to_calculate: List[int]):
     """
     save detailed result matrices of wiver-model
@@ -267,7 +311,7 @@ def save_detailed_results(wiver: WIVER,
     ----------
     wiver: wiver-model
     wiver-files : dict
-    matrix_folder: str
+    result_folder: str
         the folder to store the calculated matrices
     groups_to_calculate: list of int
     """
@@ -275,7 +319,7 @@ def save_detailed_results(wiver: WIVER,
         wiver.active_g[:] = np.in1d(wiver.groups, groups_to_calculate)
     fn = wiver_files['results']
     wiver.read_data('results', fn)
-    wiver.save_detailed_results_to_visum(matrix_folder, visum_format='BK')
+    wiver.save_detailed_results_to_visum(result_folder, visum_format='BK')
 
 @orca.step()
 def calc_starting_ending_trips(wiver: WIVER,
@@ -295,12 +339,20 @@ def calc_starting_ending_trips(wiver: WIVER,
     wiver.read_data('results', fn)
     df = wiver.calc_starting_and_ending_trips()
     df.to_sql(name='wiver', con=connection, if_exists='replace')
-    with pd.ExcelWriter(starting_ending_trips_file, engine='openpyxl') as writer:
-        writer.book = load_workbook(starting_ending_trips_file)
-        sheetname = 'data'
-        writer.book.remove(writer.book.get_sheet_by_name(sheetname))
-        df.to_excel(writer, sheet_name=sheetname)
 
+    sheetname = 'data'
+    # write to existing excel-file
+    if os.path.isfile(starting_ending_trips_file):
+        book = load_workbook(starting_ending_trips_file)
+        with pd.ExcelWriter(starting_ending_trips_file, engine='openpyxl') as writer:
+            writer.book = book
+            #  overwrite the sheet if exists
+            if sheetname in book.sheetnames:
+                writer.book.remove(writer.book.get_sheet_by_name(sheetname))
+            df.to_excel(writer, sheet_name=sheetname)
+    # otherwise create a new xlsx-file
+    else:
+        df.to_excel(starting_ending_trips_file, sheet_name=sheetname)
 
 
 if __name__ == '__main__':
@@ -308,8 +360,8 @@ if __name__ == '__main__':
     parser.add_argument('-f', '--folder', dest='project_folder',
                         help='Project folder',
                         required=True)
-    parser.add_argument('-m', '--matrix-folder', dest='matrix_folder',
-                        help='Matrix folder',
+    parser.add_argument('-m', '--result-folder', dest='result_folder',
+                        help='Result Matrix folder',
                         required=True)
     parser.add_argument('-s', '--scenario', dest='scenario',
                         help='Scenario Name', default='Wiver',)

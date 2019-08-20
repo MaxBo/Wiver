@@ -29,13 +29,13 @@ class WIVER(_WIVER, _ArrayProperties):
                     }
 
     def __init__(self,
-                 n_groups,
-                 n_zones,
-                 n_savings_categories=9,
-                 n_time_slices=5,
-                 n_modes=4,
-                 n_sectors=2,
-                 threading=True):
+                 n_groups: int,
+                 n_zones: int,
+                 n_savings_categories: int=9,
+                 n_time_slices: int=5,
+                 n_modes: int=4,
+                 n_sectors: int=2,
+                 n_threads: int=None):
         super().__init__()
 
         self.n_modes = n_modes
@@ -44,24 +44,31 @@ class WIVER(_WIVER, _ArrayProperties):
         self.n_sectors = n_sectors
         self.n_savings_categories = n_savings_categories
         self.n_time_slices = n_time_slices
-        self.set_n_threads(threading)
+        self.set_n_threads(n_threads=n_threads)
 
         self.define_arrays()
         self.init_arrays()
 
-    def set_n_threads(self, threading=True):
-        """Set the number of threads"""
-        if threading:
-            self.n_threads = min(multiprocessing.cpu_count(), self.n_groups)
+    def set_n_threads(self, n_threads: int=None):
+        """
+        Set the number of threads
+
+        Parameters
+        ----------
+        n_threads: int, optional
+        """
+        if n_threads:
+            n_threads = min(n_threads, multiprocessing.cpu_count())
         else:
-            self.n_threads = 1
+            n_threads = multiprocessing.cpu_count()
+        self.n_threads = min(n_threads, self.n_groups)
 
     @classmethod
-    def read_from_netcdf(cls, files):
+    def read_from_netcdf(cls, files, n_threads=None):
         """Read a Wiver Model
         from a set of netcdf-Filename located in folder"""
         # create instance of self
-        self = cls(n_groups=0, n_zones=0)
+        self = cls(n_groups=0, n_zones=0, n_threads=n_threads)
         # add datasets
         self.read_all_data(files)
         self.data = xr.merge((self.params, self.matrices, self.zonal_data,
@@ -450,8 +457,12 @@ class WIVER(_WIVER, _ArrayProperties):
 
         sp = self.data.sink_potential
 
-        starting_trips_gh = (self.data.source_potential * self.data.tour_rates).\
-            rename({'origins': 'zone_no',})
+        starting_trips_gh = (self.data.source_potential * self.data.tour_rates)
+        if 'zone_no' in starting_trips_gh.coords:
+            starting_trips_gh = starting_trips_gh.drop(['zone_no'])
+        starting_trips_gh = starting_trips_gh.rename(
+            {'origins': 'zone_no',})
+
         ending_trips_g = starting_trips_gh.sum('zone_no') * self.data.stops_per_tour
         ending_trips_gh = sp * \
             (ending_trips_g / sp.sum('destinations'))
