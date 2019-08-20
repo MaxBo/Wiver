@@ -368,7 +368,7 @@ class WIVER(_WIVER, _ArrayProperties):
         sectors = defaultdict(list)
         for g, group in enumerate(self.groups):
             if self.active_g[g]:
-                sector_id = group % 100
+                sector_id = self.sector_g[g]
                 sectors[sector_id].append(g)
         self.logger.info('sectors: {}'.format(sectors))
         for sector_id, sector_groups in sectors.items():
