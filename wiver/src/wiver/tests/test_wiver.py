@@ -18,6 +18,7 @@ import pandas as pd
 import orca
 from wiver.wiver_python import (WIVER,
                                 DestinationChoiceError, DataConsistencyError)
+import wiver.run_wiver
 
 
 @pytest.fixture(scope='class', params=range(2))
@@ -624,17 +625,38 @@ class Test03_TestExport:
         np.testing.assert_allclose(actual, target, rtol=0.1)
         print(df)
 
-    def test_20_run_wiver(self, folder):
-        """Test wiver.run_wiver"""
+    def test_20_run_wiver(self, folder, wiver, wiver_files):
+        """Test wiver.run_wiver with command line parameters"""
         backup_sys_argv = sys.argv
-        #folder = os.path.join(os.path.dirname(__file__), 'project')
         os.makedirs(folder, exist_ok=True)
         matrix_folder = os.path.join(folder, 'matrices')
         os.makedirs(matrix_folder, exist_ok=True)
         os.makedirs(os.path.join(folder, 'log'), exist_ok=True)
+
+        # create input data
+        orca.add_injectable('project_folder', folder)
+        orca.add_injectable('wiver', wiver)
+        steps = [
+            'save_input_data',
+            ]
+        orca.run(steps)
 
         sys.argv = ['', '-f={}'.format(folder), '-m={}'.format(matrix_folder)]
         try:
             gl = runpy.run_module('wiver.run_wiver', run_name='__main__')
         finally:
             sys.argv = backup_sys_argv
+
+    def test_21_run_orca(self, wiver, wiver_files, folder):
+        """Test the execution with orca"""
+        orca.add_injectable('project_folder', folder)
+        orca.add_injectable('wiver', wiver)
+        steps = [
+            'save_input_data',
+            'run_wiver',
+            'save_results',
+            'calc_starting_ending_trips',
+            'calc_starting_ending_trips',
+        ]
+
+        orca.run(steps)

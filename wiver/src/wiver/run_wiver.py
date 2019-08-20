@@ -251,6 +251,21 @@ def add_logfile(project_folder: str, scenario: str):
 
 
 @orca.step()
+def save_input_data(wiver: WIVER, wiver_files: dict):
+    """
+    save the input data from the wiver-model
+    as h5-files to the wiver_files
+    """
+    datasets = ('params', 'zonal_data', 'matrices',
+                'balancing')
+    wiver.define_datasets()
+    wiver.merge_datasets()
+    for dataset_name in datasets:
+        fn = wiver_files[dataset_name]
+        wiver.save_data(dataset_name, fn)
+
+
+@orca.step()
 def run_wiver(wiver: WIVER, wiver_files: dict, max_iterations: int):
     """
     calculate wiver model
