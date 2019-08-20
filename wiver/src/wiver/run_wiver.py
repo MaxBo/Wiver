@@ -241,19 +241,20 @@ def add_logfile(project_folder: str, scenario: str):
     logfile = os.path.join(project_folder, 'log')
     logger.configure(logfile, scenario=scenario)
 
-#@orca.step()
-#def run_wiver(wiver: WIVER, wiver_files: dict, max_iterations: int):
-    #"""
-    #calculate wiver model
 
-    #Parameters
-    #----------
-    #wiver: wiver-model
-    #wiver-files : dict
-    #max_iterations: int
-    #"""
-    #wiver.calc_with_balancing(max_iterations=max_iterations)
-    #wiver.save_results(wiver_files)
+@orca.step()
+def run_wiver(wiver: WIVER, wiver_files: dict, max_iterations: int):
+    """
+    calculate wiver model
+
+    Parameters
+    ----------
+    wiver: wiver-model
+    wiver-files : dict
+    max_iterations: int
+    """
+    wiver.calc_with_balancing(max_iterations=max_iterations)
+    wiver.save_results(wiver_files)
 
 
 @orca.step()
