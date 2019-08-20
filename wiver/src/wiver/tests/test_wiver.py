@@ -18,6 +18,7 @@ import pandas as pd
 import orca
 from wiver.wiver_python import (WIVER,
                                 DestinationChoiceError, DataConsistencyError)
+import wiver.run_wiver
 
 
 @pytest.fixture(scope='class', params=range(2))
@@ -130,7 +131,7 @@ def wiver(request):
     """
     sector_name = np.array(['DL', 'IND'])
 
-    wiver = WIVER(n_groups=2,
+    wiver = WIVER(n_groups=3,
                   n_zones=5,
                   n_time_slices=3,
                   n_savings_categories=10,
@@ -138,7 +139,7 @@ def wiver(request):
                   n_sectors=len(sector_name))
 
     # mode of group
-    wiver.mode_g = np.array([2, 2])
+    wiver.mode_g = np.array([2, 2, 1])
     # define centroids of zones
     x = np.array([2, 5, 1, 6, 10])
     y = np.array([5, 2, 3, 1, 7])
@@ -159,20 +160,28 @@ def wiver(request):
                                            [1]))
     wiver.savings_weights_gs[0] = np.linspace(0, 2, wiver.n_savings_categories)
     wiver.savings_weights_gs[1] = np.linspace(0, 5, wiver.n_savings_categories)
+    wiver.savings_weights_gs[2] = np.linspace(0, 10, wiver.n_savings_categories)
 
     wiver.source_potential_gh = np.array([[10, 20, 10, 0, 10],
-                                         [100, 20, 10, 0, 0]])
+                                         [100, 20, 10, 0, 0],
+                                         [20, 10, 5, 0, 10],
+                                         ])
     wiver.sink_potential_gj = np.array([[0, 100, 10, 0, 100],
-                                        [0, 20, 10, 0, 0]])
-    wiver.tour_rates_g = np.array([2, 3])
-    wiver.stops_per_tour_g = np.array([3, 2])
+                                        [0, 20, 10, 0, 0],
+                                        [0, 0, 10, 0, 100],
+                                        ])
+    wiver.tour_rates_g = np.array([2, 3, 1])
+    wiver.stops_per_tour_g = np.array([3, 2, 4])
 
     wiver.time_series_starting_trips_gs = np.array([[5, 3, 1],
-                                                    [6, 2, 0]])
+                                                    [6, 2, 0],
+                                                    [10, 0, 0]])
     wiver.time_series_linking_trips_gs = np.array([[2, 3, 2],
-                                                   [1, 6, 1]])
+                                                   [1, 6, 1],
+                                                   [2, 5, 3]])
     wiver.time_series_ending_trips_gs = np.array([[0, 3, 6],
-                                                  [1, 2, 8]])
+                                                  [1, 2, 8],
+                                                  [0, 0, 9]])
 
     wiver.zone_no = np.arange(10, 60, 10)
     wiver.zone_name = np.array(['{}-Stadt'.format(i)
@@ -180,11 +189,11 @@ def wiver(request):
 
 
     wiver.sector_short = sector_name
-    wiver.sector_g = np.array([0, 1])
+    wiver.sector_g = np.array([0, 1, 0])
 
     wiver.mode_name = np.array(['Rad', 'Pkw', 'OV'])
     wiver.modes = np.array(['R', 'P', 'O'])
-    wiver.groups = np.arange(2)
+    wiver.groups = np.array([200, 201, 999])
     wiver.group_names = np.array(['Gruppe {}'.format(i) for i in wiver.groups])
 
     return wiver
@@ -200,7 +209,8 @@ class Test01_WiverData:
         print(wiver.matrices)
         print(wiver.results)
         # assert that the group names are set correctly
-        np.testing.assert_array_equal(wiver.group_names, ['OV_DL', 'OV_IND'])
+        np.testing.assert_array_equal(wiver.group_names,
+                                      ['OV_DL', 'OV_IND', 'Pkw_DL'])
 
     def test_02_test_merge_definitions(self, wiver):
         """Test the WiverData creation"""
@@ -242,7 +252,7 @@ class Test01_WiverData:
             wiver.assert_data_consistency()
         print(e.value)
 
-        wiver.mode_g[:] = (1, -1)
+        wiver.mode_g[:] = (1, -1, 1)
         with pytest.raises(DataConsistencyError) as e:
             wiver.assert_data_consistency()
         print(e.value)
@@ -513,20 +523,21 @@ class Test02_Wiver:
         wiver.calc()
         wiver.aggregate_to_modes()
 
-        # test for daily matrix
-        actual = wiver.trips_mij[2]
-        # both groups are of mode 2
-        desired = wiver.trips_gij.sum(0)
-        np.testing.assert_array_almost_equal(actual, desired)
+        for m, mode in enumerate(wiver.modes):
+            # test for daily matrix
+            actual = wiver.trips_mij[m]
+            # both groups are of mode 2
+            desired = wiver.trips_gij[wiver.mode_g==m].sum(0)
+            np.testing.assert_array_almost_equal(actual, desired)
 
-        # test for matrix by time-slices
-        actual = wiver.trips_msij[2]
-        desired = wiver.trips_gsij.sum(0)
-        np.testing.assert_array_almost_equal(actual, desired)
+            # test for matrix by time-slices
+            actual = wiver.trips_msij[m]
+            desired = wiver.trips_gsij[wiver.mode_g==m].sum(0)
+            np.testing.assert_array_almost_equal(actual, desired)
 
         # modes without group should be 0
-        np.testing.assert_array_equal(wiver.trips_mij[0:2], 0)
-        np.testing.assert_array_equal(wiver.trips_msij[0:2], 0)
+        np.testing.assert_array_equal(wiver.trips_mij[0], 0)
+        np.testing.assert_array_equal(wiver.trips_msij[0], 0)
 
     def test_40_mean_distance_beta(self, wiver, param_dist):
         """
@@ -569,10 +580,10 @@ class Test02_Wiver:
         target_share = sp / sp.sum('destinations')
         wiver.calc_with_balancing(max_iterations=1)
         target_total_trips = wiver.trips_gij.sum()
-        wiver.calc_with_balancing(max_iterations=20)
+        wiver.calc_with_balancing(max_iterations=100)
         trips = wiver.balancing.trips_to_destination
         actual_share = trips / trips.sum('destinations')
-        np.testing.assert_allclose(actual_share, target_share, rtol=.05)
+        np.testing.assert_allclose(actual_share, target_share, rtol=.1)
 
         actual_total_trips = wiver.trips_gij.sum()
         np.testing.assert_allclose(actual_total_trips,
@@ -624,17 +635,85 @@ class Test03_TestExport:
         np.testing.assert_allclose(actual, target, rtol=0.1)
         print(df)
 
-    def test_20_run_wiver(self, folder):
-        """Test wiver.run_wiver"""
+    def test_21_run_orca(self, wiver, wiver_files, folder):
+        """Test the execution with orca"""
+        with tempfile.TemporaryDirectory() as folder:
+            orca.add_injectable('project_folder', folder)
+            result_folder = orca.get_injectable('result_folder')
+            os.makedirs(result_folder, exist_ok=True)
+            orca.add_injectable('project_folder', folder)
+            orca.add_injectable('wiver', wiver)
+            steps = [
+                'save_input_data',
+                'run_wiver',
+                'save_results',
+                'calc_starting_ending_trips',
+                #  rund calc_starting_and_ending_trips a second time,
+                # to see if the file is kept,
+                # and only the sheet "data" is overwritten
+                'calc_starting_ending_trips',
+            ]
+
+            orca.run(steps)
+
+    def test_22_run_wiver(self, folder, wiver, wiver_files):
+        """Test wiver.run_wiver with command line parameters"""
         backup_sys_argv = sys.argv
-        #folder = os.path.join(os.path.dirname(__file__), 'project')
         os.makedirs(folder, exist_ok=True)
         matrix_folder = os.path.join(folder, 'matrices')
         os.makedirs(matrix_folder, exist_ok=True)
         os.makedirs(os.path.join(folder, 'log'), exist_ok=True)
+
+        # create input data
+        orca.add_injectable('project_folder', folder)
+        orca.add_injectable('wiver', wiver)
+        steps = [
+            'save_input_data',
+            ]
+        orca.run(steps)
 
         sys.argv = ['', '-f={}'.format(folder), '-m={}'.format(matrix_folder)]
         try:
             gl = runpy.run_module('wiver.run_wiver', run_name='__main__')
         finally:
             sys.argv = backup_sys_argv
+
+    def test_23_run_orca_selected_groups(self, wiver, wiver_files):
+        """Test the execution with orca"""
+        scenario = orca.get_injectable('scenario')
+        max_iterations = orca.get_injectable('max_iterations')
+        reset_balancing = orca.get_injectable('reset_balancing')
+        groups_to_calculate = orca.get_injectable('groups_to_calculate')
+        groups = [200, 999]
+
+        with tempfile.TemporaryDirectory() as folder:
+            orca.add_injectable('project_folder', folder)
+            result_folder = orca.get_injectable('result_folder')
+            os.makedirs(result_folder, exist_ok=True)
+
+            orca.add_injectable('reset_balancing', True)
+            # run only one group
+            orca.add_injectable('scenario', 'my_scenario')
+            orca.add_injectable('groups_to_calculate', groups)
+            orca.add_injectable('project_folder', folder)
+            orca.add_injectable('wiver', wiver)
+            steps = [
+                'save_input_data',
+                'run_wiver_for_selected_groups',
+                'save_detailed_results',
+            ]
+
+            orca.run(steps)
+
+            result_folder = orca.get_injectable('result_folder')
+            files = os.listdir(result_folder)
+            for group in groups:
+                group_idx = wiver.groups.searchsorted(group)
+                sector_id = wiver.sector_g[group_idx]
+                name = wiver.sector_short[sector_id]
+                fn = 'wiver_{sector_id}_{name}.mtx'.format(sector_id=sector_id,
+                                                           name=name)
+                assert fn in files, \
+                       'there should be a result matrix with name {}'.format(fn)
+
+            print(files)

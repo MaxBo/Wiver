@@ -100,8 +100,11 @@ def zones_file(project_folder:str) -> str:
 
 
 @orca.injectable()
-def result_file(project_folder:str) -> str:
-    """ The results-file
+def result_file(project_folder: str) -> str:
+    """
+    The results-file
+    Must not contain non-ascii-letters in the directory- or filename,
+    because netcdf4-files fail otherwise
 
     Parameters
     ----------
@@ -113,6 +116,12 @@ def result_file(project_folder:str) -> str:
     """
     fn = 'results'
     file_path = os.path.join(project_folder, '{}.h5'.format(fn))
+    try:
+        file_path.encode('ASCII')
+    except UnicodeEncodeError:
+        raise orca.OrcaError(
+            'results_file_path {file_path} contains non-ascii-characters'.\
+            format(file_path=file_path))
     return file_path
 
 
@@ -240,6 +249,21 @@ def add_logfile(project_folder: str, scenario: str):
     logger.add_packages(['wiver'])
     logfile = os.path.join(project_folder, 'log')
     logger.configure(logfile, scenario=scenario)
+
+
+@orca.step()
+def save_input_data(wiver: WIVER, wiver_files: dict):
+    """
+    save the input data from the wiver-model
+    as h5-files to the wiver_files
+    """
+    datasets = ('params', 'zonal_data', 'matrices',
+                'balancing')
+    wiver.define_datasets()
+    wiver.merge_datasets()
+    for dataset_name in datasets:
+        fn = wiver_files[dataset_name]
+        wiver.save_data(dataset_name, fn)
 
 
 @orca.step()
