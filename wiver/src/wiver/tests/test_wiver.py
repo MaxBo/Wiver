@@ -672,7 +672,7 @@ class Test03_TestExport:
             'save_input_data',
             ]
         orca.run(steps)
-
+        del sys.modules['wiver.run_wiver']
         sys.argv = ['', '-f={}'.format(folder), '-m={}'.format(matrix_folder)]
         try:
             gl = runpy.run_module('wiver.run_wiver', run_name='__main__')

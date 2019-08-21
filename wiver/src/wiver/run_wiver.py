@@ -372,7 +372,7 @@ def calc_starting_ending_trips(wiver: WIVER,
             writer.book = book
             #  overwrite the sheet if exists
             if sheetname in book.sheetnames:
-                writer.book.remove(writer.book.get_sheet_by_name(sheetname))
+                writer.book.remove(writer.book[sheetname])
             df.to_excel(writer, sheet_name=sheetname)
     # otherwise create a new xlsx-file
     else:
