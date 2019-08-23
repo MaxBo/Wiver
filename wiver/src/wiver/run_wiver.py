@@ -6,6 +6,7 @@ Created on Fri Jun 10 21:00:21 2016
 """
 
 import tempfile
+import logging
 import os
 from argparse import ArgumentParser
 from typing import List, Dict
@@ -13,6 +14,9 @@ import sqlite3 as db
 import numpy as np
 import pandas as pd
 from openpyxl import load_workbook
+import sys
+if sys.platform == 'win32':
+    sys._enablelegacywindowsfsencoding()
 
 import orca
 from wiver.wiver_python import WIVER
@@ -116,12 +120,6 @@ def result_file(project_folder: str) -> str:
     """
     fn = 'results'
     file_path = os.path.join(project_folder, '{}.h5'.format(fn))
-    try:
-        file_path.encode('ASCII')
-    except UnicodeEncodeError:
-        raise orca.OrcaError(
-            'results_file_path {file_path} contains non-ascii-characters'.\
-            format(file_path=file_path))
     return file_path
 
 
@@ -226,6 +224,8 @@ def groups_to_calculate() -> List[int]:
 def connection(project_folder: str) -> db.Connection:
     """database connection to write zonal data into"""
     fn = os.path.join(project_folder, 'wiver.db3')
+    if sys.platform == 'win32':
+        fn = fn.encode('utf8')
     connection = db.connect(fn)
     return connection
 
@@ -240,15 +240,20 @@ def reset_balancing() -> bool:
 def add_logfile(project_folder: str, scenario: str):
     """
     add Logfile to logger
-
-    Parameters
-    ----------
-    wiver model
     """
     logger = SimLogger()
     logger.add_packages(['wiver'])
     logfile = os.path.join(project_folder, 'log')
+    os.makedirs(logfile, exist_ok=True)
     logger.configure(logfile, scenario=scenario)
+
+
+@orca.step()
+def close_logfile():
+    """
+    close logfiles
+    """
+    logging.shutdown()
 
 
 @orca.step()
