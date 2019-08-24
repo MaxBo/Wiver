@@ -13,7 +13,7 @@ import pandas as pd
 import os
 import orca
 from wiver.wiver_python import WIVER
-#from wiver.tests.filename_definitions import dataset_fn, zones_fn
+import wiver.run_wiver
 from pytest_benchmark.plugin import benchmark
 
 
@@ -32,6 +32,7 @@ class TestWiver:
 
     def create_wiver(self, n_zones, n_groups):
         """create the wiver object"""
+        orca.run(['add_logfile'])
         wiver = WIVER(n_groups, n_zones, n_modes=1,
                       n_time_slices=2, n_savings_categories=9)
         # define centroids of zones

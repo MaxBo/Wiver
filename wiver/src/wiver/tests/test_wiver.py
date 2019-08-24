@@ -6,6 +6,7 @@ Created on Fri Jun 10 21:00:21 2016
 """
 
 import os
+import logging
 import sys
 import runpy
 import shutil
@@ -56,13 +57,15 @@ def zone_h(request):
 @pytest.fixture(scope='class')
 def folder(request):
     """
-    different values for home zone
+    temp folder
     """
-    folder = tempfile.gettempdir()
-    # removing the temp folder does not work, because h5-files are still locked
-    # by other processes
-    # use %TEMP% folder instead
-    return folder
+    folder = tempfile.mkdtemp(prefix='ÄÖÜß')
+    # make tempfolder with Umlaut to test if this causes problems
+    yield folder
+    def handleLockedLogfileError(func, path, exc_info):
+        logging.shutdown()
+        func(path)
+    shutil.rmtree(folder, onerror=handleLockedLogfileError)
 
 
 @pytest.fixture(scope='class')
@@ -636,13 +639,12 @@ class Test03_TestExport:
         np.testing.assert_allclose(actual, target, rtol=0.1)
         print(df)
 
-    def test_21_run_orca(self, wiver, wiver_files, folder):
+    def test_21_run_orca(self, wiver, folder):
         """Test the execution with orca"""
-        with tempfile.TemporaryDirectory() as folder:
-            orca.add_injectable('project_folder', folder)
+        with tempfile.TemporaryDirectory(dir=folder) as tmpfolder:
+            orca.add_injectable('project_folder', tmpfolder)
             result_folder = orca.get_injectable('result_folder')
             os.makedirs(result_folder, exist_ok=True)
-            orca.add_injectable('project_folder', folder)
             orca.add_injectable('wiver', wiver)
             steps = [
                 'save_input_data',
@@ -663,7 +665,6 @@ class Test03_TestExport:
         os.makedirs(folder, exist_ok=True)
         matrix_folder = os.path.join(folder, 'matrices')
         os.makedirs(matrix_folder, exist_ok=True)
-        os.makedirs(os.path.join(folder, 'log'), exist_ok=True)
 
         # create input data
         orca.add_injectable('project_folder', folder)
@@ -719,3 +720,22 @@ class Test03_TestExport:
                        'there should be a result matrix with name {}'.format(fn)
 
             print(files)
+
+    def test_24_run_orca(self, wiver, folder):
+        """Test the execution with orca"""
+        orca.add_injectable('wiver', wiver)
+        orca.add_injectable('project_folder', folder)
+        matrix_folder = os.path.join(folder, 'matrices')
+        os.makedirs(matrix_folder, exist_ok=True)
+        steps = [
+            'add_logfile',
+            'save_input_data',
+            'run_wiver',
+            'save_results',
+        ]
+
+        orca.run(steps)
+        print(os.listdir(os.path.join(folder, 'log')))
+        assert os.path.exists(os.path.join(folder, 'log'))
+        orca.run(['close_logfile'])
+
