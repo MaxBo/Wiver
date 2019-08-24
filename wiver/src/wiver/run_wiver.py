@@ -15,7 +15,9 @@ import numpy as np
 import pandas as pd
 from openpyxl import load_workbook
 import sys
-if sys.platform == 'win32':
+if (sys.platform == 'win32'
+    and sys.version_info.major == 3
+    and sys.version_info.minor >= 6):
     sys._enablelegacywindowsfsencoding()
 
 import orca
@@ -224,8 +226,10 @@ def groups_to_calculate() -> List[int]:
 def connection(project_folder: str) -> db.Connection:
     """database connection to write zonal data into"""
     fn = os.path.join(project_folder, 'wiver.db3')
-    if sys.platform == 'win32':
-        fn = fn.encode('utf8')
+    if (sys.platform == 'win32'
+        and sys.version_info.major == 3
+        and sys.version_info.minor >= 7):
+        fn = os.fsencode(fn)
     connection = db.connect(fn)
     return connection
 
