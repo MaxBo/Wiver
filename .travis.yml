@@ -27,9 +27,9 @@ matrix:
     - TRAVIS_PYTHON_VERSION=3.8
     - CONDA_PY=38
     - CONDA_NPY=117
-  - python: 3.9-dev
+  - python: 3.9
     env:
-    - TRAVIS_PYTHON_VERSION=3.9
+    - TRAVIS_PYTHON_VERSION=3.9-dev
     - CONDA_PY=39
     - CONDA_NPY=119
 env:
