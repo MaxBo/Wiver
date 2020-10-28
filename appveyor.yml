@@ -23,6 +23,8 @@ environment:
 
   CODECOV_TOKEN:
     secure: qRgacBE8Tz78/478zERkQo5V92AEMZnW54dl/julFW/4LeVOk30uBEHYLc/RhVvX
+  
+  MINICONDA: C:\\Miniconda38-x64
 
   matrix:
 #    - TARGET_ARCH: x64
