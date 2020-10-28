@@ -21,6 +21,7 @@ requirements:
     - xarray
     - pandas
     - pytables
+    - toolz < 0.11.0
     - orca
     - cythoninstallhelpers
     - cythonarrays
@@ -36,6 +37,7 @@ requirements:
     - numpy
     - xarray
     - pandas
+    - toolz < 0.11.0
     - orca
     - cythoninstallhelpers
     - cythonarrays
