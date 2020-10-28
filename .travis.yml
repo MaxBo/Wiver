@@ -6,11 +6,6 @@ dist: bionic
 language: python
 matrix:
   include:
-  - python: 3.5
-    env:
-    - TRAVIS_PYTHON_VERSION=3.5
-    - CONDA_PY=35
-    - CONDA_NPY=115
   - python: 3.6
     env:
     - TRAVIS_PYTHON_VERSION=3.6
