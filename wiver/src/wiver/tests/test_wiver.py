@@ -59,8 +59,10 @@ def folder(request):
     """
     temp folder
     """
-    folder = tempfile.mkdtemp(prefix='ÄÖÜß')
+    # folder = tempfile.mkdtemp(prefix='ÄÖÜß')
     # make tempfolder with Umlaut to test if this causes problems
+    # it causes problems because of HDF5-Bug, so use a folder without Umlaut
+    folder = tempfile.mkdtemp(prefix='Wiver')
     yield folder
     def handleLockedLogfileError(func, path, exc_info):
         logging.shutdown()
