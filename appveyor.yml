@@ -24,8 +24,6 @@ environment:
   CODECOV_TOKEN:
     secure: qRgacBE8Tz78/478zERkQo5V92AEMZnW54dl/julFW/4LeVOk30uBEHYLc/RhVvX
 
-  MINICONDA: C:\\Miniconda38-x64
-
   matrix:
 #    - TARGET_ARCH: x64
 #      CONDA_NPY: 111
@@ -35,7 +33,7 @@ environment:
       CONDA_NPY: 117
       CONDA_PY: 37
       PYTHON_VERSION: 3.7
-      CONDA_INSTALL_LOCN: C:\\Miniconda38-x64
+      CONDA_INSTALL_LOCN: C:\\Miniconda37-x64
       UPLOAD_COV: false
 
 
@@ -43,7 +41,7 @@ environment:
       CONDA_NPY: 117
       CONDA_PY: 38
       PYTHON_VERSION: 3.8
-      CONDA_INSTALL_LOCN: C:\\Miniconda38-x64
+      CONDA_INSTALL_LOCN: C:\\Miniconda37-x64
       UPLOAD_COV: true
 
  #Python 3.9
@@ -51,7 +49,7 @@ environment:
       CONDA_NPY: 119
       CONDA_PY: 39
       PYTHON_VERSION: 3.9
-      CONDA_INSTALL_LOCN: C:\\Miniconda38-x64
+      CONDA_INSTALL_LOCN: C:\\Miniconda37-x64
       UPLOAD_COV: false
 
 # We always use a 64-bit machine, but can build x86 distributions
@@ -91,7 +89,7 @@ install:
     - cmd: conda install -n root --yes yaml
     - cmd: conda install -n root -c MaxBo --quiet --yes obvious-ci
     - cmd: obvci_install_conda_build_tools.py
-    - cmd: conda install -y -n root conda-build
+    - cmd: conda install -y -n root conda-build=3 conda-verify
     - cmd: conda install -y -n root cythonarrays
     - cmd: conda info
     - cmd: conda create -y -n test-environment python=%PYTHON_VERSION%
