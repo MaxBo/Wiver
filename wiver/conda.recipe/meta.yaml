@@ -17,11 +17,10 @@ requirements:
     - python
     - setuptools
     - cython
-    - numpy >1.14
+    - numpy
     - xarray
     - pandas
     - pytables
-    - toolz <0.11
     - orca
     - cythoninstallhelpers
     - cythonarrays
@@ -34,10 +33,9 @@ requirements:
   run:
     - python
     - setuptools
-    - numpy >1.14
+    - numpy
     - xarray
     - pandas
-    - toolz <0.11
     - orca
     - cythoninstallhelpers
     - cythonarrays
