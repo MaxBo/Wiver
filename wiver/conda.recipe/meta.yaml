@@ -17,10 +17,6 @@ requirements:
     - python
     - setuptools
     - cython
-    - numpy
-    - xarray
-    - pandas
-    - pytables
     - orca
     - cythoninstallhelpers
     - cythonarrays
@@ -33,11 +29,7 @@ requirements:
   run:
     - python
     - setuptools
-    - numpy
-    - xarray
-    - pandas
     - orca
-    - cythoninstallhelpers
     - cythonarrays
     - matrixconverters
     - openpyxl
