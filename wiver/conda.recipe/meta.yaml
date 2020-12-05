@@ -15,29 +15,20 @@ build:
 requirements:
   build:
     - python
-    - setuptools
-    - cython
-    - orca
     - cythoninstallhelpers
     - cythonarrays
     - matrixconverters
-    - openpyxl
-    - pytest=3
-    - pytest-runner
-    - pytest-benchmark
 
   run:
     - python
-    - setuptools
     - orca
     - cythonarrays
     - matrixconverters
     - openpyxl
+    - pytest-benchmark
 
 test:
   requires:
-    - pytest=3
-    - pytest-runner
     - pytest-benchmark
 
   commands:
