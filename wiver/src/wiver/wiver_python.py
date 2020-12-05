@@ -367,7 +367,7 @@ class WIVER(_WIVER, _ArrayProperties):
             self.logger.info('save matrix for mode {m} to {f}'.format(
                 m=mode, f=file_name
             ))
-            s.savePTVMatrix(file_name, Ftype=visum_format)
+            s.savePTVMatrix(file_name, file_type=visum_format)
 
     def save_detailed_results_to_visum(self,
                                        folder: str,
@@ -412,7 +412,7 @@ class WIVER(_WIVER, _ArrayProperties):
             self.logger.info('save matrix for sector {s}_{n} to {f}'.format(
                 s=sector, n=name, f=file_name
             ))
-            s.savePTVMatrix(file_name, Ftype=visum_format)
+            s.savePTVMatrix(file_name, file_type=visum_format)
             self.logger.info('matrix_saved')
 
     def adjust_balancing_factor(self, threshold: float=0.1):

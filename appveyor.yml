@@ -23,8 +23,6 @@ environment:
 
   CODECOV_TOKEN:
     secure: qRgacBE8Tz78/478zERkQo5V92AEMZnW54dl/julFW/4LeVOk30uBEHYLc/RhVvX
-  
-  MINICONDA: C:\\Miniconda36-x64
 
   matrix:
 #    - TARGET_ARCH: x64
@@ -35,15 +33,15 @@ environment:
       CONDA_NPY: 117
       CONDA_PY: 37
       PYTHON_VERSION: 3.7
-      CONDA_INSTALL_LOCN: C:\\Miniconda36-x64
+      CONDA_INSTALL_LOCN: C:\\Miniconda3-x64
       UPLOAD_COV: false
 
 
     - TARGET_ARCH: x64
-      CONDA_NPY: 117
+      CONDA_NPY: 119
       CONDA_PY: 38
       PYTHON_VERSION: 3.8
-      CONDA_INSTALL_LOCN: C:\\Miniconda36-x64
+      CONDA_INSTALL_LOCN: C:\\Miniconda3-x64
       UPLOAD_COV: true
 
  #Python 3.9
@@ -51,7 +49,7 @@ environment:
       CONDA_NPY: 119
       CONDA_PY: 39
       PYTHON_VERSION: 3.9
-      CONDA_INSTALL_LOCN: C:\\Miniconda36-x64
+      CONDA_INSTALL_LOCN: C:\\Miniconda3-x64
       UPLOAD_COV: false
 
 # We always use a 64-bit machine, but can build x86 distributions
@@ -89,9 +87,9 @@ install:
 
     # Conda build tools.
     - cmd: conda install -n root --yes yaml
-    - cmd: conda install -n root --quiet --yes obvious-ci
+    - cmd: conda install -n root -c MaxBo --quiet --yes obvious-ci
     - cmd: obvci_install_conda_build_tools.py
-    - cmd: conda install -y -n root conda-build
+    - cmd: conda install -y -n root conda-build=3 conda-verify
     - cmd: conda install -y -n root cythonarrays
     - cmd: conda info
     - cmd: conda create -y -n test-environment python=%PYTHON_VERSION%
@@ -127,8 +125,7 @@ after_test:
 
   # install code coverage
   - cmd: IF %UPLOAD_COV%==true ( conda install -y pytest-cov pytest-benchmark)
-  # codecov > 2.0.5 has problems finding the coverage.xml, so use the older version
-  - cmd: IF %UPLOAD_COV%==true ( pip install codecov==2.0.5 )
+  - cmd: IF %UPLOAD_COV%==true ( pip install codecov)
 
   # code coverage: install packages editable
   - cmd: python setup.py develop
@@ -136,7 +133,6 @@ after_test:
   # create extensions with linetrace (not for production)
   - cmd: IF %UPLOAD_COV%==true ( python setup.py build_ext --force --inplace --define CYTHON_TRACE_NOGIL )
   # run tests
-  - cmd: IF %UPLOAD_COV%==true ( conda install -y pytest=3 )
   - cmd: IF %UPLOAD_COV%==true ( py.test --cov=src --cov-report xml --pyargs wiver )
   # fix the relative paths in the coverage.xml
   - cmd: cd ..
