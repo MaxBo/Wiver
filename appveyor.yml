@@ -125,8 +125,6 @@ after_test:
 
   # install code coverage
   - cmd: IF %UPLOAD_COV%==true ( conda install -y pytest-cov pytest-benchmark)
-  # codecov > 2.0.5 has problems finding the coverage.xml, so use the older version
-  - cmd: IF %UPLOAD_COV%==true ( pip install codecov==2.0.5 )
 
   # code coverage: install packages editable
   - cmd: python setup.py develop
@@ -134,7 +132,6 @@ after_test:
   # create extensions with linetrace (not for production)
   - cmd: IF %UPLOAD_COV%==true ( python setup.py build_ext --force --inplace --define CYTHON_TRACE_NOGIL )
   # run tests
-  - cmd: IF %UPLOAD_COV%==true ( conda install -y pytest=3 )
   - cmd: IF %UPLOAD_COV%==true ( py.test --cov=src --cov-report xml --pyargs wiver )
   # fix the relative paths in the coverage.xml
   - cmd: cd ..
