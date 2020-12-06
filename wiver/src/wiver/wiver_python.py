@@ -145,6 +145,7 @@ class WIVER(_WIVER, _ArrayProperties):
         self.init_object_array('mode_name', 'n_modes')
         self.init_object_array('sector_short', 'n_sectors')
         self.init_object_array('sectors', 'n_sectors')
+        self.init_array('zone_no', 'n_zones')
         self.init_object_array('zone_name', 'n_zones')
         self.init_object_array('lbl_time_slice', 'n_time_slices')
 
