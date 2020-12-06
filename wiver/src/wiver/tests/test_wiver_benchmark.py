@@ -13,25 +13,26 @@ import pandas as pd
 import os
 import orca
 from wiver.wiver_python import WIVER
-#from wiver.tests.filename_definitions import dataset_fn, zones_fn
+import wiver.run_wiver
 from pytest_benchmark.plugin import benchmark
 
 
 @pytest.fixture(scope='class', params=[5, 10, ])
-def n_zones(request):
+def n_zones(request) -> int:
     return request.param
 
 
 @pytest.fixture(scope='class', params=[1, 2, 4, 8, 16])
-def n_groups(request):
+def n_groups(request) -> int:
     return request.param
 
 
 class TestWiver:
     """Test Wiver Model"""
 
-    def create_wiver(self, n_zones, n_groups):
+    def create_wiver(self, n_zones: int, n_groups: int):
         """create the wiver object"""
+        orca.run(['add_logfile'])
         wiver = WIVER(n_groups, n_zones, n_modes=1,
                       n_time_slices=2, n_savings_categories=9)
         # define centroids of zones
@@ -60,7 +61,7 @@ class TestWiver:
         wiver.stops_per_tour_g = np.linspace(2, 4, num=n_groups)
         return wiver
 
-    def test_01_calc_wiver(self, n_zones, n_groups):
+    def test_01_calc_wiver(self, n_zones: int, n_groups: int):
         """Test the results of wiver for more zones"""
         wiver = self.create_wiver(n_zones, n_groups)
         # set zone 3 to 0
@@ -85,7 +86,7 @@ class TestWiver:
         actual = wiver.trips_gij.sum(2)
         np.testing.assert_array_equal((actual - desired) > -0.0000001, 1)
 
-    def test_02_benchmark_wiver(self, benchmark, n_zones, n_groups):
+    def test_02_benchmark_wiver(self, n_zones: int, n_groups: int, benchmark):
         """Test the wiver runtime for more zones"""
         wiver = self.create_wiver(n_zones, n_groups)
         benchmark(wiver.calc)

@@ -36,7 +36,7 @@ class WIVER(_WIVER, _ArrayProperties):
                  n_time_slices: int=5,
                  n_modes: int=4,
                  n_sectors: int=2,
-                 threading: bool=True):
+                 n_threads: int=None):
         super().__init__()
 
         self.n_modes = n_modes
@@ -45,25 +45,33 @@ class WIVER(_WIVER, _ArrayProperties):
         self.n_sectors = n_sectors
         self.n_savings_categories = n_savings_categories
         self.n_time_slices = n_time_slices
-        self.set_n_threads(threading)
+        self.set_n_threads(n_threads=n_threads)
 
         self.define_arrays()
         self.init_arrays()
 
-    def set_n_threads(self, threading: bool=True):
-        """Set the number of threads"""
-        if threading:
-            self.n_threads = min(multiprocessing.cpu_count(), self.n_groups)
+    def set_n_threads(self, n_threads: int=None):
+        """
+        Set the number of threads
+
+        Parameters
+        ----------
+        n_threads: int, optional
+        """
+        if n_threads:
+            n_threads = min(n_threads, multiprocessing.cpu_count())
         else:
-            self.n_threads = 1
+            n_threads = multiprocessing.cpu_count()
+        self.n_threads = min(n_threads, self.n_groups)
 
     @classmethod
-    def read_from_netcdf(cls, files: Dict[str, str]) -> 'WIVER':
+    def read_from_netcdf(cls,
+                         files: Dict[str, str],
+                         n_threads: int=None) -> 'Wiver':
         """Read a Wiver Model
-        from a set of netcdf-Filename located in folder
-        """
+        from a set of netcdf-Filename located in folder"""
         # create instance of self
-        self = cls(n_groups=0, n_zones=0)
+        self = cls(n_groups=0, n_zones=0, n_threads=n_threads)
         # add datasets
         self.read_all_data(files)
         self.data = xr.merge((self.params, self.matrices, self.zonal_data,
@@ -136,6 +144,8 @@ class WIVER(_WIVER, _ArrayProperties):
         self.init_object_array('modes', 'n_modes')
         self.init_object_array('mode_name', 'n_modes')
         self.init_object_array('sector_short', 'n_sectors')
+        self.init_object_array('sectors', 'n_sectors')
+        self.init_array('zone_no', 'n_zones')
         self.init_object_array('zone_name', 'n_zones')
         self.init_object_array('lbl_time_slice', 'n_time_slices')
 
@@ -201,6 +211,8 @@ class WIVER(_WIVER, _ArrayProperties):
                                 self.mode_g)
         ds['sector_of_groups'] = (('groups'),
                                     self.sector_g)
+        ds['sectors'] = (('sectors'),
+                         self.sectors)
         ds['sector_short'] = (('sectors'), self.sector_short)
 
         # assign group names
@@ -356,7 +368,7 @@ class WIVER(_WIVER, _ArrayProperties):
             self.logger.info('save matrix for mode {m} to {f}'.format(
                 m=mode, f=file_name
             ))
-            s.savePTVMatrix(file_name, Ftype=visum_format)
+            s.savePTVMatrix(file_name, file_type=visum_format)
 
     def save_detailed_results_to_visum(self,
                                        folder: str,
@@ -365,19 +377,21 @@ class WIVER(_WIVER, _ArrayProperties):
         sectors = defaultdict(list)
         for g, group in enumerate(self.groups):
             if self.active_g[g]:
-                sector_id = group % 100
+                sector_id = self.sector_g[g]
                 sectors[sector_id].append(g)
         self.logger.info('sectors: {}'.format(sectors))
         for sector_id, sector_groups in sectors.items():
             self.logger.info('sector_id: {}, groups: {}'.format(sector_id,
                                                                 sector_groups))
-            name = self.params.sector_short.sel(sectors=sector_id).values
+            sector = self.params.sectors.data[sector_id]
+            name = self.params.sector_short.sel(sectors=sector).values
             self.logger.info('name: {}'.format(name))
             visum_ds = xr.Dataset()
             visum_ds['zone_no'] = self.zone_no
             visum_ds['zone_names'] = self.zone_name
-            matrix = 0
-            self.logger.info('Sector {s}: add wiver-groups'.format(s=sector_id))
+            matrix = np.zeros((self.n_zones, self.n_zones), dtype='d')
+            self.logger.info('Sector {s}_{n}: add wiver-groups'.format(
+                s=sector, n=name))
             for g in sector_groups:
                 mat = self.results.trips_gij[g]
                 mode = self.mode_g[g]
@@ -389,17 +403,17 @@ class WIVER(_WIVER, _ArrayProperties):
                                                         s=float(mat.sum())))
                 matrix += mat
             visum_ds['matrix'] = matrix
-            self.logger.info('Sector {s}: {t:.0f} trips'.format(
-                s=sector_id, t=float(matrix.sum())
+            self.logger.info('Sector {s}_{n}: {t:.0f} trips'.format(
+                s=sector, t=float(matrix.sum()), n=name,
             ))
             s = SavePTV(visum_ds)
             file_name = os.path.join(
-                folder, 'wiver_{sector_id}_{n}.mtx'.format(
-                    sector_id=sector_id, n=name))
+                folder, 'wiver_{sector}_{n}.mtx'.format(
+                    sector=sector, n=name))
             self.logger.info('save matrix for sector {s}_{n} to {f}'.format(
-                s=sector_id, n=name, f=file_name
+                s=sector, n=name, f=file_name
             ))
-            s.savePTVMatrix(file_name, Ftype=visum_format)
+            s.savePTVMatrix(file_name, file_type=visum_format)
             self.logger.info('matrix_saved')
 
     def adjust_balancing_factor(self, threshold: float=0.1):
@@ -456,11 +470,15 @@ class WIVER(_WIVER, _ArrayProperties):
 
         sp = self.data.sink_potential
 
-        starting_trips_gh = (self.data.source_potential * self.data.tour_rates).\
-            rename({'origins': 'zone_no',})
-        ending_trips_g = starting_trips_gh.sum('zone_no') * self.data.stops_per_tour
-        ending_trips_gh = sp * \
-            (ending_trips_g / sp.sum('destinations'))
+        starting_trips_gh = (self.data.source_potential * self.data.tour_rates)
+        if 'zone_no' in starting_trips_gh.coords:
+            starting_trips_gh = starting_trips_gh.drop(['zone_no'])
+        starting_trips_gh = starting_trips_gh.rename(
+            {'origins': 'zone_no',})
+
+        ending_trips_g = (starting_trips_gh.sum('zone_no')
+                          * self.data.stops_per_tour)
+        ending_trips_gh = sp * (ending_trips_g / sp.sum('destinations'))
 
         starting_trips_i = starting_trips_gh.sum('groups')
         ending_trips_i = ending_trips_gh.sum('groups')
@@ -482,13 +500,13 @@ class WIVER(_WIVER, _ArrayProperties):
 
         df_ending.index.name = 'zone_no'
         df_ending.columns =['End_{}'.format(col)
-                                for col in group_labels]
+                            for col in group_labels]
 
         df_starting = starting_trips_gh.to_dataframe(name='starting_trips_g')
         df_starting = df_starting.reset_index().pivot(
             index='zone_no', columns='groups', values='starting_trips_g')
         df_starting.columns =['Start_{}'.format(col)
-                                for col in group_labels]
+                              for col in group_labels]
 
         df_sp = self.data.sink_potential.to_dataframe(name='sink_potential')
         df_sp = df_sp.reset_index().\

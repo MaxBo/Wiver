@@ -21,37 +21,20 @@ requirements:
 
   build:
     - python
-    - setuptools
-    - cython
-    - numpy
-    - xarray
-    - pandas
-    - pytables
-    - orca
     - cythoninstallhelpers
     - cythonarrays
     - matrixconverters
-    - openpyxl
-    - pytest=3
-    - pytest-runner
-    - pytest-benchmark
 
   run:
     - python
-    - setuptools
-    - numpy
-    - xarray
-    - pandas
     - orca
-    - cythoninstallhelpers
     - cythonarrays
     - matrixconverters
     - openpyxl
+    - pytest-benchmark
 
 test:
   requires:
-    - pytest=3
-    - pytest-runner
     - pytest-benchmark
 
   commands:
