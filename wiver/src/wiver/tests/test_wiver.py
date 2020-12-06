@@ -59,7 +59,7 @@ def zone_h(request) -> int:
                 params=['Wiver',
                         pytest.param('ÄÖÜß', marks=pytest.mark.xfail(
                                      (__hdf5libversion__ < '1.12') and
-                                     (sys.version_info >= (3, 6)),
+                                     (sys.platform == 'win32'),
                             reason='Bug in HDF5'))])
 def folder(request) -> str:
     """
