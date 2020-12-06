@@ -1,3 +1,3 @@
 xcopy /e /Y "%RECIPE_DIR%\.." "%SRC_DIR%"
-"%PYTHON%" -m pip install --no-deps .
+"%PYTHON%" setup.py install
 if errorlevel 1 exit 1

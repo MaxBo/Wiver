@@ -13,12 +13,6 @@ build:
    - TMPDIR
 
 requirements:
-  host:
-    - python
-    - pip
-    - cythoninstallhelpers
-    - cythonarrays
-
   build:
     - python
     - cythoninstallhelpers
