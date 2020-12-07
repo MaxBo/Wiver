@@ -19,6 +19,9 @@ cdef class _WIVER(ArrayShapes):
     cdef public char n_modes
     cdef public char n_sectors
 
+    # Zone-number
+    cdef public ARRAY_1D_i8 _zone_no
+
     # mode and sector of groups
     cdef public ARRAY_1D_i1 _mode_g
     cdef public ARRAY_1D_i1 _sector_g

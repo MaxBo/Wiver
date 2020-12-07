@@ -12,6 +12,7 @@ import runpy
 import shutil
 import tempfile
 import pytest
+from typing import Dict
 
 import xarray as xr
 import numpy as np
@@ -20,10 +21,11 @@ import orca
 from wiver.wiver_python import (WIVER,
                                 DestinationChoiceError, DataConsistencyError)
 import wiver.run_wiver
+from netCDF4 import __hdf5libversion__
 
 
 @pytest.fixture(scope='class', params=range(2))
-def group(request):
+def group(request) -> int:
     """
     different values for groups
     """
@@ -31,7 +33,7 @@ def group(request):
 
 
 @pytest.fixture(scope='class', params=[-0.1, -0.5, -0.01])
-def param_dist(request):
+def param_dist(request) -> float:
     """
     different values for distance parameters
     """
@@ -47,22 +49,24 @@ def param_saving_weights(request):
 
 
 @pytest.fixture(scope='class', params=range(2))
-def zone_h(request):
+def zone_h(request) -> int:
     """
     different values for home zone
     """
     return request.param
 
-
-@pytest.fixture(scope='class')
-def folder(request):
+@pytest.fixture(scope='class',
+                params=['Wiver',
+                        pytest.param('ÄÖÜß', marks=pytest.mark.xfail(
+                                     __hdf5libversion__ < '1.12',
+                            reason='Bug in HDF5'))])
+def folder(request) -> str:
     """
     temp folder
+    tempfolder with Umlaut causes problems because of HDF5-Bug,
+    so use a folder without Umlaut until bug will be fixed in hdf5 >= 1.12
     """
-    # folder = tempfile.mkdtemp(prefix='ÄÖÜß')
-    # make tempfolder with Umlaut to test if this causes problems
-    # it causes problems because of HDF5-Bug, so use a folder without Umlaut
-    folder = tempfile.mkdtemp(prefix='Wiver')
+    folder = tempfile.mkdtemp(prefix=request.param)
     yield folder
     def handleLockedLogfileError(func, path, exc_info):
         logging.shutdown()
@@ -71,7 +75,7 @@ def folder(request):
 
 
 @pytest.fixture(scope='class')
-def result_folder(folder):
+def result_folder(folder: str) -> str:
     """Temp folder to store the results"""
     result_folder = os.path.join(folder, 'results')
     os.makedirs(result_folder, exist_ok=True)
@@ -79,7 +83,7 @@ def result_folder(folder):
 
 
 @pytest.fixture()
-def params_file(folder):
+def params_file(folder: str) -> str:
     """ The params-file"""
     fn = 'params'
     file_path = os.path.join(folder, '{}.h5'.format(fn))
@@ -87,7 +91,7 @@ def params_file(folder):
 
 
 @pytest.fixture()
-def matrix_file(folder):
+def matrix_file(folder: str) -> str:
     """ The params-file"""
     fn = 'matrices'
     file_path = os.path.join(folder, '{}.h5'.format(fn))
@@ -95,7 +99,7 @@ def matrix_file(folder):
 
 
 @pytest.fixture()
-def zones_file(folder):
+def zones_file(folder: str) -> str:
     """ The params-file"""
     fn = 'zonal_data'
     file_path = os.path.join(folder, '{}.h5'.format(fn))
@@ -103,7 +107,7 @@ def zones_file(folder):
 
 
 @pytest.fixture()
-def result_file(folder):
+def result_file(folder: str) -> str:
     """ The params-file"""
     fn = 'results'
     file_path = os.path.join(folder, '{}.h5'.format(fn))
@@ -111,7 +115,7 @@ def result_file(folder):
 
 
 @pytest.fixture()
-def balancing_file(folder):
+def balancing_file(folder: str) -> str:
     """ The params-file"""
     fn = 'balancing'
     file_path = os.path.join(folder, '{}.h5'.format(fn))
@@ -119,8 +123,8 @@ def balancing_file(folder):
 
 
 @pytest.fixture()
-def wiver_files(params_file, matrix_file, zones_file,
-                result_file, balancing_file):
+def wiver_files(params_file: str, matrix_file: str, zones_file: str,
+                result_file: str, balancing_file: str) -> Dict[str, str]:
     files = {'params': params_file,
              'matrices': matrix_file,
              'zonal_data': zones_file,
@@ -130,7 +134,7 @@ def wiver_files(params_file, matrix_file, zones_file,
 
 
 @pytest.fixture(scope='function')
-def wiver(request):
+def wiver(request) -> WIVER:
     """
     WIVER-instance
     """
@@ -207,7 +211,7 @@ def wiver(request):
 
 class Test01_WiverData:
     """Test the WiverData"""
-    def test_01_test_definitions(self, wiver):
+    def test_01_test_definitions(self, wiver: WIVER):
         """Test the WiverData creation"""
         wiver.define_datasets()
         print(wiver.params)
@@ -218,7 +222,7 @@ class Test01_WiverData:
         np.testing.assert_array_equal(wiver.group_names,
                                       ['OV_DL', 'OV_IND', 'Pkw_DL'])
 
-    def test_02_test_merge_definitions(self, wiver):
+    def test_02_test_merge_definitions(self, wiver: WIVER):
         """Test the WiverData creation"""
         wiver.define_datasets()
         wiver.merge_datasets()
@@ -231,7 +235,7 @@ class Test01_WiverData:
         assert dims['savings'] == wiver.n_savings_categories
         assert dims['time_slices'] == wiver.n_time_slices
 
-    def test_03_save_data(self, wiver, wiver_files):
+    def test_03_save_data(self, wiver: WIVER, wiver_files: Dict[str, str]):
         """Dave data as test data"""
         folder = os.path.dirname(wiver_files['params'])
         print('save to {}'.format(folder))
@@ -239,7 +243,7 @@ class Test01_WiverData:
         wiver.calc()
         wiver.save_all_data(wiver_files)
 
-    def test_04_read_data(self, wiver, wiver_files):
+    def test_04_read_data(self, wiver: WIVER, wiver_files: Dict[str, str]):
         """read model from test data and compare results with original data"""
         folder = os.path.dirname(wiver_files['params'])
         print('read from {}'.format(folder))
@@ -249,7 +253,7 @@ class Test01_WiverData:
         np.testing.assert_almost_equal(wiver.trips_msij,
                                        wiver_from_file.trips_msij)
 
-    def test_05_data_consistency(self, wiver):
+    def test_05_data_consistency(self, wiver: WIVER):
         """Test the data consistency"""
         wiver.assert_data_consistency()
         # introduce unfeasable data to mode_g
@@ -263,7 +267,7 @@ class Test01_WiverData:
             wiver.assert_data_consistency()
         print(e.value)
 
-    def test_06_save_data_as_visum(self, wiver, folder):
+    def test_06_save_data_as_visum(self, wiver: WIVER, folder: str):
         """Dave results as Visum data"""
         print('save to {}'.format(folder))
         wiver.define_datasets()
@@ -276,7 +280,7 @@ class Test01_WiverData:
 class Test02_Wiver:
     """Test Wiver Model"""
 
-    def test_01_calc_tours(self, wiver, zone_h):
+    def test_01_calc_tours(self, wiver: WIVER, zone_h: int):
         """Test the tour rates and linking trips
         from different home zones (parameter: zone_h)"""
         g = 0
@@ -287,7 +291,7 @@ class Test02_Wiver:
         assert linking_trips == tours * (wiver.stops_per_tour_g[g] - 1)
         print('{h}: {t}, {l}'.format(h=zone_h, t=tours, l=linking_trips))
 
-    def test_02_destination_choice(self, wiver, group, param_dist):
+    def test_02_destination_choice(self, wiver: WIVER, group: int, param_dist: float):
         """Test the destination choice model"""
         h = 0
         t = 0
@@ -300,7 +304,7 @@ class Test02_Wiver:
         after = wiver.p_destination_tij[t, h].copy()
         print(after)
 
-    def test_03_savings(self, wiver, zone_h):
+    def test_03_savings(self, wiver: WIVER, zone_h: int):
         """Test the savings function for closeby points 1 and 3
         from different home zones (parameter: zone_h)"""
         g = 0
@@ -315,7 +319,7 @@ class Test02_Wiver:
         print(s)
         assert s == s_target
 
-    def test_04_savings_factor(self, wiver, zone_h):
+    def test_04_savings_factor(self, wiver: WIVER, zone_h: int):
         """Test the savings factor function"""
         g = 0
         i = 1
@@ -324,7 +328,7 @@ class Test02_Wiver:
         sf = wiver.calc_savings_factor(g, m, zone_h, i, j)
         print(sf)
 
-    def test_05_linking_trip_choice(self, wiver, group):
+    def test_05_linking_trip_choice(self, wiver: WIVER, group: int):
         """Test the destination choice model"""
         h = 0
         t = 0
@@ -332,7 +336,7 @@ class Test02_Wiver:
         wiver.calc_linking_trip_choice(t, group, h)
         print(wiver.p_links_tij[t])
 
-    def test_06_calc_trips(self, wiver, group):
+    def test_06_calc_trips(self, wiver: WIVER, group: int):
         """Test the destination choice model"""
         h = 0
         t = 0
@@ -346,7 +350,7 @@ class Test02_Wiver:
         np.testing.assert_almost_equal(wiver.linking_trips_gij[group].sum(),
                                        linking_trips)
 
-    def test_07_savings_influence(self, wiver):
+    def test_07_savings_influence(self, wiver: WIVER):
         """Test the destination choice model"""
 
         def check_trips_with_savings(wiver, group, h, t, tours, linking_trips):
@@ -400,7 +404,7 @@ class Test02_Wiver:
         assert (interior_trips_no_savings < interior_trips_low_savings <
                 interior_trips_medium_savings < interior_trips_high_savings)
 
-    def test_08_calc_time_series(self, wiver):
+    def test_08_calc_time_series(self, wiver: WIVER):
         """Test the time_series"""
         wiver.calc_daily_trips()
         wiver.calc_time_series()
@@ -418,19 +422,19 @@ class Test02_Wiver:
         desired = wiver.trips_gij
         np.testing.assert_array_almost_equal(actual, desired)
 
-    def test_09_trips_gij(self, wiver):
+    def test_09_trips_gij(self, wiver: WIVER):
         """Test if the arrays are not overwritten"""
         arr_gij_before = wiver.trips_gij.__array_interface__
         wiver.calc_daily_trips()
         arr_gij_after = wiver.trips_gij.__array_interface__
         assert arr_gij_before == arr_gij_after
 
-    def test_10_wiver_calc(self, wiver):
+    def test_10_wiver_calc(self, wiver: WIVER):
         """Test the whole model"""
         wiver.calc()
         print(wiver.trips_gsij.sum(-1).sum(-1))
 
-    def test_21_no_destinations(self, wiver):
+    def test_21_no_destinations(self, wiver: WIVER):
         """Test exceptions when there is demand
         but no destinations accessible"""
 
@@ -463,7 +467,7 @@ class Test02_Wiver:
             wiver.calc_destination_choice(t, group, h)
         print(e.value)
 
-    def test_22_no_accessible_linking_trips(self, wiver):
+    def test_22_no_accessible_linking_trips(self, wiver: WIVER):
         """Test exceptions when there linking trips find no accessible destinations
         but no destinations accessible"""
         # make no destinations available
@@ -486,7 +490,7 @@ class Test02_Wiver:
         wiver.calc_linking_trip_choice(t, group, h)
         assert wiver.p_links_tij[t, 2, 1] == 1
 
-    def test_23_test_raises_destination_choice_error(self, wiver):
+    def test_23_test_raises_destination_choice_error(self, wiver: WIVER):
         """Test if the error is raised in the calc function"""
         wiver.calc()
 
@@ -524,7 +528,7 @@ class Test02_Wiver:
             wiver.calc()
         print(e.value)
 
-    def test_31_aggregate_to_modes(self, wiver):
+    def test_31_aggregate_to_modes(self, wiver: WIVER):
         """aggregate to modes"""
         wiver.calc()
         wiver.aggregate_to_modes()
@@ -545,7 +549,7 @@ class Test02_Wiver:
         np.testing.assert_array_equal(wiver.trips_mij[0], 0)
         np.testing.assert_array_equal(wiver.trips_msij[0], 0)
 
-    def test_40_mean_distance_beta(self, wiver, param_dist):
+    def test_40_mean_distance_beta(self, wiver: WIVER, param_dist: float):
         """
         Test the mean distance calculation
         with different distance parameters
@@ -555,7 +559,7 @@ class Test02_Wiver:
         after = wiver.mean_distance_g
         print(after)
 
-    def test_41_mean_distance_savings(self, wiver, param_saving_weights):
+    def test_41_mean_distance_savings(self, wiver: WIVER, param_saving_weights: float):
         """
         Test the mean distance calculation
         with different savings optimizations
@@ -566,7 +570,7 @@ class Test02_Wiver:
         after = wiver.mean_distance_g
         print(after)
 
-    def test_42_mean_distance_modes(self, wiver, param_dist):
+    def test_42_mean_distance_modes(self, wiver: WIVER, param_dist: float):
         """
         Test the mean distance modes calculation
         with different distance parameters
@@ -576,7 +580,7 @@ class Test02_Wiver:
         after = wiver.mean_distance_m
         print(after)
 
-    def test_50_balancing(self, wiver):
+    def test_50_balancing(self, wiver: WIVER):
         """
         Test if the trip distribution equals the sink_potential
         and that the total number of trips stay constant
@@ -596,7 +600,7 @@ class Test02_Wiver:
                                    target_total_trips,
                                    rtol=.01)
 
-    def test_51_test_starting_equals_ending_trips(self, wiver):
+    def test_51_test_starting_equals_ending_trips(self, wiver: WIVER):
         """Test that starting and ending trips per zone are equal"""
         wiver.calc()
         starting_trips = wiver.trips_gij.sum(axis=2)
@@ -616,19 +620,19 @@ class Test02_Wiver:
 
 class Test03_TestExport:
     """Test export results"""
-    def test_10_wiver_results(self, wiver, wiver_files):
+    def test_10_wiver_results(self, wiver: WIVER, wiver_files: Dict[str, str]):
         """Test export of the results"""
         wiver.calc()
         wiver.define_datasets()
         wiver.save_results(wiver_files)
 
-    def test_11_wiver_detailed_results(self, wiver, result_folder):
+    def test_11_wiver_detailed_results(self, wiver: WIVER, result_folder: str):
         """Test export of the results to visum"""
         wiver.calc()
         wiver.define_datasets()
         wiver.save_detailed_results_to_visum(result_folder)
 
-    def test_12_calc_starting_ending_trips(self, wiver):
+    def test_12_calc_starting_ending_trips(self, wiver: WIVER):
         """Test calculation of starting and ending trips"""
         wiver.define_datasets()
         wiver.merge_datasets()
@@ -641,7 +645,7 @@ class Test03_TestExport:
         np.testing.assert_allclose(actual, target, rtol=0.1)
         print(df)
 
-    def test_21_run_orca(self, wiver, folder):
+    def test_21_run_orca(self, wiver: WIVER, folder: str):
         """Test the execution with orca"""
         with tempfile.TemporaryDirectory(dir=folder) as tmpfolder:
             orca.add_injectable('project_folder', tmpfolder)
@@ -661,7 +665,7 @@ class Test03_TestExport:
 
             orca.run(steps)
 
-    def test_22_run_wiver(self, folder, wiver, wiver_files):
+    def test_22_run_wiver(self, folder: str, wiver: WIVER, wiver_files: Dict[str, str]):
         """Test wiver.run_wiver with command line parameters"""
         backup_sys_argv = sys.argv
         os.makedirs(folder, exist_ok=True)
@@ -682,7 +686,9 @@ class Test03_TestExport:
         finally:
             sys.argv = backup_sys_argv
 
-    def test_23_run_orca_selected_groups(self, wiver, wiver_files):
+    def test_23_run_orca_selected_groups(self,
+                                         wiver: WIVER,
+                                         wiver_files: Dict[str, str]):
         """Test the execution with orca"""
         scenario = orca.get_injectable('scenario')
         max_iterations = orca.get_injectable('max_iterations')
@@ -723,7 +729,7 @@ class Test03_TestExport:
 
             print(files)
 
-    def test_24_run_orca(self, wiver, folder):
+    def test_24_run_orca(self, wiver: WIVER, folder: str):
         """Test the execution with orca"""
         orca.add_injectable('wiver', wiver)
         orca.add_injectable('project_folder', folder)
@@ -740,4 +746,3 @@ class Test03_TestExport:
         print(os.listdir(os.path.join(folder, 'log')))
         assert os.path.exists(os.path.join(folder, 'log'))
         orca.run(['close_logfile'])
-

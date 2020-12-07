@@ -22,6 +22,8 @@ setup(
     description="commercial trip model and pessenger demand model",
 
     packages=find_packages('src', exclude=['ez_setup']),
+    #namespace_packages=['wiver'],
+
     package_dir={'': 'src'},
     package_data={'': ['*.pxd']},
     include_package_data=True,

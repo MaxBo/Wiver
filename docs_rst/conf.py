@@ -25,17 +25,16 @@ needs_sphinx = '1.2'
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.viewcode',
-              'sphinx.ext.mathjax', 'sphinx.ext.autosummary',
-              'sphinx.ext.napoleon', 'sphinx_autodoc_typehints',
-# 'sphinxtogithub',
+extensions = ['sphinx.ext.autodoc',
+              'sphinx.ext.viewcode',
+              'numpydoc',
+              'sphinx.ext.mathjax',
+              'sphinx.ext.autosummary',
+              'sphinx_autodoc_typehints',
+              # 'sphinxtogithub',
 ]
 
 autosummary_generate = True
-napoleon_use_param = True
-napoleon_numpy_docstring = True
-napoleon_include_init_with_doc = True
-always_document_param_types = True
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
