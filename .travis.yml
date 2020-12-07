@@ -58,7 +58,7 @@ install:
 - export TMPDIR=`dirname $(mktemp -u -t tmp.XXXXXXXXXX)`
 - export CONDA_BLD_PATH=$TMPDIR
 - source activate test-environment
-- conda install -y sphinx sphinxcontrib-napoleon sphinx-autodoc-typehints
+- conda install -y sphinx sphinxcontrib-napoleon sphinx-autodoc-typehints numpydoc
 - pip install --user travis-sphinx
 - pip install --user sphinx-autodoc-typehints
 - export PATH=$HOME/.local/bin:$PATH
