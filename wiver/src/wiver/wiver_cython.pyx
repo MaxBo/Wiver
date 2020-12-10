@@ -41,6 +41,11 @@ cdef class _WIVER(ArrayShapes):
     cpdef char calc_daily_trips(self) except -1:
         """
         Calc the daily trips for all groups and zones
+
+        Returns
+        -------
+        int:
+            -1, if an exeption is raised, 0 otherwise
         """
         cdef char t, r
         cdef long32 g, h
@@ -82,7 +87,7 @@ cdef class _WIVER(ArrayShapes):
                                            self.linking_trips_gij).sum(1)
 
     def raise_destination_choice_error(self, g, h):
-        """raise a DestinationChoiceError for linking trips"""
+        """raise a DestinationChoiceError for destination trips"""
         msg = '''No accessible destinations found for group {g} and home zone {h}'''
         raise DestinationChoiceError(msg.format(g=g, h=h))
 
@@ -409,7 +414,7 @@ cdef class _WIVER(ArrayShapes):
     def calc_trips(self, t, g, h, tours, linking_trips):
         return self._calc_trips(t, g, h, tours, linking_trips)
 
-    def normalise_time_series(self, time_series):
+    def normalise_time_series(self, np.ndarray time_series):
         """normalise a time_series to ensure it adds up to 100 %"""
         time_series /= time_series.sum(-1)[:, np.newaxis]
 
@@ -468,15 +473,15 @@ cdef class _WIVER(ArrayShapes):
         """assert the data consistency"""
         self.assert_data_consistency_of_array('mode_g', 'n_modes')
 
-    def assert_data_consistency_of_array(self, attrname, dim):
+    def assert_data_consistency_of_array(self, str attrname, str dim):
         """
-        assert the consistency of array `attrname'
+        assert the consistency of array attrname
 
         Parameters
         ----------
-        attrname : str
+        attrname:
             the name of the attribute to test
-        dim : str
+        dim:
             the name of the dimension to test
         """
         # modes of groups
@@ -490,4 +495,3 @@ but contains the following invalid values at pos {pos}:
 {val}'''
             raise DataConsistencyError(msg.format(v=attrname, d=dim, n=ubound,
             pos=a.nonzero(), val=arr[a]))
-

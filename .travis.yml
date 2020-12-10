@@ -58,17 +58,19 @@ install:
 - export TMPDIR=`dirname $(mktemp -u -t tmp.XXXXXXXXXX)`
 - export CONDA_BLD_PATH=$TMPDIR
 - source activate test-environment
-- conda install -y sphinx sphinxcontrib-napoleon sphinx-autodoc-typehints numpydoc
+- pip install --user sphinx sphinxcontrib-napoleon sphinx-autodoc-typehints m2r2
 - pip install --user travis-sphinx
-- pip install --user sphinx-autodoc-typehints
 - export PATH=$HOME/.local/bin:$PATH
 - conda install pytest-cov
 script:
 - conda info -a
 - conda build wiver/conda.recipe
-- if [ "${CREATE_DOCS}" = "1" ]; then conda install -y --use-local wiver; sphinx-apidoc
-  -f --separate -o docs_rst/wiver wiver/src/wiver; travis-sphinx build --source docs_rst
-  --nowarn; fi
+- if [ "${CREATE_DOCS}" = "1" ];
+     then conda install -y --use-local wiver;
+     pip install --user sphinx sphinxcontrib-napoleon sphinx-autodoc-typehints m2r2;
+     sphinx-apidoc -f --separate -o docs_rst/wiver wiver/src/wiver;
+     travis-sphinx build --source docs_rst --nowarn;
+  fi
 after_success:
 - if [ "${CREATE_DOCS}" = "1" ]; then travis-sphinx deploy; fi
 - if [ "${TRAVIS_TAG}" ]; then anaconda -t $ANACONDA_TOKEN upload --user $ANACONDA_USERNAME

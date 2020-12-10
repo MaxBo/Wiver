@@ -29,9 +29,6 @@ from cythonarrays.configure_logger import SimLogger
 def project_folder() -> str:
     """ The Project folder (%TEMP% by default)
 
-    Returns
-    -------
-    project_folder : str
     """
     folder = tempfile.gettempdir()
     return folder
@@ -197,14 +194,15 @@ def n_threads() -> int:
 @orca.injectable()
 def wiver(wiver_files: Dict[str, str], n_threads: int) -> WIVER:
     """
+    Create a WIVER-instance with the given input data
 
     Parameters
     ----------
-    wiver_files : dict
+    wiver_files:
+        dict with the input files
+    n_threads:
+        the maximum number of threads to use
 
-    Returns
-    -------
-    wiver : Wiver-instace
     """
     wiver = WIVER.read_from_netcdf(wiver_files, n_threads=n_threads)
     return wiver
@@ -224,7 +222,15 @@ def groups_to_calculate() -> List[int]:
 
 @orca.injectable()
 def connection(project_folder: str) -> db.Connection:
-    """database connection to write zonal data into"""
+    """
+    database connection to an sqlite-file named `wiver.db3` in the project_folder
+    to write zonal data into
+
+    Parameters
+    ----------
+    project_folder:
+        the folder, where the sqlite-file is created
+    """
     fn = os.path.join(project_folder, 'wiver.db3')
     if (sys.platform == 'win32'
         and sys.version_info.major == 3
@@ -244,6 +250,13 @@ def reset_balancing() -> bool:
 def add_logfile(project_folder: str, scenario: str):
     """
     add Logfile to logger
+
+    Parameters
+    ----------
+    project_folder:
+        filepath of the project folder
+    scenario:
+        the name of the scenario
     """
     logger = SimLogger()
     logger.add_packages(['wiver'])
@@ -264,7 +277,14 @@ def close_logfile():
 def save_input_data(wiver: WIVER, wiver_files: dict):
     """
     save the input data from the wiver-model
-    as h5-files to the wiver_files
+    as HDF5-files to the wiver_files
+
+    Parameters
+    ----------
+    wiver:
+        the Wiver-model
+    wiver_files:
+        dict with the filenames
     """
     datasets = ('params', 'zonal_data', 'matrices',
                 'balancing')
@@ -282,9 +302,12 @@ def run_wiver(wiver: WIVER, wiver_files: dict, max_iterations: int):
 
     Parameters
     ----------
-    wiver: wiver-model
-    wiver-files : dict
-    max_iterations: int
+    wiver:
+        wiver-model
+    wiver_files:
+        dict with the input files
+    max_iterations:
+        Maximum number of iterations
     """
     wiver.calc_with_balancing(max_iterations=max_iterations)
     wiver.save_results(wiver_files)
@@ -301,10 +324,14 @@ def run_wiver_for_selected_groups(wiver: WIVER,
 
     Parameters
     ----------
-    wiver: wiver-model
-    wiver-files : dict
-    max_iterations: int
-    groups_to_calculate: list of int
+    wiver:
+        wiver-model
+    wiver-files :
+        dict
+    max_iterations:
+        int
+    groups_to_calculate:
+        list of group numbers, that should be calculated
     """
     if reset_balancing:
         wiver.init_array('balancing_factor_gj')
@@ -322,8 +349,10 @@ def save_results(wiver: WIVER, wiver_files: dict, result_folder: str):
 
     Parameters
     ----------
-    wiver: wiver-model
-    wiver-files : dict
+    wiver:
+        wiver-model
+    wiver-files :
+        dict
     result_folder: str
         the folder to store the calculated matrices
     """
@@ -342,11 +371,14 @@ def save_detailed_results(wiver: WIVER,
 
     Parameters
     ----------
-    wiver: wiver-model
-    wiver-files : dict
+    wiver:
+        wiver-model
+    wiver-files:
+        dict
     result_folder: str
         the folder to store the calculated matrices
-    groups_to_calculate: list of int
+    groups_to_calculate:
+        list of int
     """
     if groups_to_calculate:
         wiver.active_g[:] = np.in1d(wiver.groups, groups_to_calculate)
@@ -364,9 +396,14 @@ def calc_starting_ending_trips(wiver: WIVER,
 
     Parameters
     ----------
-    wiver: wiver-model
-    wiver-files : dict
-    starting_ending_trips_file: str
+    wiver:
+        wiver-model
+    wiver-files:
+        dict
+    starting_ending_trips_file:
+        str
+    connection:
+        An open Database Connection
     """
     fn = wiver_files['results']
     wiver.read_data('results', fn)

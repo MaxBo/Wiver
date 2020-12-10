@@ -18,12 +18,14 @@ requirements:
     - cythoninstallhelpers
     - cythonarrays
     - matrixconverters
+    - lxml
 
   run:
     - python
     - orca
     - cythonarrays
     - matrixconverters
+    - lxml
     - openpyxl
     - pytest-benchmark
 

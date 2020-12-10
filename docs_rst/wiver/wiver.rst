@@ -10,8 +10,6 @@ Submodules
    wiver.run_wiver
    wiver.wiver_cython
    wiver.wiver_cython
-   wiver.wiver_cython
-   wiver.wiver_cython
    wiver.wiver_python
    wiver.wiver_xml
    wiver.wiver_xml_param_parser

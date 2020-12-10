@@ -7,10 +7,7 @@
 [![Anaconda-Server Badge](https://anaconda.org/maxbo/wiver/badges/version.svg)](https://anaconda.org/maxbo/wiver)
 [![Anaconda-LastUpdate](https://anaconda.org/maxbo/wiver/badges/latest_release_date.svg)](https://anaconda.org/maxbo/wiver)
 
-# Wiver
-# Business Trip Model
-
-Code documentation can be found [here](https://maxbo.github.io/Wiver).
+# Wiver - Business Trip Model
 
 Wiver is a Business Trip Model based upon the model developed by Sonntag et al. (1998).
 
@@ -21,6 +18,8 @@ It consists of the steps
 * Destination Choice Model
 * Tour Optimization (Savings Algorithm)
 * Trip Balancing
+
+## Model Components
 
 The model has the following dimensions:
 
@@ -44,7 +43,7 @@ wiver = WIVER(n_groups=3,
 
 The input data is to be provided as a [xarray-Dataset](https://xarray.org) with the following Data variables:
 
-*Zones, Sectors, Modes, and Groups*
+**Zones, Sectors, Modes, and Groups**
 
 The zones have a number and optionally a name:
 ```
@@ -66,7 +65,7 @@ wiver.modes_g = [0, 2, 1]
 wiver.sector_g = [1, 0, 0]
 ```
 
-*Travel time Matrix*
+**Travel time Matrix**
 
 For each mode `m`, a travel-time matrix from zone `i` to zone `j` has to be provided:
 If the matrix is the same for all modes, if can be assigned to all modes:
@@ -82,16 +81,17 @@ wiver.travel_time_mij[1] = t_ij_van
 wiver.travel_time_mij[1] = t_ij_truck
 ```
 
-*Source and Sink Potential per Zone*
+**Source and Sink Potential per Zone**
 
-For each group `g`, a source potential for each origin zone `h' has to be given (e.g. the number of employees per sector).
-For each group `g' and and destination zone `j' a sink potential is required:
+For each group `g`, a source potential for each origin zone `h` has to be given (e.g. the number of employees per sector).
+For each group `g` and and destination zone `j` a sink potential is required:
+
 ```
 wiver.source_potential_gh = np.ones((n_groups, n_zones))
 wiver.sink_potential_gj = np.ones((n_groups, n_zones))
 ```
 
-*Tour Rates and Stops per Tour*
+**Tour Rates and Stops per Tour**
 
 For each group `g`, the tour rates and stops per tour are defined:
 ```
@@ -99,15 +99,15 @@ wiver.tour_rates_g = np.ones((n_groups))
 wiver.stops_per_tour_g = np.ones((n_groups))
 ```
 
-*Tour Generation*
+**Tour Generation**
 
 For each group, the number of tours, that start and end in a zone, are calculated by the source_potential and the tour_rates of the group. Each tour has linking trips, which are calculated using the stops_per_tour provided.
 
-*Destination Choice and Tour Optimization Model (Savings Algorithm)*
+**Destination Choice and Tour Optimization Model (Savings Algorithm)**
 
-The destination choice model first calculates the trips from the home zone `h' of the tour to the first stop and then the linking trips from the first stop to the next stops.
+The destination choice model first calculates the trips from the home zone `h` of the tour to the first stop and then the linking trips from the first stop to the next stops.
 
-For the first trip, the distance decay for each group is defined by the distance parameter `param_dist_g':
+For the first trip, the distance decay for each group is defined by the distance parameter `param_dist_g`:
 
 ```
 param_dist_g = [-0.4, -0.2, -0.03]
@@ -118,31 +118,36 @@ A big negative parameter means, that destinations very close to the home zone ar
 For the linking trips, first the destination choice is calculated with the same parameter as for the first trip. Then, a savings factor is calculated using the savings algorithm to account for tour optimization.
 
 The savings parameters are defined for different intervals between 0 and 1:
-```
-# define savings intervals
-# the first interval represents NINF (no connection)
-# for this interval the saving weight is 0, wich leads to 'no connection'
-wiver.savings_bins_s = np.concatenate(([np.NINF],
-									   np.linspace(.15, .85, 8),
-									   [1]))
+* define savings intervals
+* the first interval represents NINF (no connection)
+* for this interval the saving weight is 0, wich leads to 'no connection'
 
 ```
+wiver.savings_bins_s = np.concatenate(([np.NINF],
+				       np.linspace(.15, .85, 8),
+				       [1]))
+
+```
+
 For each savings interval, a savings factor is provided.
+
 ```
 wiver.savings_weights_gs[0] = np.linspace(0, 2, wiver.n_savings_categories)
 wiver.savings_weights_gs[1] = np.linspace(0, 5, wiver.n_savings_categories)
 wiver.savings_weights_gs[2] = np.linspace(0, 10, wiver.n_savings_categories)
 ```
-If there is a big difference between the savings categories, 
+
+If there is a big difference between the savings categories,
 as in the given example for mode 2, there is a high level of tour optimization
 (as in the case of postal services),
 and the mean distance of the linking trips are small.
 If there is a low difference between the categories as in example for group 0,
 there is few tour optimization and the linking trips are longer.
 
-*Trip Balancing*
+**Trip Balancing**
 
-The model can be run with trip balancing, which ensures, that for example all customers are served. The number of trips to a destination zone should be proportional to the sink potential of the destination zone.
+The model can be run with trip balancing, which ensures, that for example all customers are served.
+The number of trips to a destination zone should be proportional to the sink potential of the destination zone.
 
 The following example should illustrate the balancing algorithm:
 
@@ -151,19 +156,25 @@ The destinations have a sink potential of [1, 4, 5].
 So the destinations should receive 10, 40, and 50 trips.
 target_trips_gj = [10, 40, 50]
 
-Without balancing, it might be that zone 1 receives more trips, because it is close to the depot, while destinations 0 and 2 receive less trips than expected:
+Without balancing, it might be that zone 1 receives more trips, because it is close to the depot,
+while destinations 0 and 2 receive less trips than expected:
 trips_gj = [5, 60, 35].
-Then a balancing factor is calculated, wich increases the probability, that destinations 0 and 2 are delivered and decreases the probability that a trip goes to zone 1. After some iterations, the model should converge and stops if the threshold (relative difference between target trips and modelled trips) or the maximum number of iterations are reached:
-trips_gj = [9, 43, 48] 
+Then a balancing factor is calculated, wich increases the probability,
+that destinations 0 and 2 are delivered and decreases the probability that a trip goes to zone 1.
+After some iterations, the model should converge and stops if the threshold
+(relative difference between target trips and modelled trips) or the maximum number of iterations are reached:
+
+```
+trips_gj = [9, 43, 48]
 target_trips_gj = [10, 40, 50]
 difference = [-1, 3, -2]
 relative_difference = [-0.1, 0.075, -0.04]
 (abs(relative_difference) < threshold).all()
-```
+
 wiver.calc_with_balancing(max_iterations=10, threshold=0.1)
 ```
 
-*Time Series*
+**Time Series**
 The results of the model can be calculated for different time slices.
 In the morning, most tours start in the depot, during the day, there are more linking trips between the destinations and in the afternoon the vehicles return to their deopt (home zone).
 The time series for each group are defined for starting, linking, and ending trips.
@@ -180,9 +191,9 @@ wiver.time_series_ending_trips_gs = np.array([[0, 3, 7],
 
 For group 0, 50% of the tours start in the morning, 40% during the day and 10% in the evening. For group 1, all tours start in the morning.
 The linking trips are carried out during the day.
-The ending trips, which return to the depot happen to 30% during the day and to 70% in the evening for group 0 and happen all in the evening for group 1. 
+The ending trips, which return to the depot happen to 30% during the day and to 70% in the evening for group 0 and happen all in the evening for group 1.
 
-**Code Documentation**
+## Code Documentation
 [Documentation](https://maxbo.github.io/Wiver/)
 
 # Installation
@@ -192,7 +203,7 @@ The easiest way to handle dependencies is to use [conda](https://conda.io/minico
 There conda packages for python 3.6 to 3.9 for windows and linux are generated in the channel *MaxBo* in [Anaconda Cloud](https://anaconda.org/MaxBo).
 ```
 conda create -n wiver -c MaxBo python=3.9 wiver
-activate wiver
+conda activate wiver
 
 ```
 

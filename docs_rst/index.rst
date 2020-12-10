@@ -1,26 +1,27 @@
-﻿Welcome to the Wiver Commercial Trip Model documentation!
-===========================================================
+﻿Welcome to the Wiver Commercial Trip Model documentation
+========================================================
 Wiver is a Commercial Trip Model to simulate commercial vehicle tours in urban areas.
 
-This documentation contains
-=================================
-Contents:
+
+.. mdinclude:: ../README.md
 
 Description
+===========
 
 .. toctree::
    :maxdepth: 3
 
 	Description <description/model>
 
-=================================
+
 
 Code Documentation
+==================
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 4
 
-	wiver <wiver/wiver>
+	modules <wiver/modules>
 
 Indices and tables
 ==================

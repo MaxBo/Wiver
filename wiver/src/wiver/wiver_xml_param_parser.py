@@ -1,10 +1,11 @@
 from lxml import etree
 import os
+from typing import List
 
 
 class XMLParamParser:
     '''
-    Parses an xml parameter file (gui_vm project-style) for tdmks
+    Parses an xml parameter file (gui_vm project-style) for the model
     '''
     # xml-tags of nodes of interest
     SCENARIO = "Szenario"
@@ -25,7 +26,17 @@ class XMLParamParser:
     # default values if params are not set in xml
     DEFAULTS = {}
 
-    def __init__(self, filename, scenario_name, run_name):
+    def __init__(self, filename: str, scenario_name: str, run_name: str):
+        """
+        Parameters
+        ----------
+        filename:
+            the filename of the xml-file
+        scenario_name:
+            the name of the scenario to parse from the xml-file
+        run_name:
+            the name of the run to parse from the xml-file
+        """
         tree = etree.parse(filename)
         self._filename = filename
         self._root = tree.getroot()
@@ -41,7 +52,18 @@ class XMLParamParser:
     def __iter__(self):
         return iter(self._dict)
 
-    def _build_dict(self, run_name):
+    def _build_dict(self, run_name: str) -> dict:
+        """
+        Parameters
+        ----------
+        run_name:
+            the name of the run
+
+        Returns
+        -------
+        :
+            the dict with the options of the run
+        """
         inputs = self._get_inputs(self._scenario)
         run = self._get_run(self._scenario, run_name)
         if run is None:
@@ -83,17 +105,23 @@ class XMLParamParser:
 
         return d
 
-    def _get_scenario(self, element, scenario_name):
+    def _get_scenario(self,
+                      element: etree.Element,
+                      scenario_name: str) -> List[etree.Element]:
         '''
-        get scenario by name, None if not found
+        get scenario by name,
 
-        Params
-        ------
-        scenario_name - String, name of the scenario
+        Parameters
+        ----------
+        element:
+            the etree-element to search in
+        scenario_name:
+            name of the scenario
 
-        Return
-        ------
-        inputs - list of etree.Element, all inputs of given scenario
+        Returns
+        -------
+        :
+            list of all inputs of given scenario or None if not found
         '''
         for scenario in element.findall('.//' + self.SCENARIO):
             scen_name = scenario.attrib['name']
@@ -101,31 +129,35 @@ class XMLParamParser:
                 return scenario
         return None
 
-    def _get_inputs(self, scenario):
+    def _get_inputs(self, scenario: etree.Element) -> List[etree.Element]:
         '''
         get all inputs of given scenario node
 
-        Params
-        ------
-        scenario - etree.Element, describes scenario and it's configuration
+        Parameters
+        ----------
+        scenario:
+            describes scenario and it's configuration
 
-        Return
-        ------
-        inputs - list of etree.Element, all inputs of given scenario
+        Returns
+        -------
+        :
+            all inputs of given scenario
         '''
         return scenario.findall( './/' + self.INPUT)
 
-    def _get_run(self, scenario, run_name):
+    def _get_run(self, scenario: etree.Element, run_name: str) -> etree.Element:
         '''
         get a run of the given scenario with the given name
 
-        Params
-        ------
-        scenario - etree.Element, describes scenario and it's configuration
+        Parameters
+        ----------
+        scenario:
+            describes scenario and it's configuration
 
-        Return
-        ------
-        run - etree.Element, the run
+        Returns
+        -------
+        :
+            the run
         '''
         for run in scenario.findall('.//' + self.RUN):
             r_name = run.attrib['name']
@@ -133,17 +165,21 @@ class XMLParamParser:
                 return run
         return None
 
-    def _get_path(self, resources, resource_name):
+    def _get_path(self, resources: List[etree.Element], resource_name: str) -> str:
         '''
         gets filepath of given resource (input or ), None if not found
 
-        Params
-        ------
-        resource_name - String, name of the resource
+        Parameters
+        ----------
+        resources:
+            list of resources
+        resource_name:
+            name of the resource
 
-        Return
-        ------
-        file_path - String, path to the resource file
+        Returns
+        -------
+        :
+            path to the resource file
         '''
         for res in resources:
             if res.attrib['name'] == resource_name:
@@ -153,14 +189,38 @@ class XMLParamParser:
                 return path.text
         return None
 
-    def _get_option(self, run, option_name):
+    def _get_option(self, run: etree.Element, option_name: str) -> str:
+        """
+        Parameters
+        ----------
+        run:
+            the run-Element
+        option_name:
+            the option to search in the run
+
+        Returns
+        -------
+        :
+            the value of the option
+        """
         options = run.findall('Option')
         for opt in options:
             if opt.attrib['name'] == option_name:
                 return opt.text
         return None
 
-    def _get_absolute_path(self, resource):
+    def _get_absolute_path(self, resource: etree.Element) -> str:
+        """
+        Parameters
+        ----------
+        resource:
+            a resource-Element
+
+        Returns
+        -------
+        :
+            the full path to the resource-file
+        """
         typ = resource.tag
         rel_path = resource.find(self.RESOURCE_PATH).text
         project_path = os.path.split(self._filename)[0]

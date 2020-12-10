@@ -11,7 +11,7 @@ import tempfile
 from argparse import ArgumentParser
 from wiver.wiver_python import (WIVER)
 from wiver.wiver_xml_param_parser import XMLParamParser
-from wiver.wiver import (project_folder,
+from wiver.run_wiver import (project_folder,
                          params_file,
                          matrix_file,
                          zones_file,
