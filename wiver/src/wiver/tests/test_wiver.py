@@ -14,9 +14,7 @@ import tempfile
 import pytest
 from typing import Dict
 
-import xarray as xr
 import numpy as np
-import pandas as pd
 import orca
 from wiver.wiver_python import (WIVER,
                                 DestinationChoiceError, DataConsistencyError)
@@ -506,7 +504,6 @@ class Test02_Wiver:
         wiver.calc()
 
         g = 1
-        h = 0
         m = wiver.mode_g[g]
         # infinitive travel times from home zone 0
         backup = wiver.travel_time_mij[m].copy()
@@ -665,7 +662,9 @@ class Test03_TestExport:
 
             orca.run(steps)
 
-    def test_22_run_wiver(self, folder: str, wiver: WIVER, wiver_files: Dict[str, str]):
+    def test_22_run_wiver(self, folder: str,
+                          wiver: WIVER,
+                          wiver_files: Dict[str, str]):
         """Test wiver.run_wiver with command line parameters"""
         backup_sys_argv = sys.argv
         os.makedirs(folder, exist_ok=True)
