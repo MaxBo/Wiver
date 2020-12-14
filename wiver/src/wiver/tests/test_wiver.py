@@ -6,10 +6,8 @@ Created on Fri Jun 10 21:00:21 2016
 """
 
 import os
-import logging
 import sys
 import runpy
-import shutil
 import tempfile
 import pytest
 from typing import Dict
@@ -53,29 +51,20 @@ def zone_h(request) -> int:
     """
     return request.param
 
-@pytest.fixture(scope='class',
+@pytest.fixture(scope='module')
+def folder(tmpdir_factory) -> str:
+    """return a tempdir managed by pytest"""
+    return tmpdir_factory.mktemp('Wiver').strpath
+
+
+@pytest.fixture(scope='module',
                 params=['Wiver',
                         pytest.param('ÄÖÜß', marks=pytest.mark.xfail(
                                      __hdf5libversion__ < '1.12',
                             reason='Bug in HDF5'))])
-def folder(request) -> str:
-    """
-    temp folder
-    tempfolder with Umlaut causes problems because of HDF5-Bug,
-    so use a folder without Umlaut until bug will be fixed in hdf5 >= 1.12
-    """
-    folder = tempfile.mkdtemp(prefix=request.param)
-    yield folder
-    def handleLockedLogfileError(func, path, exc_info):
-        logging.shutdown()
-        func(path)
-    shutil.rmtree(folder, onerror=handleLockedLogfileError)
-
-
-@pytest.fixture(scope='class')
-def result_folder(folder: str) -> str:
+def result_folder(request, folder: str) -> str:
     """Temp folder to store the results"""
-    result_folder = os.path.join(folder, 'results')
+    result_folder = os.path.join(folder, f'results_{request.param}')
     os.makedirs(result_folder, exist_ok=True)
     return result_folder
 

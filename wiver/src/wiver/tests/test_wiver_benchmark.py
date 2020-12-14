@@ -7,10 +7,7 @@ Created on Fri Jun 10 21:00:21 2016
 
 import pytest
 
-import xarray as xr
 import numpy as np
-import pandas as pd
-import os
 import orca
 from wiver.wiver_python import WIVER
 import wiver.run_wiver

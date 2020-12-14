@@ -28,8 +28,9 @@ setup(
     package_data={'': ['*.pxd']},
     include_package_data=True,
     zip_safe=False,
-    data_files=[
-        ],
-
+    install_requires=[
+        'cythonarrays',
+        'matrixconverters',
+    ],
     ext_modules=make_extensions(ext_modnames),
 )

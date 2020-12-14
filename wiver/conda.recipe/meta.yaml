@@ -15,17 +15,16 @@ build:
 requirements:
   build:
     - python
-    - cythoninstallhelpers
+    - orca
     - cythonarrays
     - matrixconverters
-    - lxml
+    - openpyxl
 
   run:
     - python
     - orca
     - cythonarrays
     - matrixconverters
-    - lxml
     - openpyxl
     - pytest-benchmark
 
