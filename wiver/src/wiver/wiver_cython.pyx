@@ -34,7 +34,6 @@ class DataConsistencyError(IndexError):
 cdef class _WIVER(ArrayShapes):
     """
     BaseClass for WIVER model
-    with n_groups and n_zones
     """
 
     @cython.initializedcheck(False)
@@ -61,9 +60,8 @@ cdef class _WIVER(ArrayShapes):
                 with gil:
                     mode = self._mode_g[g]
                     sector = self._sector_g[g]
-                    name = '{}_{}'.format(self.mode_name[mode],
-                                          self.sector_short[sector])
-                    self.logger.info('calculate group {} ({})'.format(g, name))
+                    name = f'{self.mode_name[mode]}_{self.sector_short[sector]}'
+                    self.logger.debug(f'calculate group {g} ({name})')
                 # loop over home zones
                 for h in range(self.n_zones):
                     tours = self._calc_tours(g, h)
