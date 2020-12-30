@@ -21,6 +21,10 @@ from wiver.wiver_cython import (_WIVER,
 np.seterr(divide='ignore', invalid='ignore')
 
 
+class InvalidWiverInputData(ValueError):
+    """Invalid input data for Wiver model"""
+
+
 class WIVER(_WIVER, _ArrayProperties):
     """WIVER Business Trip Model"""
     _coordinates = {'n_groups': 'groups',
@@ -234,6 +238,11 @@ class WIVER(_WIVER, _ArrayProperties):
                         'n_groups, n_time_slices', 1)
         self.init_array('time_series_ending_trips_gs',
                         'n_groups, n_time_slices', 1)
+
+    def validate_input_data(self):
+        """make checks on the input data"""
+        if (self.stops_per_tour_g < 1).any():
+            raise WiverInvalidData('Stops per Tour < 1.0 are not allowed')
 
     def define_datasets(self):
         """Define the datasets"""

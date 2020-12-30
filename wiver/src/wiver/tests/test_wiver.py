@@ -14,7 +14,7 @@ from typing import Dict
 
 import numpy as np
 import orca
-from wiver.wiver_python import (WIVER,
+from wiver.wiver_python import (WIVER, InvalidWiverInputData,
                                 DestinationChoiceError, DataConsistencyError)
 import wiver.run_wiver
 from netCDF4 import __hdf5libversion__
@@ -262,6 +262,15 @@ class Test01_WiverData:
         wiver.save_results_to_visum(folder, visum_format='B')
         wiver.save_results_to_visum(folder, visum_format='V')
         wiver.save_results_to_visum(folder, visum_format='BK')
+
+    def test_07_validate_data(self, wiver: WIVER):
+        """Test the validation"""
+        wiver.stops_per_tour_g[:] = [1, 2, 3]
+        wiver.validate_input_data
+        # no values < 1 allowed
+        wiver.stops_per_tour_g[:] = [0.8, 2, 3]
+        with pytest.raises(InvalidWiverInputData) as e:
+            wiver.validate_input_data()
 
 
 class Test02_Wiver:
