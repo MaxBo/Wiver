@@ -242,7 +242,7 @@ class WIVER(_WIVER, _ArrayProperties):
     def validate_input_data(self):
         """make checks on the input data"""
         if (self.stops_per_tour_g < 1).any():
-            raise WiverInvalidData('Stops per Tour < 1.0 are not allowed')
+            raise InvalidWiverInputData('Stops per Tour < 1.0 are not allowed')
 
     def define_datasets(self):
         """Define the datasets"""
