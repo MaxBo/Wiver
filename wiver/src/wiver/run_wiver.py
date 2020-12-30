@@ -22,7 +22,7 @@ if (sys.platform == 'win32'
 
 import orca
 from wiver.wiver_python import WIVER
-from cythonarrays.configure_logger import SimLogger
+from cythoninstallhelpers.configure_logger import SimLogger
 
 
 @orca.injectable()

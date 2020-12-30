@@ -2,13 +2,14 @@
 
 import multiprocessing
 import os
+import logging
 from collections import defaultdict
 from typing import Dict
 import numpy as np
 import pandas as pd
 import xarray as xr
 
-
+from cythoninstallhelpers.configure_logger import get_logger
 from cythonarrays.array_properties import _ArrayProperties
 from matrixconverters.save_ptv import SavePTV
 from matrixconverters.xarray2netcdf import xr2netcdf
@@ -36,7 +37,8 @@ class WIVER(_WIVER, _ArrayProperties):
                  n_time_slices: int=5,
                  n_modes: int=4,
                  n_sectors: int=2,
-                 n_threads: int=None):
+                 n_threads: int=None,
+                 logger: logging.Logger=None):
         """
         Parameters
         ----------
@@ -54,8 +56,13 @@ class WIVER(_WIVER, _ArrayProperties):
             the number of economic sectors
         n_threads:
             the maximum number of threads to use for calculation
+        logger:
+            an optional logger to use from within wiver. If not provided,
+            a logger is created
         """
         super().__init__()
+
+        self.logger = logger or get_logger(self)
 
         self.n_modes = n_modes
         self.n_groups = n_groups
