@@ -51,19 +51,18 @@ cdef class _WIVER(ArrayShapes):
         cdef double tours, linking_trips
         self.reset_array('home_based_trips_gij')
         self.reset_array('linking_trips_gij')
-        with nogil, parallel(num_threads=self.n_threads):
-            t = threadid()
-            # loop over calibration groups
-            for g in prange(self.n_groups, schedule='guided'):
-                if not self._active_g[g]:
-                    continue
-                with gil:
-                    mode = self._mode_g[g]
-                    sector = self._sector_g[g]
-                    name = f'{self.mode_name[mode]}_{self.sector_short[sector]}'
-                    self.logger.debug(f'calculate group {g} ({name})')
-                # loop over home zones
-                for h in range(self.n_zones):
+        for g in range(self.n_groups):
+            if not self._active_g[g]:
+                continue
+            mode = self._mode_g[g]
+            sector = self._sector_g[g]
+            name = f'{self.mode_name[mode]}_{self.sector_short[sector]}'
+            self.logger.info(f'calculate group {g} ({name})')
+            # loop over home zones
+            with nogil, parallel(num_threads=self.n_threads):
+                t = threadid()
+                # loop over calibration groups
+                for h in prange(self.n_zones, schedule='guided'):
                     tours = self._calc_tours(g, h)
                     if tours:
                         r = self._calc_destination_choice(t, g, h)
@@ -77,7 +76,7 @@ cdef class _WIVER(ArrayShapes):
                                 with gil:
                                     self.raise_linking_trips_error(g, h)
                         self._calc_trips(t, g, h, tours, linking_trips)
-                self._symmetrisize_trip_matrix(g)
+            self._symmetrisize_trip_matrix(g)
         self.trips_gij[:] = (self.home_based_trips_gij +
                             self.linking_trips_gij +
                             self.return_trips_gij)
