@@ -77,7 +77,7 @@ cdef class _WIVER(ArrayShapes):
     cdef public ARRAY_4D_d _trips_msij
 
     # internal probability matrices for each thread
-    cdef public ARRAY_3D_d _p_destination_tij
+    cdef public ARRAY_2D_d _p_destination_tj
     cdef public ARRAY_3D_d _p_links_tij
 
     cpdef char calc_daily_trips(self) except -1

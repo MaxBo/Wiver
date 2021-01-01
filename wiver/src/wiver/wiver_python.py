@@ -221,7 +221,7 @@ class WIVER(_WIVER, _ArrayProperties):
                         'n_groups, n_zones, n_zones', 0)
         self.init_array('linking_trips_gij', 'n_groups, n_zones, n_zones', 0)
         self.init_array('return_trips_gij', 'n_groups, n_zones, n_zones', 0)
-        self.init_array('p_destination_tij', 'n_threads, n_zones, n_zones', 0)
+        self.init_array('p_destination_tj', 'n_threads, n_zones', 0)
         self.init_array('p_links_tij', 'n_threads, n_zones, n_zones', 0)
 
         self.init_array('trips_gsij',

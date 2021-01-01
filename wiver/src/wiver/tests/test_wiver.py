@@ -44,7 +44,7 @@ def param_saving_weights(request):
     return request.param
 
 
-@pytest.fixture(scope='class', params=range(2))
+@pytest.fixture(scope='class', params=range(5))
 def zone_h(request) -> int:
     """
     different values for home zone
@@ -138,14 +138,15 @@ def wiver(request) -> WIVER:
     # mode of group
     wiver.mode_g = np.array([2, 2, 1])
     # define centroids of zones
-    x = np.array([2, 5, 1, 6, 10])
-    y = np.array([5, 2, 3, 1, 7])
+    # 2 zones at the same spot
+    x = np.array([2, 1, 1, 6, 10])
+    y = np.array([5, 3, 3, 1, 7])
     # calc travel time between zones
     dx = x - x[:, np.newaxis]
     dy = y - y[:, np.newaxis]
     dist = np.sqrt(dx**2 + dy**2)
     wiver.km_ij = dist
-    t = dist * 3 + 1
+    t = dist * 3
 
     # travel time is identical for all modes
     wiver.travel_time_mij[:] = t
@@ -292,12 +293,12 @@ class Test02_Wiver:
         h = 0
         t = 0
         wiver.calc_destination_choice(t, group, h)
-        before = wiver.p_destination_tij[t, h].copy()
+        before = wiver.p_destination_tj[t].copy()
         print(before)
 
         wiver.param_dist_g[group] = param_dist
         wiver.calc_destination_choice(t, group, h)
-        after = wiver.p_destination_tij[t, h].copy()
+        after = wiver.p_destination_tj[t].copy()
         print(after)
 
     def test_03_savings(self, wiver: WIVER, zone_h: int):
@@ -314,6 +315,19 @@ class Test02_Wiver:
         s_target = (t_ki + t_jk - t_ij) / (t_ki + t_jk)
         print(s)
         assert s == s_target
+
+        # edge case where t_hi and t_jh are 0
+        wiver.travel_time_mij[m, zone_h, i] = 0
+        wiver.travel_time_mij[m, j, zone_h] = 0
+        wiver.travel_time_mij[m, i, j] = 0
+        s = wiver.calc_savings(g, m, zone_h, i, j)
+        assert s == 0
+        #  linking trip is a detour and longer than the trip back to the depot
+        wiver.travel_time_mij[m, i, j] = 1
+        s = wiver.calc_savings(g, m, zone_h, i, j)
+        assert s == -99
+
+
 
     def test_04_savings_factor(self, wiver: WIVER, zone_h: int):
         """Test the savings factor function"""
@@ -363,12 +377,13 @@ class Test02_Wiver:
             zone_interior_link_trips = link_matrix.diagonal().sum()
             return zone_interior_link_trips
 
-        h = 0
+        h = 2
         t = 0
-        group = 1
+        group = 0
         tours = 100
         linking_trips = 200
         n_sav = wiver.n_savings_categories
+        wiver.param_dist_g[group] = -0.02
         wiver.calc_destination_choice(t, group, h)
 
         # test first without any savings
@@ -440,7 +455,7 @@ class Test02_Wiver:
         t = 0
         group = 0
         wiver.calc_destination_choice(t, group, h)
-        print(wiver.p_destination_tij[t, h])
+        print(wiver.p_destination_tj[t])
 
         # now set sink_potential for group 0 to 0
         wiver.sink_potential_gj[0] = 0

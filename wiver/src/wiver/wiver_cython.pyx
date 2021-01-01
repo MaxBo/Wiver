@@ -243,12 +243,12 @@ cdef class _WIVER(ArrayShapes):
         total_weights = 0
         for j in range(self.n_zones):
             p = self._calc_p_destination(g, m, h, j)
-            self._p_destination_tij[t, h, j] = p
+            self._p_destination_tj[t, j] = p
             total_weights += p
         if not total_weights:
             return -1
         for j in range(self.n_zones):
-            self._p_destination_tij[t, h, j] /= total_weights
+            self._p_destination_tj[t, j] /= total_weights
         return 0
 
     @cython.initializedcheck(False)
@@ -286,10 +286,10 @@ cdef class _WIVER(ArrayShapes):
         # tour generation for linking trips
         # loop over destinations
         for i in range(self.n_zones):
-            pi = self._p_destination_tij[t, h, i]
+            pi = self._p_destination_tj[t, i]
             if pi:
                 for j in range(self.n_zones):
-                    pj = self._p_destination_tij[t, h, j]
+                    pj = self._p_destination_tj[t,j]
                     if pj:
                         savings_factor = self._calc_savings_factor(
                         g, m, h, i, j)
@@ -316,7 +316,7 @@ cdef class _WIVER(ArrayShapes):
         cdef double trips, p
         # Fahrten Heimatzone - 1. Stop-Heimatzone
         for i in range(self.n_zones):
-            trips = tours * self._p_destination_tij[t, h, i]
+            trips = tours * self._p_destination_tj[t, i]
             self._home_based_trips_gij[g, h, i] += trips
 
             if linking_trips:
@@ -350,6 +350,11 @@ cdef class _WIVER(ArrayShapes):
         t_hi = self._travel_time_mij[m, h, i]
         t_jh = self._travel_time_mij[m, j, h]
         t_ij = self._travel_time_mij[m, i, j]
+        if not t_hi + t_jh:
+            if not t_ij:
+                return 0
+            else:
+                return -99
         savings = (t_hi + t_jh - t_ij) / (t_hi + t_jh)
         return savings
 
