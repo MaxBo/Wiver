@@ -7,6 +7,7 @@ Created on Fri Jun 10 21:00:21 2016
 
 import os
 import sys
+import logging
 import runpy
 import tempfile
 import pytest
@@ -587,17 +588,18 @@ class Test02_Wiver:
         wiver.define_datasets()
         sp = wiver.zonal_data.sink_potential
         target_share = sp / sp.sum('destinations')
-        wiver.calc_with_balancing(max_iterations=1)
-        target_total_trips = wiver.trips_gij.sum()
-        wiver.calc_with_balancing(max_iterations=100)
+        wiver.calc_with_balancing(max_iterations=100, threshold=0.001)
         trips = wiver.balancing.trips_to_destination
         actual_share = trips / trips.sum('destinations')
         np.testing.assert_allclose(actual_share, target_share, rtol=.1)
 
+        target_total_trips = wiver.trips_gij.sum()
         actual_total_trips = wiver.trips_gij.sum()
         np.testing.assert_allclose(actual_total_trips,
                                    target_total_trips,
                                    rtol=.01)
+        for g, group in enumerate(wiver.groups):
+            print(f'Group {group} converged after {wiver.converged_g[g]} iterations.')
 
     def test_51_test_starting_equals_ending_trips(self, wiver: WIVER):
         """Test that starting and ending trips per zone are equal"""

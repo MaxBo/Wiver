@@ -75,7 +75,7 @@ class TestWiver:
         actual = wiver.trips_gij.sum(-1).sum(-1)
         desired = (wiver.source_potential_gh.sum(-1) *
                    wiver.tour_rates_g * (wiver.stops_per_tour_g + 1))
-        np.testing.assert_almost_equal(actual, desired)
+        np.testing.assert_allclose(actual, desired, rtol=1e-7)
         # assure that there are no trips from and to zone 3
         np.testing.assert_equal(wiver.trips_gij[:, 3], 0)
         np.testing.assert_equal(wiver.trips_gij[:, :, 3], 0)

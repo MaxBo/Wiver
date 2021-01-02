@@ -28,6 +28,9 @@ cdef class _WIVER(ArrayShapes):
     # active groups
     cdef public ARRAY_1D_i1 _active_g
 
+    # converged groups
+    cdef public ARRAY_1D_i2 _converged_g
+
     # Savings factor for each group
     cdef public ARRAY_1D_d _savings_param_g
 
