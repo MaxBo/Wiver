@@ -81,7 +81,7 @@ cdef class _WIVER(ArrayShapes):
     cdef public ARRAY_2D_d _p_destination_tj
     cdef public ARRAY_3D_d _p_links_tij
 
-    cpdef char calc_daily_trips(self) except -1
+    cpdef char calc_daily_trips(self, long32 g) except -1
     cdef double _calc_tours(self, long32 g, long32 h) nogil
     cdef double _calc_linking_trips(self, long32 g, double tours) nogil
     cdef double _calc_p_destination(self, long32 g, char m,

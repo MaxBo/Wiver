@@ -335,6 +335,7 @@ class Test02_Wiver:
         i = 1
         j = 3
         m = wiver.mode_g[g]
+        wiver.savings_param_g[g] = param_savings_param
         sf = wiver.calc_savings_factor(g, m, zone_h, i, j)
         print(sf)
 
@@ -416,7 +417,14 @@ class Test02_Wiver:
 
     def test_08_calc_time_series(self, wiver: WIVER):
         """Test the time_series"""
-        wiver.calc_daily_trips()
+        for g in range(wiver.n_groups):
+            wiver.calc_daily_trips(g)
+            wiver.adjust_linking_trips(g)
+            wiver.trips_gij[g] = (wiver.home_based_trips_gij[g] +
+                                wiver.linking_trips_gij[g] +
+                                wiver.return_trips_gij[g])
+            wiver.trips_to_destination_gj[g] = (wiver.home_based_trips_gij[g] +
+                                               wiver.linking_trips_gij[g]).sum(0)
         wiver.calc_time_series()
 
         # test the normalisation of the time series
@@ -435,7 +443,8 @@ class Test02_Wiver:
     def test_09_trips_gij(self, wiver: WIVER):
         """Test if the arrays are not overwritten"""
         arr_gij_before = wiver.trips_gij.__array_interface__
-        wiver.calc_daily_trips()
+        for g in range(wiver.n_groups):
+            wiver.calc_daily_trips(g)
         arr_gij_after = wiver.trips_gij.__array_interface__
         assert arr_gij_before == arr_gij_after
 
@@ -454,6 +463,14 @@ class Test02_Wiver:
         wiver.calc()
         res3 = wiver.trips_gsij
         np.testing.assert_allclose(res, res3)
+
+        # test if group without linking trips (only one stop) works
+        g = 2
+        wiver.stops_per_tour_g[g] = 1
+        wiver.calc()
+        res = wiver.trips_gij[g]
+        assert np.isfinite(res).all()
+
 
     def test_21_no_destinations(self, wiver: WIVER):
         """Test exceptions when there is demand

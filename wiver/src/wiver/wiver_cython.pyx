@@ -37,9 +37,14 @@ cdef class _WIVER(ArrayShapes):
     """
 
     @cython.initializedcheck(False)
-    cpdef char calc_daily_trips(self) except -1:
+    cpdef char calc_daily_trips(self, long32 g) except -1:
         """
         Calc the daily trips for all groups and zones
+
+        Parameters
+        ----------
+        g: int
+            the group
 
         Returns
         -------
@@ -47,43 +52,34 @@ cdef class _WIVER(ArrayShapes):
             -1, if an exeption is raised, 0 otherwise
         """
         cdef char t, r
-        cdef long32 g, h
+        cdef long32 h
         cdef double tours, linking_trips
-        for g in range(self.n_groups):
-            if self._converged_g[g] or not self._active_g[g]:
-                continue
-            self.home_based_trips_gij[g] = 0
-            self.linking_trips_gij[g] = 0
+        self.home_based_trips_gij[g] = 0
+        self.linking_trips_gij[g] = 0
 
-            mode = self._mode_g[g]
-            sector = self._sector_g[g]
-            name = f'{self.mode_name[mode]}_{self.sector_short[sector]}'
-            self.logger.info(f'calculate group {g} ({name})')
-            # loop over home zones
-            with nogil, parallel(num_threads=self.n_threads):
-                t = threadid()
-                # loop over calibration groups
-                for h in prange(self.n_zones, schedule='guided'):
-                    tours = self._calc_tours(g, h)
-                    if tours:
-                        r = self._calc_destination_choice(t, g, h)
+        mode = self._mode_g[g]
+        sector = self._sector_g[g]
+        name = f'{self.mode_name[mode]}_{self.sector_short[sector]}'
+        self.logger.info(f'calculate group {g} ({name})')
+        # loop over home zones
+        with nogil, parallel(num_threads=self.n_threads):
+            t = threadid()
+            # loop over calibration groups
+            for h in prange(self.n_zones, schedule='guided'):
+                tours = self._calc_tours(g, h)
+                if tours:
+                    r = self._calc_destination_choice(t, g, h)
+                    if r:
+                        with gil:
+                            self.raise_destination_choice_error(g, h)
+                    linking_trips = self._calc_linking_trips(g, tours)
+                    if linking_trips:
+                        r = self._calc_linking_trip_choice(t, g, h)
                         if r:
                             with gil:
-                                self.raise_destination_choice_error(g, h)
-                        linking_trips = self._calc_linking_trips(g, tours)
-                        if linking_trips:
-                            r = self._calc_linking_trip_choice(t, g, h)
-                            if r:
-                                with gil:
-                                    self.raise_linking_trips_error(g, h)
-                        self._calc_trips(t, g, h, tours, linking_trips)
-            self._symmetrisize_trip_matrix(g)
-            self.adjust_linking_trips(g)
-        self.trips_gij[:] = (self.home_based_trips_gij +
-                            self.linking_trips_gij +
-                            self.return_trips_gij)
-        self.trips_to_destination_gj[:] = (self.home_based_trips_gij +
-                                           self.linking_trips_gij).sum(1)
+                                self.raise_linking_trips_error(g, h)
+                    self._calc_trips(t, g, h, tours, linking_trips)
+        self._symmetrisize_trip_matrix(g)
 
     def adjust_linking_trips(self, g: int):
         """
@@ -94,10 +90,11 @@ cdef class _WIVER(ArrayShapes):
         target_linking_trips = (self.source_potential_gh[g].sum() *
                                 self.tour_rates_g[g] *
                                 (self.stops_per_tour_g[g] - 1))
-        calculated_linking_trips = self.linking_trips_gij[g].sum()
-        kf_linking_trips = target_linking_trips / calculated_linking_trips
-        self.logger.debug(f'Group {g}: kf linking trips: {kf_linking_trips}')
-        self.linking_trips_gij[g] *= kf_linking_trips
+        if target_linking_trips:
+            calculated_linking_trips = self.linking_trips_gij[g].sum()
+            kf_linking_trips = target_linking_trips / calculated_linking_trips
+            self.logger.debug(f'Group {g}: kf linking trips: {kf_linking_trips}')
+            self.linking_trips_gij[g] *= kf_linking_trips
 
 
     def raise_destination_choice_error(self, g: int, h: int):
@@ -109,14 +106,6 @@ cdef class _WIVER(ArrayShapes):
         """raise a DestinationChoiceError for linking trips"""
         msg = '''No destinations cannot be linked for group {g} and home zone {h} because they is no accessibility between the destinations'''
         raise DestinationChoiceError(msg.format(g=g, h=h))
-
-    def calc(self):
-        """calc the daily trips and the trips by time slice"""
-        self.calc_daily_trips()
-        self.calc_time_series()
-        self.aggregate_to_modes()
-        self.calc_mean_distance()
-        self.calc_mean_distance_mode()
 
     @cython.initializedcheck(False)
     cpdef calc_mean_distance(self):
