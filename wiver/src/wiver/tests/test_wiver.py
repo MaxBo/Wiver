@@ -36,10 +36,10 @@ def param_dist(request) -> float:
     return request.param
 
 
-@pytest.fixture(scope='class', params=[1.2, 10])
-def param_saving_weights(request):
+@pytest.fixture(scope='class', params=[1.01, 1.1, 1.5, 2, np.inf])
+def param_savings_param(request):
     """
-    different values for saving categories
+    different values for savings parameter
     """
     return request.param
 
@@ -131,7 +131,6 @@ def wiver(request) -> WIVER:
     wiver = WIVER(n_groups=3,
                   n_zones=5,
                   n_time_slices=3,
-                  n_savings_categories=10,
                   n_modes=3,
                   n_sectors=len(sector_name))
 
@@ -150,15 +149,8 @@ def wiver(request) -> WIVER:
 
     # travel time is identical for all modes
     wiver.travel_time_mij[:] = t
-    # define savings intervals
-    # the first interval represents NINF (no connection)
-    # for this interval the saving weight is 0, wich leads to 'no connection'
-    wiver.savings_bins_s = np.concatenate(([np.NINF],
-                                           np.linspace(.15, .85, 8),
-                                           [1]))
-    wiver.savings_weights_gs[0] = np.linspace(0, 2, wiver.n_savings_categories)
-    wiver.savings_weights_gs[1] = np.linspace(0, 5, wiver.n_savings_categories)
-    wiver.savings_weights_gs[2] = np.linspace(0, 10, wiver.n_savings_categories)
+    # define savings parameters
+    wiver.savings_param_g = [2, 1.1, 1.01]
 
     wiver.source_potential_gh = np.array([[10, 20, 10, 0, 10],
                                          [100, 20, 10, 0, 0],
@@ -192,7 +184,7 @@ def wiver(request) -> WIVER:
     wiver.mode_name = np.array(['Rad', 'Pkw', 'OV'])
     wiver.modes = np.array(['R', 'P', 'O'])
     wiver.groups = np.array([200, 201, 999])
-    wiver.group_names = np.array(['Gruppe {}'.format(i) for i in wiver.groups])
+    wiver.group_names = np.array([f'Gruppe {i}' for i in wiver.groups])
 
     return wiver
 
@@ -220,7 +212,6 @@ class Test01_WiverData:
         assert dims['destinations'] == wiver.n_zones
         assert dims['modes'] == wiver.n_modes
         assert dims['groups'] == wiver.n_groups
-        assert dims['savings'] == wiver.n_savings_categories
         assert dims['time_slices'] == wiver.n_time_slices
 
     def test_03_save_data(self, wiver: WIVER, wiver_files: Dict[str, str]):
@@ -327,9 +318,9 @@ class Test02_Wiver:
         s = wiver.calc_savings(g, m, zone_h, i, j)
         assert s == -99
 
-
-
-    def test_04_savings_factor(self, wiver: WIVER, zone_h: int):
+    def test_04_savings_factor(self, wiver: WIVER,
+                               zone_h: int,
+                               param_savings_param: float):
         """Test the savings factor function"""
         g = 0
         i = 1
@@ -382,27 +373,26 @@ class Test02_Wiver:
         group = 0
         tours = 100
         linking_trips = 200
-        n_sav = wiver.n_savings_categories
         wiver.param_dist_g[group] = -0.02
         wiver.calc_destination_choice(t, group, h)
 
         # test first without any savings
-        wiver.savings_weights_gs[group] = 1
+        wiver.savings_param_g[group] = np.inf
         interior_trips_no_savings = check_trips_with_savings(
             wiver, group, h, t, tours, linking_trips)
 
         # test first with low savings
-        wiver.savings_weights_gs[group] = np.linspace(1, 2, num=n_sav)
+        wiver.savings_param_g[group] = 2
         interior_trips_low_savings = check_trips_with_savings(
             wiver, group, h, t, tours, linking_trips)
 
         # test first with medium savings
-        wiver.savings_weights_gs[group] = np.linspace(1, 5, num=n_sav)
+        wiver.savings_param_g[group] = 1.1
         interior_trips_medium_savings = check_trips_with_savings(
             wiver, group, h, t, tours, linking_trips)
 
         # test first with strong savings
-        wiver.savings_weights_gs[group] = np.linspace(1, 10, num=n_sav)
+        wiver.savings_param_g[group] = 1.01
         interior_trips_high_savings = check_trips_with_savings(
             wiver, group, h, t, tours, linking_trips)
 
@@ -569,13 +559,12 @@ class Test02_Wiver:
         after = wiver.mean_distance_g
         print(after)
 
-    def test_41_mean_distance_savings(self, wiver: WIVER, param_saving_weights: float):
+    def test_41_mean_distance_savings(self, wiver: WIVER, param_savings_param: float):
         """
         Test the mean distance calculation
         with different savings optimizations
         """
-        wiver.savings_weights_gs[0] = np.linspace(1, param_saving_weights,
-                                                  wiver.n_savings_categories)
+        wiver.savings_param_g[0] = param_savings_param
         wiver.calc()
         after = wiver.mean_distance_g
         print(after)

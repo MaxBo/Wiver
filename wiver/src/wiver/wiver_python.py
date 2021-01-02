@@ -37,7 +37,6 @@ class WIVER(_WIVER, _ArrayProperties):
     def __init__(self,
                  n_groups: int,
                  n_zones: int,
-                 n_savings_categories: int=9,
                  n_time_slices: int=5,
                  n_modes: int=4,
                  n_sectors: int=2,
@@ -50,8 +49,6 @@ class WIVER(_WIVER, _ArrayProperties):
             the number of groups
         n_zones:
             the number of zones
-        n_savings_categories:
-            the number of categories for the savings algorithm
         n_time_slices:
             the number of time slices
         n_modes:
@@ -72,7 +69,6 @@ class WIVER(_WIVER, _ArrayProperties):
         self.n_groups = n_groups
         self.n_zones = n_zones
         self.n_sectors = n_sectors
-        self.n_savings_categories = n_savings_categories
         self.n_time_slices = n_time_slices
         self.set_n_threads(n_threads=n_threads)
 
@@ -121,7 +117,6 @@ class WIVER(_WIVER, _ArrayProperties):
         self.n_zones = dims['origins']
         self.n_groups = dims['groups']
         self.n_modes = dims['modes']
-        self.n_savings_categories = dims['savings']
         self.n_time_slices = dims['time_slices']
         self.set_n_threads()
 
@@ -147,8 +142,7 @@ class WIVER(_WIVER, _ArrayProperties):
         self.mode_name = ds.mode_name.data
         self.sector_short = ds.sector_short.data
         self.param_dist_g = ds.param_dist.data
-        self.savings_bins_s = ds.savings_bins.data
-        self.savings_weights_gs = ds.savings_weights.data
+        self.savings_param_g = ds.savings_param.data
         self.tour_rates_g = ds.tour_rates.data
         self.stops_per_tour_g = ds.stops_per_tour.data
         self.time_series_starting_trips_gs = ds.time_series_starting_trips.data
@@ -199,9 +193,7 @@ class WIVER(_WIVER, _ArrayProperties):
         self.init_array('sector_g', 'n_groups', 0)
         self.init_array('active_g', 'n_groups', 1)
 
-        self.init_array('savings_bins_s', 'n_savings_categories')
-        self.init_array('savings_weights_gs',
-                        'n_groups, n_savings_categories', 1)
+        self.init_array('savings_param_g', 'n_groups', 1.1)
 
         self.init_array('km_ij', 'n_zones, n_zones')
         self.init_array('travel_time_mij', 'n_modes, n_zones, n_zones')
@@ -278,10 +270,8 @@ class WIVER(_WIVER, _ArrayProperties):
 
         ds['param_dist'] = (('groups'),
                             self.param_dist_g)
-        ds['savings_bins'] = (('savings'),
-                              self.savings_bins_s)
-        ds['savings_weights'] = (('groups', 'savings'),
-                                 self.savings_weights_gs)
+        ds['savings_param'] = (('groups'),
+                              self.savings_param_g)
         ds['tour_rates'] = (('groups'),
                             self.tour_rates_g)
         ds['stops_per_tour'] = (('groups'),

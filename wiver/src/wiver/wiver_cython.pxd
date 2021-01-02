@@ -14,7 +14,6 @@ cdef class _WIVER(ArrayShapes):
     cdef public long32 n_groups
     cdef public long32 n_zones
     cdef public char n_threads
-    cdef public char n_savings_categories
     cdef public char n_time_slices
     cdef public char n_modes
     cdef public char n_sectors
@@ -29,9 +28,8 @@ cdef class _WIVER(ArrayShapes):
     # active groups
     cdef public ARRAY_1D_i1 _active_g
 
-    # Savings bins and weights for each group
-    cdef public ARRAY_1D_d _savings_bins_s
-    cdef public ARRAY_2D_d _savings_weights_gs
+    # Savings factor for each group
+    cdef public ARRAY_1D_d _savings_param_g
 
     # distance matrix (km from a to b)
     cdef public ARRAY_2D_d _km_ij

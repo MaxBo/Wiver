@@ -33,7 +33,7 @@ class TestWiver:
         n_modes = 1
         n_sectors = n_groups
         wiver = WIVER(n_groups, n_zones, n_modes=n_modes,
-                      n_time_slices=2, n_savings_categories=9, n_sectors=n_sectors)
+                      n_time_slices=2, n_sectors=n_sectors)
         wiver.mode_name = [f'Mode {n}' for n in range(n_modes)]
         wiver.sector_short = [f'Sector {n}' for n in range(n_sectors)]
         wiver.sector_g = range(n_sectors)
@@ -54,10 +54,7 @@ class TestWiver:
 
         wiver.travel_time_mij[:] = t
         # define savings intervals
-        wiver.savings_bins_s = np.concatenate((np.linspace(.15, .85, 8), [1]))
-        for g in range(n_groups):
-            wiver.savings_weights_gs[g] = np.linspace(
-                1, (g + 2), wiver.n_savings_categories)
+        wiver.savings_param_g = np.linspace(1.1, 2, wiver.n_groups)
 
         wiver.source_potential_gh = np.random.randint(
             0, 10, (n_groups, n_zones))

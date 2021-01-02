@@ -330,15 +330,16 @@ cdef class _WIVER(ArrayShapes):
     @cython.initializedcheck(False)
     cdef double _calc_savings_factor(self, long32 g, char m,
                                     long32 h, long32 i, long32 j) nogil:
-        """Calc the saving factor"""
+        """Calc the saving factor using the savings_param of the group"""
 
-        cdef double savings, savings_factor
-        cdef char s
+        cdef double savings, savings_factor, savings_param
+        savings_param = self._savings_param_g[g]
+        # if the savings parameter is +INF, return always 1 regardless of the savings
+        if savings_param == self.INF_d:
+            return 1
+        # otherwise, calculate the savings
         savings = self._calc_savings(g, m, h, i, j)
-        for s in range(self.n_savings_categories):
-            if savings <= self._savings_bins_s[s]:
-                break
-        savings_factor = self._savings_weights_gs[g, s]
+        savings_factor = 1 / (savings_param - savings)
         return savings_factor
 
     @cython.initializedcheck(False)
