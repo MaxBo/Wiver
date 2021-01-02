@@ -49,11 +49,12 @@ cdef class _WIVER(ArrayShapes):
         cdef char t, r
         cdef long32 g, h
         cdef double tours, linking_trips
-        self.reset_array('home_based_trips_gij')
-        self.reset_array('linking_trips_gij')
         for g in range(self.n_groups):
-            if not self._active_g[g]:
+            if self._converged_g[g] or not self._active_g[g]:
                 continue
+            self.home_based_trips_gij[g] = 0
+            self.linking_trips_gij[g] = 0
+
             mode = self._mode_g[g]
             sector = self._sector_g[g]
             name = f'{self.mode_name[mode]}_{self.sector_short[sector]}'
@@ -77,18 +78,34 @@ cdef class _WIVER(ArrayShapes):
                                     self.raise_linking_trips_error(g, h)
                         self._calc_trips(t, g, h, tours, linking_trips)
             self._symmetrisize_trip_matrix(g)
+            self.adjust_linking_trips(g)
         self.trips_gij[:] = (self.home_based_trips_gij +
                             self.linking_trips_gij +
                             self.return_trips_gij)
         self.trips_to_destination_gj[:] = (self.home_based_trips_gij +
                                            self.linking_trips_gij).sum(1)
 
-    def raise_destination_choice_error(self, g, h):
+    def adjust_linking_trips(self, g: int):
+        """
+        Adjust the number of linking trips for the group to the target value
+        to account for rounding errors with small probabilities
+        which do not sum um to 1.0
+        """
+        target_linking_trips = (self.source_potential_gh[g].sum() *
+                                self.tour_rates_g[g] *
+                                (self.stops_per_tour_g[g] - 1))
+        calculated_linking_trips = self.linking_trips_gij[g].sum()
+        kf_linking_trips = target_linking_trips / calculated_linking_trips
+        self.logger.debug(f'Group {g}: kf linking trips: {kf_linking_trips}')
+        self.linking_trips_gij[g] *= kf_linking_trips
+
+
+    def raise_destination_choice_error(self, g: int, h: int):
         """raise a DestinationChoiceError for destination trips"""
         msg = '''No accessible destinations found for group {g} and home zone {h}'''
         raise DestinationChoiceError(msg.format(g=g, h=h))
 
-    def raise_linking_trips_error(self, g, h):
+    def raise_linking_trips_error(self, g: int, h: int):
         """raise a DestinationChoiceError for linking trips"""
         msg = '''No destinations cannot be linked for group {g} and home zone {h} because they is no accessibility between the destinations'''
         raise DestinationChoiceError(msg.format(g=g, h=h))
@@ -115,6 +132,8 @@ cdef class _WIVER(ArrayShapes):
         cdef double total_distance_linking_trips
 
         for g in range(self.n_groups):
+            if self._converged_g[g]:
+                continue
             if not self._active_g[g]:
                 self._mean_distance_g[g] = self.NAN_d
                 continue
@@ -330,15 +349,16 @@ cdef class _WIVER(ArrayShapes):
     @cython.initializedcheck(False)
     cdef double _calc_savings_factor(self, long32 g, char m,
                                     long32 h, long32 i, long32 j) nogil:
-        """Calc the saving factor"""
+        """Calc the saving factor using the savings_param of the group"""
 
-        cdef double savings, savings_factor
-        cdef char s
+        cdef double savings, savings_factor, savings_param
+        savings_param = self._savings_param_g[g]
+        # if the savings parameter is +INF, return always 1 regardless of the savings
+        if savings_param == self.INF_d:
+            return 1
+        # otherwise, calculate the savings
         savings = self._calc_savings(g, m, h, i, j)
-        for s in range(self.n_savings_categories):
-            if savings <= self._savings_bins_s[s]:
-                break
-        savings_factor = self._savings_weights_gs[g, s]
+        savings_factor = 1 / (savings_param - savings)
         return savings_factor
 
     @cython.initializedcheck(False)
@@ -382,38 +402,40 @@ cdef class _WIVER(ArrayShapes):
 
 
     # python wrapper functions around nogil-functions - for testing purposes
-    def calc_savings(self, g, m, h, i, j):
+    def calc_savings(self, long32 g, char m, long32 h, long32 i, long32 j) -> double:
         """
         calc the savings for group g with home zone h from zone i to j
         """
         return self._calc_savings(g, m, h, i, j)
 
-    def calc_savings_factor(self, g, m, h, i, j):
+    def calc_savings_factor(self, long32 g, char m,
+                            long32 h, long32 i, long32 j) -> double:
         """
         calc the saving factor for group g with home zone h from zone i to j
         """
         return self._calc_savings_factor(g, m, h, i, j)
 
-    def calc_tours(self, g, h):
+    def calc_tours(self, long32 g, long32 h) -> double:
         return self._calc_tours(g, h)
 
-    def calc_linking_trips(self, g, tours):
+    def calc_linking_trips(self, long32 g, double tours) -> double:
         return self._calc_linking_trips(g, tours)
 
-    def calc_p_destination(self, g, m, h, j):
+    def calc_p_destination(self, long32 g, char m, long32 h, long32 j) -> double:
         return self._calc_p_destination(g, m, h, j)
 
-    def calc_destination_choice(self, t, g, h):
+    def calc_destination_choice(self, char t, long32 g, long32 h) -> char:
         r = self._calc_destination_choice(t, g, h)
         if r:
             self.raise_destination_choice_error(g, h)
 
-    def calc_linking_trip_choice(self, t, g, h):
+    def calc_linking_trip_choice(self, char t, long32 g, long32 h) -> char:
         r = self._calc_linking_trip_choice(t, g, h)
         if r:
             self.raise_linking_trips_error(g, h)
 
-    def calc_trips(self, t, g, h, tours, linking_trips):
+    def calc_trips(self, char t, long32 g, long32 h,
+                   double tours, double linking_trips) -> char:
         return self._calc_trips(t, g, h, tours, linking_trips)
 
     def normalise_time_series(self, np.ndarray time_series):
@@ -474,6 +496,7 @@ cdef class _WIVER(ArrayShapes):
     def assert_data_consistency(self):
         """assert the data consistency"""
         self.assert_data_consistency_of_array('mode_g', 'n_modes')
+        self.assert_data_consistency_of_array('sector_g', 'n_sectors')
 
     def assert_data_consistency_of_array(self, str attrname, str dim):
         """

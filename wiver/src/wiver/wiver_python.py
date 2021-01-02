@@ -37,7 +37,6 @@ class WIVER(_WIVER, _ArrayProperties):
     def __init__(self,
                  n_groups: int,
                  n_zones: int,
-                 n_savings_categories: int=9,
                  n_time_slices: int=5,
                  n_modes: int=4,
                  n_sectors: int=2,
@@ -50,8 +49,6 @@ class WIVER(_WIVER, _ArrayProperties):
             the number of groups
         n_zones:
             the number of zones
-        n_savings_categories:
-            the number of categories for the savings algorithm
         n_time_slices:
             the number of time slices
         n_modes:
@@ -72,7 +69,6 @@ class WIVER(_WIVER, _ArrayProperties):
         self.n_groups = n_groups
         self.n_zones = n_zones
         self.n_sectors = n_sectors
-        self.n_savings_categories = n_savings_categories
         self.n_time_slices = n_time_slices
         self.set_n_threads(n_threads=n_threads)
 
@@ -121,7 +117,6 @@ class WIVER(_WIVER, _ArrayProperties):
         self.n_zones = dims['origins']
         self.n_groups = dims['groups']
         self.n_modes = dims['modes']
-        self.n_savings_categories = dims['savings']
         self.n_time_slices = dims['time_slices']
         self.set_n_threads()
 
@@ -147,8 +142,7 @@ class WIVER(_WIVER, _ArrayProperties):
         self.mode_name = ds.mode_name.data
         self.sector_short = ds.sector_short.data
         self.param_dist_g = ds.param_dist.data
-        self.savings_bins_s = ds.savings_bins.data
-        self.savings_weights_gs = ds.savings_weights.data
+        self.savings_param_g = ds.savings_param.data
         self.tour_rates_g = ds.tour_rates.data
         self.stops_per_tour_g = ds.stops_per_tour.data
         self.time_series_starting_trips_gs = ds.time_series_starting_trips.data
@@ -198,10 +192,9 @@ class WIVER(_WIVER, _ArrayProperties):
         self.init_array('mode_g', 'n_groups', 0)
         self.init_array('sector_g', 'n_groups', 0)
         self.init_array('active_g', 'n_groups', 1)
+        self.init_array('converged_g', 'n_groups', 0)
 
-        self.init_array('savings_bins_s', 'n_savings_categories')
-        self.init_array('savings_weights_gs',
-                        'n_groups, n_savings_categories', 1)
+        self.init_array('savings_param_g', 'n_groups', 1.1)
 
         self.init_array('km_ij', 'n_zones, n_zones')
         self.init_array('travel_time_mij', 'n_modes, n_zones, n_zones')
@@ -278,10 +271,8 @@ class WIVER(_WIVER, _ArrayProperties):
 
         ds['param_dist'] = (('groups'),
                             self.param_dist_g)
-        ds['savings_bins'] = (('savings'),
-                              self.savings_bins_s)
-        ds['savings_weights'] = (('groups', 'savings'),
-                                 self.savings_weights_gs)
+        ds['savings_param'] = (('groups'),
+                              self.savings_param_g)
         ds['tour_rates'] = (('groups'),
                             self.tour_rates_g)
         ds['stops_per_tour'] = (('groups'),
@@ -526,7 +517,7 @@ class WIVER(_WIVER, _ArrayProperties):
             s.savePTVMatrix(file_name, file_type=visum_format)
             self.logger.info('matrix_saved')
 
-    def adjust_balancing_factor(self, threshold: float=0.1):
+    def adjust_balancing_factor(self, iteration: int, threshold: float=0.1):
         """
         adjust the balancing factor for the destination choice model
 
@@ -536,22 +527,29 @@ class WIVER(_WIVER, _ArrayProperties):
             if the difference between the modelled and the target trips is < threshold,
             the model converges
         """
-        self.converged=False
+        not_converged = ~ self.converged_g.astype(bool)
         sp = self.zonal_data.sink_potential
         target_share = sp / sp.sum('destinations')
         trips = self.balancing.trips_to_destination
         actual_share = trips / trips.sum('destinations')
         kf = target_share / actual_share
-        kf[:] = kf.fillna(1)
+        kf[not_converged] = kf[not_converged].fillna(1)
         bf = self.balancing.balancing_factor
         # adjust balancing factor
-        bf[:] = bf.fillna(1)
-        bf[:] = bf * kf
+        bf[not_converged] = bf[not_converged].fillna(1)
+        bf[not_converged] = bf[not_converged] * kf[not_converged]
         # normalize balancing factor
-        #bf[:] = bf / bf.mean('destinations')
-        if (np.abs(kf - 1) < threshold).all():
-            self.converged = True
-            self.logger.info('converged!')
+        bf[not_converged] = bf[not_converged] / bf.mean('destinations')[not_converged]
+        for g, group in enumerate(self.groups):
+            if not_converged[g]:
+                if (np.abs(kf[g] - 1) < threshold).all():
+                    self.converged_g[g]= iteration
+                    self.logger.info(
+                        f'group {group} converged after {iteration} iterations')
+                else:
+                    self.logger.debug(f'group {group} not converged yet')
+            else:
+                self.logger.debug(f'group {group} was already converged')
 
     def calc_with_balancing(self,
                             max_iterations: int=10,
@@ -567,14 +565,14 @@ class WIVER(_WIVER, _ArrayProperties):
             if the difference between the modelled and the target trips is < threshold,
             the model converges
         """
-        self.converged = False
+        self.converged_g[:] = 0
         iteration = 0
-        while (not self.converged) and iteration < max_iterations:
+        while (not self.converged_g.all()) and iteration < max_iterations:
             iteration += 1
-            self.logger.info('calculate trips in iteration {}'.format(iteration))
+            self.logger.info(f'calculate trips in iteration {iteration}')
             self.calc()
-            self.logger.info('Total trips: {:0.2f}'.format(self.trips_gij.sum()))
-            self.adjust_balancing_factor(threshold)
+            self.logger.info(f'Total trips: {self.trips_gij.sum():0.2f}')
+            self.adjust_balancing_factor(iteration, threshold)
 
     def calc_starting_and_ending_trips(self) -> pd.DataFrame:
         """
