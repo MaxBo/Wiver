@@ -551,6 +551,23 @@ class WIVER(_WIVER, _ArrayProperties):
             else:
                 self.logger.debug(f'group {group} was already converged')
 
+    def calc(self):
+        """calc the daily trips and the trips by time slice"""
+        for g in range(self.n_groups):
+            if self.converged_g[g] or not self.active_g[g]:
+                continue
+            self.calc_daily_trips(g)
+            self.adjust_linking_trips(g)
+            self.trips_gij[g] = (self.home_based_trips_gij[g] +
+                                self.linking_trips_gij[g] +
+                                self.return_trips_gij[g])
+            self.trips_to_destination_gj[g] = (self.home_based_trips_gij[g] +
+                                               self.linking_trips_gij[g]).sum(0)
+        self.calc_time_series()
+        self.aggregate_to_modes()
+        self.calc_mean_distance()
+        self.calc_mean_distance_mode()
+
     def calc_with_balancing(self,
                             max_iterations: int=10,
                             threshold: float=0.1):
