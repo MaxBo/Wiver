@@ -1,0 +1,195 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Description &#8212; Wiver Business Trip Model</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="wiver" href="../wiver/modules.html" />
+    <link rel="prev" title="Welcome to the Wiver Commercial Trip Model documentation" href="../index.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../wiver/modules.html" title="wiver"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="Welcome to the Wiver Commercial Trip Model documentation"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Wiver</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Description</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="description">
+<h1>Description<a class="headerlink" href="#description" title="Permalink to this headline">¶</a></h1>
+<p>Wiver is a Business Trip Model based upon the model developed by Sonntag et al. (1998).</p>
+<p>It is a macroscopic, tour-based model, that calculates demand matrices for different economic sectors and vehicle types.
+It consists of the steps:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">*</span> <span class="n">Tour</span> <span class="n">Generation</span>
+<span class="o">*</span> <span class="n">Destination</span> <span class="n">Choice</span> <span class="n">Model</span>
+<span class="o">*</span> <span class="n">Tour</span> <span class="n">Optimization</span> <span class="p">(</span><span class="n">Savings</span> <span class="n">Algorithm</span><span class="p">)</span>
+<span class="o">*</span> <span class="n">Trip</span> <span class="n">Balancing</span>
+</pre></div>
+</div>
+<p>The model has the following dimensions:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">*</span> <span class="n">n_zones</span><span class="p">:</span> <span class="n">the</span> <span class="n">number</span> <span class="n">of</span> <span class="n">transport</span> <span class="n">analysis</span> <span class="n">zones</span> <span class="p">(</span><span class="n">TAZ</span><span class="p">)</span>
+<span class="o">*</span> <span class="n">n_groups</span><span class="p">:</span> <span class="n">the</span> <span class="n">number</span> <span class="n">of</span> <span class="n">demand</span> <span class="n">groups</span> <span class="n">defined</span> <span class="n">by</span> <span class="n">economic</span> <span class="n">sectors</span> <span class="ow">and</span> <span class="n">vehicle</span> <span class="n">types</span>
+<span class="o">*</span> <span class="n">n_modes</span><span class="p">:</span> <span class="n">the</span> <span class="n">number</span> <span class="n">of</span> <span class="n">vehicle</span> <span class="n">types</span>
+<span class="o">*</span> <span class="n">n_time_slices</span><span class="p">:</span> <span class="n">the</span> <span class="n">number</span> <span class="n">of</span> <span class="n">time</span> <span class="n">slices</span> <span class="n">to</span> <span class="n">stratify</span> <span class="n">the</span> <span class="n">demand</span> <span class="n">by</span> <span class="n">time</span> <span class="n">of</span> <span class="n">day</span>
+<span class="o">*</span> <span class="n">n_threads</span><span class="p">:</span> <span class="n">the</span> <span class="n">number</span> <span class="n">of</span> <span class="n">threads</span> <span class="n">to</span> <span class="n">use</span> <span class="k">for</span> <span class="n">parallel</span> <span class="n">computation</span><span class="o">.</span> <span class="n">Defaults</span> <span class="n">to</span> <span class="nb">all</span> <span class="n">available</span> <span class="n">threads</span>
+
+<span class="n">Dimensions</span><span class="p">:</span>                        <span class="p">(</span><span class="n">n_groups</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="n">n_modes</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="n">n_threads</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="n">n_sectors</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="n">n_time_slices</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="n">n_zones</span><span class="p">:</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">Coordinates</span><span class="p">:</span>
+  <span class="o">*</span> <span class="n">n_groups</span>                       <span class="p">(</span><span class="n">n_groups</span><span class="p">)</span> <span class="nb">object</span> <span class="s1">&#39;Gruppe 0&#39;</span> <span class="s1">&#39;Gruppe 1&#39;</span>
+  <span class="o">*</span> <span class="n">n_modes</span>                        <span class="p">(</span><span class="n">n_modes</span><span class="p">)</span> <span class="nb">object</span> <span class="s1">&#39;Rad&#39;</span> <span class="s1">&#39;Pkw&#39;</span> <span class="s1">&#39;OV&#39;</span>
+  <span class="o">*</span> <span class="n">n_sectors</span>                      <span class="p">(</span><span class="n">n_sectors</span><span class="p">)</span> <span class="nb">object</span> <span class="s1">&#39;Industrie&#39;</span> <span class="s1">&#39;DL&#39;</span>
+  <span class="o">*</span> <span class="n">n_time_slices</span>                  <span class="p">(</span><span class="n">n_time_slices</span><span class="p">)</span> <span class="nb">object</span> <span class="kc">None</span> <span class="kc">None</span> <span class="kc">None</span>
+  <span class="o">*</span> <span class="n">n_zones</span>                        <span class="p">(</span><span class="n">n_zones</span><span class="p">)</span> <span class="nb">object</span> <span class="s1">&#39;A-Stadt&#39;</span> <span class="s1">&#39;B-Stadt&#39;</span> <span class="o">...</span>
+<span class="n">Dimensions</span> <span class="n">without</span> <span class="n">coordinates</span><span class="p">:</span> <span class="n">n_threads</span>
+</pre></div>
+</div>
+<p>The input data is to be provided as a <a class="reference external" href="http://xarray.pydata.org/en/stable/">xarray-Dataset</a> with the following Data variables:</p>
+<div class="section" id="tour-generation">
+<h2>Tour Generation<a class="headerlink" href="#tour-generation" title="Permalink to this headline">¶</a></h2>
+<p>For each economic sector the number of employees per travel analysis zone (TAZ) is required:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">source_potential_gh</span>            <span class="p">(</span><span class="n">n_groups</span><span class="p">,</span> <span class="n">n_zones</span><span class="p">)</span> <span class="n">float64</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="destination-choice-model">
+<h2>Destination Choice Model<a class="headerlink" href="#destination-choice-model" title="Permalink to this headline">¶</a></h2>
+<p>For each economic sector a destination choice model is calculated between all TAZ.
+The important factors are the trip attraction-potential of the destination zone j, the trip distance between zone i and j and the travel impedance coefficient which depends on the economic sector.</p>
+<p>The destination choice model produces a matrix of trips between zones.</p>
+</div>
+<div class="section" id="tour-optimization-savings-algorithm">
+<h2>Tour Optimization (Savings Algorithm)<a class="headerlink" href="#tour-optimization-savings-algorithm" title="Permalink to this headline">¶</a></h2>
+<p>The tour optimization step appies a savings algorithm in order to simulate that linking trips are more or less efficiently planned (depending on the economic sector).</p>
+</div>
+<div class="section" id="trip-balancing">
+<h2>Trip Balancing<a class="headerlink" href="#trip-balancing" title="Permalink to this headline">¶</a></h2>
+<p>The trip balancing step checks if the number of trips to a destination zone is higher or lower than its relative trip attraction potential. In a next iteration, the attraction potential is then adjusted.</p>
+</div>
+</div>
+<div class="section" id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<p>The easiest way to handle dependencies is to use <a class="reference external" href="https://conda.io/miniconda.html/">conda</a>.</p>
+<p>There conda packages for python 3.5 to 3.7 for windown and linux are generated in the channel <em>MaxBo</em> in <a class="reference external" href="https://anaconda.org/MaxBo/wiver/">Anaconda Cloud</a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">create</span> <span class="o">-</span><span class="n">n</span> <span class="n">wiver</span> <span class="n">python</span><span class="o">=</span><span class="mf">3.7</span>
+<span class="n">activate</span> <span class="n">wiver</span>
+
+<span class="n">conda</span> <span class="n">config</span> <span class="o">--</span><span class="n">add</span> <span class="n">channels</span> <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">conda</span> <span class="n">config</span> <span class="o">--</span><span class="n">add</span> <span class="n">channels</span> <span class="n">MaxBo</span>
+
+<span class="n">conda</span> <span class="n">install</span> <span class="n">wiver</span>
+</pre></div>
+</div>
+<p>Or you install it in an virtual environment with <cite>pip install wiver</cite>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">cythoninstallhelpers</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">cythonarrays</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">wiver</span>
+</pre></div>
+</div>
+<p>Test the package:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">pytest</span><span class="o">-</span><span class="n">benchmark</span>
+<span class="n">py</span><span class="o">.</span><span class="n">test</span> <span class="o">--</span><span class="n">pyargs</span> <span class="n">wiver</span>
+</pre></div>
+</div>
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Description</a><ul>
+<li><a class="reference internal" href="#tour-generation">Tour Generation</a></li>
+<li><a class="reference internal" href="#destination-choice-model">Destination Choice Model</a></li>
+<li><a class="reference internal" href="#tour-optimization-savings-algorithm">Tour Optimization (Savings Algorithm)</a></li>
+<li><a class="reference internal" href="#trip-balancing">Trip Balancing</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../index.html"
+                        title="previous chapter">Welcome to the Wiver Commercial Trip Model documentation</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../wiver/modules.html"
+                        title="next chapter">wiver</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/description/model.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../wiver/modules.html" title="wiver"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="Welcome to the Wiver Commercial Trip Model documentation"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Wiver</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Description</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Gertz Gutsche Rümenapp.
+      Last updated on Jan 02, 2021.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.1.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,187 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>wiver.tests.test_wiver_benchmark module &#8212; Wiver Business Trip Model</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="wiver.run_wiver module" href="wiver.run_wiver.html" />
+    <link rel="prev" title="wiver.tests.test_wiver module" href="wiver.tests.test_wiver.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="wiver.run_wiver.html" title="wiver.run_wiver module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="wiver.tests.test_wiver.html" title="wiver.tests.test_wiver module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Wiver</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >wiver</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="wiver.html" >wiver package</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="wiver.tests.html" accesskey="U">wiver.tests package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">wiver.tests.test_wiver_benchmark module</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-wiver.tests.test_wiver_benchmark">
+<span id="wiver-tests-test-wiver-benchmark-module"></span><h1>wiver.tests.test_wiver_benchmark module<a class="headerlink" href="#module-wiver.tests.test_wiver_benchmark" title="Permalink to this headline">¶</a></h1>
+<p>Created on Fri Jun 10 21:00:21 2016</p>
+<p>&#64;author: MaxBohnet</p>
+<dl class="py class">
+<dt id="wiver.tests.test_wiver_benchmark.TestWiver">
+<em class="property">class </em><code class="sig-prename descclassname">wiver.tests.test_wiver_benchmark.</code><code class="sig-name descname">TestWiver</code><a class="headerlink" href="#wiver.tests.test_wiver_benchmark.TestWiver" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Test Wiver Model</p>
+<dl class="py method">
+<dt id="wiver.tests.test_wiver_benchmark.TestWiver.create_wiver">
+<code class="sig-name descname">create_wiver</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n_zones</span></em>, <em class="sig-param"><span class="n">n_groups</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.tests.test_wiver_benchmark.TestWiver.create_wiver" title="Permalink to this definition">¶</a></dt>
+<dd><p>create the wiver object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_zones</strong> (<em>int</em>) – </p></li>
+<li><p><strong>n_groups</strong> (<em>int</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="wiver.tests.test_wiver_benchmark.TestWiver.test_01_calc_wiver">
+<code class="sig-name descname">test_01_calc_wiver</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n_zones</span></em>, <em class="sig-param"><span class="n">n_groups</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.tests.test_wiver_benchmark.TestWiver.test_01_calc_wiver" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test the results of wiver for more zones</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_zones</strong> (<em>int</em>) – </p></li>
+<li><p><strong>n_groups</strong> (<em>int</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="wiver.tests.test_wiver_benchmark.TestWiver.test_02_benchmark_wiver">
+<code class="sig-name descname">test_02_benchmark_wiver</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n_zones</span></em>, <em class="sig-param"><span class="n">n_groups</span></em>, <em class="sig-param"><span class="n">benchmark</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.tests.test_wiver_benchmark.TestWiver.test_02_benchmark_wiver" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test the wiver runtime for more zones</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_zones</strong> (<em>int</em>) – </p></li>
+<li><p><strong>n_groups</strong> (<em>int</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="wiver.tests.test_wiver_benchmark.n_groups">
+<code class="sig-prename descclassname">wiver.tests.test_wiver_benchmark.</code><code class="sig-name descname">n_groups</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">request</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.tests.test_wiver_benchmark.n_groups" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="wiver.tests.test_wiver_benchmark.n_zones">
+<code class="sig-prename descclassname">wiver.tests.test_wiver_benchmark.</code><code class="sig-name descname">n_zones</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">request</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.tests.test_wiver_benchmark.n_zones" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="wiver.tests.test_wiver.html"
+                        title="previous chapter">wiver.tests.test_wiver module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="wiver.run_wiver.html"
+                        title="next chapter">wiver.run_wiver module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/wiver/wiver.tests.test_wiver_benchmark.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="wiver.run_wiver.html" title="wiver.run_wiver module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="wiver.tests.test_wiver.html" title="wiver.tests.test_wiver module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Wiver</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >wiver</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="wiver.html" >wiver package</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="wiver.tests.html" >wiver.tests package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">wiver.tests.test_wiver_benchmark module</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Gertz Gutsche Rümenapp.
+      Last updated on Jan 02, 2021.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.1.
+    </div>
+  </body>
+</html>

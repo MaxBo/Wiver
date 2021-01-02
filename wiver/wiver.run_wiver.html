@@ -1,0 +1,477 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>wiver.run_wiver module &#8212; Wiver Business Trip Model</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="wiver.wiver_cython module" href="wiver.wiver_cython.html" />
+    <link rel="prev" title="wiver.tests.test_wiver_benchmark module" href="wiver.tests.test_wiver_benchmark.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="wiver.wiver_cython.html" title="wiver.wiver_cython module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="wiver.tests.test_wiver_benchmark.html" title="wiver.tests.test_wiver_benchmark module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Wiver</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >wiver</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="wiver.html" accesskey="U">wiver package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">wiver.run_wiver module</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-wiver.run_wiver">
+<span id="wiver-run-wiver-module"></span><h1>wiver.run_wiver module<a class="headerlink" href="#module-wiver.run_wiver" title="Permalink to this headline">¶</a></h1>
+<p>Created on Fri Jun 10 21:00:21 2016</p>
+<p>&#64;author: MaxBohnet</p>
+<dl class="py function">
+<dt id="wiver.run_wiver.add_logfile">
+<code class="sig-prename descclassname">wiver.run_wiver.</code><code class="sig-name descname">add_logfile</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">project_folder</span></em>, <em class="sig-param"><span class="n">scenario</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.run_wiver.add_logfile" title="Permalink to this definition">¶</a></dt>
+<dd><p>add Logfile to logger</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>project_folder</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – filepath of the project folder</p></li>
+<li><p><strong>scenario</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – the name of the scenario</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="wiver.run_wiver.balancing_file">
+<code class="sig-prename descclassname">wiver.run_wiver.</code><code class="sig-name descname">balancing_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">project_folder</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.run_wiver.balancing_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>The balancing-file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>project_folder</strong> (<em>str</em>) – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>balancing_file</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="wiver.run_wiver.calc_starting_ending_trips">
+<code class="sig-prename descclassname">wiver.run_wiver.</code><code class="sig-name descname">calc_starting_ending_trips</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">wiver</span></em>, <em class="sig-param"><span class="n">wiver_files</span></em>, <em class="sig-param"><span class="n">starting_ending_trips_file</span></em>, <em class="sig-param"><span class="n">connection</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.run_wiver.calc_starting_ending_trips" title="Permalink to this definition">¶</a></dt>
+<dd><p>calculate starting and ending trips per zone</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>wiver</strong> (<a class="reference internal" href="wiver.wiver_python.html#wiver.wiver_python.WIVER" title="wiver.wiver_python.WIVER"><code class="xref py py-class docutils literal notranslate"><span class="pre">WIVER</span></code></a>) – wiver-model</p></li>
+<li><p><strong>wiver-files</strong> – dict</p></li>
+<li><p><strong>starting_ending_trips_file</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – str</p></li>
+<li><p><strong>connection</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Connection</span></code>) – An open Database Connection</p></li>
+<li><p><strong>wiver_files</strong> (<em>dict</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="wiver.run_wiver.close_logfile">
+<code class="sig-prename descclassname">wiver.run_wiver.</code><code class="sig-name descname">close_logfile</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wiver.run_wiver.close_logfile" title="Permalink to this definition">¶</a></dt>
+<dd><p>close logfiles</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="wiver.run_wiver.connection">
+<code class="sig-prename descclassname">wiver.run_wiver.</code><code class="sig-name descname">connection</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">project_folder</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.run_wiver.connection" title="Permalink to this definition">¶</a></dt>
+<dd><p>database connection to an sqlite-file named <cite>wiver.db3</cite> in the project_folder
+to write zonal data into</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>project_folder</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – the folder, where the sqlite-file is created</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Connection</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="wiver.run_wiver.groups_to_calculate">
+<code class="sig-prename descclassname">wiver.run_wiver.</code><code class="sig-name descname">groups_to_calculate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wiver.run_wiver.groups_to_calculate" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of group ids to calculate</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="wiver.run_wiver.matrix_file">
+<code class="sig-prename descclassname">wiver.run_wiver.</code><code class="sig-name descname">matrix_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">project_folder</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.run_wiver.matrix_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>The matrix-file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>project_folder</strong> (<em>str</em>) – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>matrix_file</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="wiver.run_wiver.max_iterations">
+<code class="sig-prename descclassname">wiver.run_wiver.</code><code class="sig-name descname">max_iterations</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wiver.run_wiver.max_iterations" title="Permalink to this definition">¶</a></dt>
+<dd><p>maximum number of iterations</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="wiver.run_wiver.n_threads">
+<code class="sig-prename descclassname">wiver.run_wiver.</code><code class="sig-name descname">n_threads</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wiver.run_wiver.n_threads" title="Permalink to this definition">¶</a></dt>
+<dd><p>The number of threads to use
+if not defined, use the maximum number of threads available,
+maximum number equals to the number of groups</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="wiver.run_wiver.params_file">
+<code class="sig-prename descclassname">wiver.run_wiver.</code><code class="sig-name descname">params_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">project_folder</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.run_wiver.params_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>The params-file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>project_folder</strong> (<em>str</em>) – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>params_file</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="wiver.run_wiver.project_folder">
+<code class="sig-prename descclassname">wiver.run_wiver.</code><code class="sig-name descname">project_folder</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wiver.run_wiver.project_folder" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Project folder (%TEMP% by default)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="wiver.run_wiver.reset_balancing">
+<code class="sig-prename descclassname">wiver.run_wiver.</code><code class="sig-name descname">reset_balancing</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wiver.run_wiver.reset_balancing" title="Permalink to this definition">¶</a></dt>
+<dd><p>if True, balancing factors will be reset to 1 before calculating</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="wiver.run_wiver.result_file">
+<code class="sig-prename descclassname">wiver.run_wiver.</code><code class="sig-name descname">result_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">project_folder</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.run_wiver.result_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>The results-file
+Must not contain non-ascii-letters in the directory- or filename,
+because netcdf4-files fail otherwise</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>project_folder</strong> (<em>str</em>) – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>result_file</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="wiver.run_wiver.result_folder">
+<code class="sig-prename descclassname">wiver.run_wiver.</code><code class="sig-name descname">result_folder</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">project_folder</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.run_wiver.result_folder" title="Permalink to this definition">¶</a></dt>
+<dd><p>The result folder</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>project_folder</strong> (<em>str</em>) – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>result_folder</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="wiver.run_wiver.run_wiver">
+<code class="sig-prename descclassname">wiver.run_wiver.</code><code class="sig-name descname">run_wiver</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">wiver</span></em>, <em class="sig-param"><span class="n">wiver_files</span></em>, <em class="sig-param"><span class="n">max_iterations</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.run_wiver.run_wiver" title="Permalink to this definition">¶</a></dt>
+<dd><p>calculate wiver model</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>wiver</strong> (<a class="reference internal" href="wiver.wiver_python.html#wiver.wiver_python.WIVER" title="wiver.wiver_python.WIVER"><code class="xref py py-class docutils literal notranslate"><span class="pre">WIVER</span></code></a>) – wiver-model</p></li>
+<li><p><strong>wiver_files</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>) – dict with the input files</p></li>
+<li><p><strong>max_iterations</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Maximum number of iterations</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="wiver.run_wiver.run_wiver_for_selected_groups">
+<code class="sig-prename descclassname">wiver.run_wiver.</code><code class="sig-name descname">run_wiver_for_selected_groups</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">wiver</span></em>, <em class="sig-param"><span class="n">wiver_files</span></em>, <em class="sig-param"><span class="n">max_iterations</span></em>, <em class="sig-param"><span class="n">reset_balancing</span></em>, <em class="sig-param"><span class="n">groups_to_calculate</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.run_wiver.run_wiver_for_selected_groups" title="Permalink to this definition">¶</a></dt>
+<dd><p>calculate wiver model for selected groups only</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>wiver</strong> (<a class="reference internal" href="wiver.wiver_python.html#wiver.wiver_python.WIVER" title="wiver.wiver_python.WIVER"><code class="xref py py-class docutils literal notranslate"><span class="pre">WIVER</span></code></a>) – wiver-model</p></li>
+<li><p><strong>wiver-files</strong> – dict</p></li>
+<li><p><strong>max_iterations</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – int</p></li>
+<li><p><strong>groups_to_calculate</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – list of group numbers, that should be calculated</p></li>
+<li><p><strong>wiver_files</strong> (<em>dict</em>) – </p></li>
+<li><p><strong>reset_balancing</strong> (<em>bool</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="wiver.run_wiver.save_detailed_results">
+<code class="sig-prename descclassname">wiver.run_wiver.</code><code class="sig-name descname">save_detailed_results</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">wiver</span></em>, <em class="sig-param"><span class="n">wiver_files</span></em>, <em class="sig-param"><span class="n">result_folder</span></em>, <em class="sig-param"><span class="n">groups_to_calculate</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.run_wiver.save_detailed_results" title="Permalink to this definition">¶</a></dt>
+<dd><p>save detailed result matrices of wiver-model</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>wiver</strong> (<a class="reference internal" href="wiver.wiver_python.html#wiver.wiver_python.WIVER" title="wiver.wiver_python.WIVER"><code class="xref py py-class docutils literal notranslate"><span class="pre">WIVER</span></code></a>) – wiver-model</p></li>
+<li><p><strong>wiver-files</strong> – dict</p></li>
+<li><p><strong>result_folder</strong> (<em>str</em>) – the folder to store the calculated matrices</p></li>
+<li><p><strong>groups_to_calculate</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – list of int</p></li>
+<li><p><strong>wiver_files</strong> (<em>dict</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="wiver.run_wiver.save_input_data">
+<code class="sig-prename descclassname">wiver.run_wiver.</code><code class="sig-name descname">save_input_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">wiver</span></em>, <em class="sig-param"><span class="n">wiver_files</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.run_wiver.save_input_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>save the input data from the wiver-model
+as HDF5-files to the wiver_files</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>wiver</strong> (<a class="reference internal" href="wiver.wiver_python.html#wiver.wiver_python.WIVER" title="wiver.wiver_python.WIVER"><code class="xref py py-class docutils literal notranslate"><span class="pre">WIVER</span></code></a>) – the Wiver-model</p></li>
+<li><p><strong>wiver_files</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>) – dict with the filenames</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="wiver.run_wiver.save_results">
+<code class="sig-prename descclassname">wiver.run_wiver.</code><code class="sig-name descname">save_results</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">wiver</span></em>, <em class="sig-param"><span class="n">wiver_files</span></em>, <em class="sig-param"><span class="n">result_folder</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.run_wiver.save_results" title="Permalink to this definition">¶</a></dt>
+<dd><p>save result matrices of wiver-model</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>wiver</strong> (<a class="reference internal" href="wiver.wiver_python.html#wiver.wiver_python.WIVER" title="wiver.wiver_python.WIVER"><code class="xref py py-class docutils literal notranslate"><span class="pre">WIVER</span></code></a>) – wiver-model</p></li>
+<li><p><strong>wiver-files</strong> – dict</p></li>
+<li><p><strong>result_folder</strong> (<em>str</em>) – the folder to store the calculated matrices</p></li>
+<li><p><strong>wiver_files</strong> (<em>dict</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="wiver.run_wiver.scenario">
+<code class="sig-prename descclassname">wiver.run_wiver.</code><code class="sig-name descname">scenario</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wiver.run_wiver.scenario" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Scenario Name</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="wiver.run_wiver.starting_ending_trips_file">
+<code class="sig-prename descclassname">wiver.run_wiver.</code><code class="sig-name descname">starting_ending_trips_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">project_folder</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.run_wiver.starting_ending_trips_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Excel-File for starting and ending trips</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>project_folder</strong> (<em>str</em>) – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>starting_ending_trip_file</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="wiver.run_wiver.wiver">
+<code class="sig-prename descclassname">wiver.run_wiver.</code><code class="sig-name descname">wiver</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">wiver_files</span></em>, <em class="sig-param"><span class="n">n_threads</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.run_wiver.wiver" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a WIVER-instance with the given input data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>wiver_files</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – dict with the input files</p></li>
+<li><p><strong>n_threads</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – the maximum number of threads to use</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="wiver.wiver_python.html#wiver.wiver_python.WIVER" title="wiver.wiver_python.WIVER"><code class="xref py py-class docutils literal notranslate"><span class="pre">WIVER</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="wiver.run_wiver.wiver_files">
+<code class="sig-prename descclassname">wiver.run_wiver.</code><code class="sig-name descname">wiver_files</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">params_file</span></em>, <em class="sig-param"><span class="n">matrix_file</span></em>, <em class="sig-param"><span class="n">zones_file</span></em>, <em class="sig-param"><span class="n">balancing_file</span></em>, <em class="sig-param"><span class="n">result_file</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.run_wiver.wiver_files" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>wiver_files</strong> – a dictionary with the file path to the input data files</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>params_file</strong> (<em>str</em>) – </p></li>
+<li><p><strong>matrix_file</strong> (<em>str</em>) – </p></li>
+<li><p><strong>zones_file</strong> (<em>str</em>) – </p></li>
+<li><p><strong>balancing_file</strong> (<em>str</em>) – </p></li>
+<li><p><strong>result_file</strong> (<em>str</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="wiver.run_wiver.zones_file">
+<code class="sig-prename descclassname">wiver.run_wiver.</code><code class="sig-name descname">zones_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">project_folder</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.run_wiver.zones_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>The zonal_data-file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>project_folder</strong> (<em>str</em>) – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>zones_file</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="wiver.tests.test_wiver_benchmark.html"
+                        title="previous chapter">wiver.tests.test_wiver_benchmark module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="wiver.wiver_cython.html"
+                        title="next chapter">wiver.wiver_cython module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/wiver/wiver.run_wiver.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="wiver.wiver_cython.html" title="wiver.wiver_cython module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="wiver.tests.test_wiver_benchmark.html" title="wiver.tests.test_wiver_benchmark module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Wiver</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >wiver</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="wiver.html" >wiver package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">wiver.run_wiver module</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Gertz Gutsche Rümenapp.
+      Last updated on Jan 02, 2021.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.1.
+    </div>
+  </body>
+</html>

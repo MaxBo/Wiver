@@ -1,0 +1,331 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome to the Wiver Commercial Trip Model documentation &#8212; Wiver Business Trip Model</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Description" href="description/model.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="description/model.html" title="Description"
+             accesskey="N">next</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">Wiver</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Welcome to the Wiver Commercial Trip Model documentation</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="welcome-to-the-wiver-commercial-trip-model-documentation">
+<h1>Welcome to the Wiver Commercial Trip Model documentation<a class="headerlink" href="#welcome-to-the-wiver-commercial-trip-model-documentation" title="Permalink to this headline">¶</a></h1>
+<p>Wiver is a Commercial Trip Model to simulate commercial vehicle tours in urban areas.</p>
+<a class="reference external image-reference" href="http://www.gnu.org/licenses/gpl-3.0"><img alt="License: GPL v3" src="https://img.shields.io/badge/License-GPL%20v3-blue.svg" /></a>
+<a class="reference external image-reference" href="https://travis-ci.org/MaxBo/Wiver"><img alt="Build Status" src="https://travis-ci.org/MaxBo/Wiver.svg?branch=master" /></a>
+<a class="reference external image-reference" href="https://ci.appveyor.com/project/MaxBo/wiver"><img alt="Build status" src="https://ci.appveyor.com/api/projects/status/q0lek1t5tl5lcq29?svg=true" /></a>
+<a class="reference external image-reference" href="https://codecov.io/gh/MaxBo/Wiver"><img alt="codecov" src="https://codecov.io/gh/MaxBo/Wiver/branch/master/graph/badge.svg" /></a>
+<a class="reference external image-reference" href="https://badge.fury.io/py/wiver"><img alt="PyPI version" src="https://badge.fury.io/py/wiver.svg" /></a>
+<a class="reference external image-reference" href="https://anaconda.org/maxbo/wiver"><img alt="Anaconda-Server Badge" src="https://anaconda.org/maxbo/wiver/badges/version.svg" /></a>
+<a class="reference external image-reference" href="https://anaconda.org/maxbo/wiver"><img alt="Anaconda-LastUpdate" src="https://anaconda.org/maxbo/wiver/badges/latest_release_date.svg" /></a>
+</div>
+<div class="section" id="wiver-business-trip-model">
+<h1>Wiver - Business Trip Model<a class="headerlink" href="#wiver-business-trip-model" title="Permalink to this headline">¶</a></h1>
+<p>Wiver is a Business Trip Model based upon the model developed by Sonntag et al. (1998).</p>
+<p>It is a macroscopic, tour-based model, that calculates demand matrices for different economic sectors and vehicle types.
+It consists of the steps</p>
+<ul class="simple">
+<li><p>Tour Generation</p></li>
+<li><p>Destination Choice Model</p></li>
+<li><p>Tour Optimization (Savings Algorithm)</p></li>
+<li><p>Trip Balancing</p></li>
+</ul>
+<div class="section" id="model-components">
+<h2>Model Components<a class="headerlink" href="#model-components" title="Permalink to this headline">¶</a></h2>
+<p>The model has the following dimensions:</p>
+<ul class="simple">
+<li><p>n_zones: the number of transport analysis zones (TAZ)</p></li>
+<li><p>n_groups: the number of demand groups defined by economic sectors and vehicle types</p></li>
+<li><p>n_time_slices: the number of time slices to stratify the demand by time of day</p></li>
+<li><p>n_modes: the number of vehicle types</p></li>
+<li><p>n_sectors: the number of economic sectors</p></li>
+<li><p>n_threads: the number of threads to use for parallel computation. Defaults to all available threads</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">wiver.wiver_python</span> <span class="kn">import</span> <span class="n">WIVER</span>
+<span class="n">wiver</span> <span class="o">=</span> <span class="n">WIVER</span><span class="p">(</span><span class="n">n_groups</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+              <span class="n">n_zones</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+              <span class="n">n_time_slices</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+              <span class="n">n_modes</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+              <span class="n">n_sectors</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The input data can to be provided as a <a class="reference external" href="https://xarray.org">xarray-Dataset</a> with the following Data variables:</p>
+<p><strong>Zones, Sectors, Modes, and Groups</strong></p>
+<p>The zones have a number and optionally a name:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wiver</span><span class="o">.</span><span class="n">zone_no</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">50</span><span class="p">]</span>
+<span class="n">wiver</span><span class="o">.</span><span class="n">zone_name</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;A-City&#39;</span><span class="p">,</span> <span class="s1">&#39;B-Village&#39;</span><span class="p">,</span> <span class="s1">&#39;C-Town&#39;</span><span class="p">,</span> <span class="s1">&#39;D-Factory&#39;</span><span class="p">,</span> <span class="s1">&#39;E-Site&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>The Modes and sectors have a name:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wiver</span><span class="o">.</span><span class="n">modes</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Car&#39;</span><span class="p">,</span> <span class="s1">&#39;Truck&#39;</span><span class="p">,</span> <span class="s1">&#39;Van&#39;</span><span class="p">]</span>
+<span class="n">wiver</span><span class="o">.</span><span class="n">sector_short</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;IND&#39;</span><span class="p">,</span> <span class="s1">&#39;SERVICE&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>The groups have a name and are assinged to a mode and a sector:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wiver</span><span class="o">.</span><span class="n">group_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Car_Service&#39;</span><span class="p">,</span> <span class="s1">&#39;Van_Industry&#39;</span><span class="p">,</span> <span class="s1">&#39;Truck_Industry&#39;</span><span class="p">]</span>
+<span class="n">wiver</span><span class="o">.</span><span class="n">modes_g</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">wiver</span><span class="o">.</span><span class="n">sector_g</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><strong>Travel time Matrix</strong></p>
+<p>For each mode <code class="docutils literal notranslate"><span class="pre">m</span></code>, a travel-time matrix from zone <code class="docutils literal notranslate"><span class="pre">i</span></code> to zone <code class="docutils literal notranslate"><span class="pre">j</span></code> has to be provided:
+If the matrix is the same for all modes, if can be assigned to all modes:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">t_ij</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">n_zones</span><span class="p">,</span> <span class="n">n_zones</span><span class="p">))</span>
+<span class="n">wiver</span><span class="o">.</span><span class="n">travel_time_mij</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">t_ij</span>
+</pre></div>
+</div>
+<p>Or an individual matrix is assigned to each mode:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wiver</span><span class="o">.</span><span class="n">travel_time_mij</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">t_ij_car</span>
+<span class="n">wiver</span><span class="o">.</span><span class="n">travel_time_mij</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">t_ij_van</span>
+<span class="n">wiver</span><span class="o">.</span><span class="n">travel_time_mij</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">t_ij_truck</span>
+</pre></div>
+</div>
+<p><strong>Source and Sink Potential per Zone</strong></p>
+<p>For each group <code class="docutils literal notranslate"><span class="pre">g</span></code>, a source potential for each origin zone <code class="docutils literal notranslate"><span class="pre">h</span></code> has to be given (e.g. the number of employees per sector).
+For each group <code class="docutils literal notranslate"><span class="pre">g</span></code> and and destination zone <code class="docutils literal notranslate"><span class="pre">j</span></code> a sink potential is required:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wiver</span><span class="o">.</span><span class="n">source_potential_gh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">n_groups</span><span class="p">,</span> <span class="n">n_zones</span><span class="p">))</span>
+<span class="n">wiver</span><span class="o">.</span><span class="n">sink_potential_gj</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">n_groups</span><span class="p">,</span> <span class="n">n_zones</span><span class="p">))</span>
+</pre></div>
+</div>
+<p><strong>Tour Rates and Stops per Tour</strong></p>
+<p>For each group <code class="docutils literal notranslate"><span class="pre">g</span></code>, the tour rates and stops per tour are defined:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wiver</span><span class="o">.</span><span class="n">tour_rates_g</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">n_groups</span><span class="p">))</span>
+<span class="n">wiver</span><span class="o">.</span><span class="n">stops_per_tour_g</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">n_groups</span><span class="p">))</span>
+</pre></div>
+</div>
+<p><strong>Tour Generation</strong></p>
+<p>For each group, the number of tours, that start and end in a zone, are calculated by the source_potential and the tour_rates of the group. Each tour has linking trips, which are calculated using the stops_per_tour provided.</p>
+<p><strong>Destination Choice and Tour Optimization Model (Savings Algorithm)</strong></p>
+<p>The destination choice model first calculates the trips from the home zone <code class="docutils literal notranslate"><span class="pre">h</span></code> of the tour to the first stop and then the linking trips from the first stop to the next stops.</p>
+<p>For the first trip, the distance decay for each group is defined by the distance parameter <code class="docutils literal notranslate"><span class="pre">param_dist_g</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">param_dist_g</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.4</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.2</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.03</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>A big negative parameter means, that destinations very close to the home zone are chosen as the first stop. A parameter close to zero means, that the travel time has low influence on the destination choice and the destinations are chosen maily by the sink potential of the destination zone.</p>
+<p>For the linking trips, first the destination choice is calculated with the same parameter as for the first trip.
+Then, a savings factor is calculated using the savings algorithm to account for tour optimization.</p>
+<p>The savings factor is calculated using the savings-parameter</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">savings_param_g</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.05</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>the savings-parameter have to be &gt; 1.0
+A parameter close to 1 represents a high level of tour optimization (as in the case of postal services),
+and the mean distance of the linking trips are small
+A larger parameter means a low level of tour optimization and the linking trips are longer.
+An infititive value means no tour optimization at all.</p>
+<p><strong>Trip Balancing</strong></p>
+<p>The model can be run with trip balancing, which ensures, that for example all customers are served.
+The number of trips to a destination zone should be proportional to the sink potential of the destination zone.</p>
+<p>The following example should illustrate the balancing algorithm:</p>
+<p>There are in total 20 tours with 100 stops to 3 destinations starting in a depot in zone 1.
+The destinations have a sink potential of <code class="docutils literal notranslate"><span class="pre">[1,</span> <span class="pre">4,</span> <span class="pre">5]</span></code>.
+So the destinations should receive 10, 40, and 50 trips.
+<code class="docutils literal notranslate"><span class="pre">target_trips_gj</span> <span class="pre">=</span> <span class="pre">[10,</span> <span class="pre">40,</span> <span class="pre">50]</span></code></p>
+<p>Without balancing, it might be that zone 1 receives more trips, because it is close to the depot,
+while destinations 0 and 2 receive less trips than expected:
+<code class="docutils literal notranslate"><span class="pre">trips_gj</span> <span class="pre">=</span> <span class="pre">[5,</span> <span class="pre">60,</span> <span class="pre">35]</span></code>.
+Then a balancing factor is calculated, wich increases the probability,
+that destinations 0 and 2 are delivered and decreases the probability that a trip goes to zone 1.
+After some iterations, the model should converge for a group and stops if the threshold
+(relative difference between target trips and modelled trips) or the maximum number of iterations are reached:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">trips_gj</span> <span class="o">=</span> <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">43</span><span class="p">,</span> <span class="mi">48</span><span class="p">]</span>
+<span class="n">target_trips_gj</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">50</span><span class="p">]</span>
+<span class="n">difference</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">relative_difference</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.075</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.04</span><span class="p">]</span>
+<span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">relative_difference</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">threshold</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+
+<span class="n">wiver</span><span class="o">.</span><span class="n">calc_with_balancing</span><span class="p">(</span><span class="n">max_iterations</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The number of iterations needed to converge for a group is stored in <code class="docutils literal notranslate"><span class="pre">wiver.converged_g</span></code>.
+A value of 0 means, that the trip balancing for the group did not converge yet.</p>
+<p><strong>Time Series</strong>
+The results of the model can be calculated for different time slices.
+In the morning, most tours start in the depot, during the day, there are more linking trips between the destinations and in the afternoon the vehicles return to their deopt (home zone).
+The time series for each group are defined for starting, linking, and ending trips.
+In the following example we have 2 groups and 3 time-slices (morning, day, evening).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wiver</span><span class="o">.</span><span class="n">time_series_starting_trips_gs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+                                                <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
+<span class="n">wiver</span><span class="o">.</span><span class="n">time_series_linking_trips_gs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+                                               <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">]])</span>
+<span class="n">wiver</span><span class="o">.</span><span class="n">time_series_ending_trips_gs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span>
+                                              <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">9</span><span class="p">]])</span>
+</pre></div>
+</div>
+<p>For group 0, 50% of the tours start in the morning, 40% during the day and 10% in the evening. For group 1, all tours start in the morning.
+The linking trips are carried out during the day.
+The ending trips, which return to the depot happen to 30% during the day and to 70% in the evening for group 0 and happen all in the evening for group 1.</p>
+</div>
+<div class="section" id="code-documentation">
+<h2>Code Documentation<a class="headerlink" href="#code-documentation" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://maxbo.github.io/Wiver/">Documentation</a></p>
+</div>
+</div>
+<div class="section" id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<p>The easiest way to handle dependencies is to use <a class="reference external" href="https://conda.io/miniconda.html">conda</a>.</p>
+<p>There conda packages for python 3.6 to 3.9 for windows and linux are generated in the channel <em>MaxBo</em> in <a class="reference external" href="https://anaconda.org/MaxBo">Anaconda Cloud</a>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">create</span> <span class="o">-</span><span class="n">n</span> <span class="n">wiver</span> <span class="o">-</span><span class="n">c</span> <span class="n">MaxBo</span> <span class="n">python</span><span class="o">=</span><span class="mf">3.9</span> <span class="n">wiver</span>
+<span class="n">conda</span> <span class="n">activate</span> <span class="n">wiver</span>
+</pre></div>
+</div>
+<p>Or you install it in an virtual environment with <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">wiver</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">cythoninstallhelpers</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">cythonarrays</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">wiver</span>
+</pre></div>
+</div>
+<p>Test the package:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">pytest</span><span class="o">-</span><span class="n">benchmark</span>
+<span class="n">py</span><span class="o">.</span><span class="n">test</span> <span class="o">--</span><span class="n">pyargs</span> <span class="n">wiver</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="description">
+<h1>Description<a class="headerlink" href="#description" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="description/model.html">Description</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="description/model.html#tour-generation">Tour Generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="description/model.html#destination-choice-model">Destination Choice Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="description/model.html#tour-optimization-savings-algorithm">Tour Optimization (Savings Algorithm)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="description/model.html#trip-balancing">Trip Balancing</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="description/model.html#installation">Installation</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="id1">
+<h1>Code Documentation<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="wiver/modules.html">     modules</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="wiver/wiver.html">wiver package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="wiver/wiver.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="wiver/wiver.tests.html">wiver.tests package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="wiver/wiver.html#submodules">Submodules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="wiver/wiver.run_wiver.html">wiver.run_wiver module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wiver/wiver.wiver_cython.html">wiver.wiver_cython module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wiver/wiver.wiver_python.html">wiver.wiver_python module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="wiver/wiver.html#module-wiver">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Welcome to the Wiver Commercial Trip Model documentation</a></li>
+<li><a class="reference internal" href="#wiver-business-trip-model">Wiver - Business Trip Model</a><ul>
+<li><a class="reference internal" href="#model-components">Model Components</a></li>
+<li><a class="reference internal" href="#code-documentation">Code Documentation</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#description">Description</a></li>
+<li><a class="reference internal" href="#id1">Code Documentation</a></li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+
+  <h4>Next topic</h4>
+  <p class="topless"><a href="description/model.html"
+                        title="next chapter">Description</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="description/model.html" title="Description"
+             >next</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">Wiver</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Welcome to the Wiver Commercial Trip Model documentation</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Gertz Gutsche Rümenapp.
+      Last updated on Jan 02, 2021.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.1.
+    </div>
+  </body>
+</html>

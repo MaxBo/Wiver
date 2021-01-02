@@ -1,0 +1,19 @@
+wiver.tests package
+===================
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   wiver.tests.test_wiver
+   wiver.tests.test_wiver_benchmark
+
+Module contents
+---------------
+
+.. automodule:: wiver.tests
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,7 @@
+wiver.tests.test\_wiver module
+==============================
+
+.. automodule:: wiver.tests.test_wiver
+   :members:
+   :undoc-members:
+   :show-inheritance:

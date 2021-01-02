@@ -1,0 +1,7 @@
+wiver.tests.test\_wiver\_benchmark module
+=========================================
+
+.. automodule:: wiver.tests.test_wiver_benchmark
+   :members:
+   :undoc-members:
+   :show-inheritance:

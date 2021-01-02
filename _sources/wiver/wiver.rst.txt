@@ -1,0 +1,28 @@
+wiver package
+=============
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   wiver.tests
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   wiver.run_wiver
+   wiver.wiver_cython
+   wiver.wiver_python
+
+Module contents
+---------------
+
+.. automodule:: wiver
+   :members:
+   :undoc-members:
+   :show-inheritance:
