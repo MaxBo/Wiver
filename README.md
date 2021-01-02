@@ -25,7 +25,6 @@ The model has the following dimensions:
 
 * n_zones: the number of transport analysis zones (TAZ)
 * n_groups: the number of demand groups defined by economic sectors and vehicle types
-* n_savings_categories: the number of savings categories needed for the tour optimization model
 * n_time_slices: the number of time slices to stratify the demand by time of day
 * n_modes: the number of vehicle types
 * n_sectors: the number of economic sectors
@@ -36,12 +35,11 @@ from wiver.wiver_python import WIVER
 wiver = WIVER(n_groups=3,
 			  n_zones=5,
 			  n_time_slices=3,
-			  n_savings_categories=10,
 			  n_modes=3,
 			  n_sectors=2)
 ```
 
-The input data is to be provided as a [xarray-Dataset](https://xarray.org) with the following Data variables:
+The input data can to be provided as a [xarray-Dataset](https://xarray.org) with the following Data variables:
 
 **Zones, Sectors, Modes, and Groups**
 
@@ -115,34 +113,20 @@ param_dist_g = [-0.4, -0.2, -0.03]
 
 A big negative parameter means, that destinations very close to the home zone are chosen as the first stop. A parameter close to zero means, that the travel time has low influence on the destination choice and the destinations are chosen maily by the sink potential of the destination zone.
 
-For the linking trips, first the destination choice is calculated with the same parameter as for the first trip. Then, a savings factor is calculated using the savings algorithm to account for tour optimization.
+For the linking trips, first the destination choice is calculated with the same parameter as for the first trip.
+Then, a savings factor is calculated using the savings algorithm to account for tour optimization.
 
-The savings parameters are defined for different intervals between 0 and 1:
-* define savings intervals
-* the first interval represents NINF (no connection)
-* for this interval the saving weight is 0, wich leads to 'no connection'
+The savings factor is calculated using the savings-parameter
 
 ```
-wiver.savings_bins_s = np.concatenate(([np.NINF],
-				       np.linspace(.15, .85, 8),
-				       [1]))
-
+savings_param_g = [1.05, 1.5, np.inf]
 ```
 
-For each savings interval, a savings factor is provided.
-
-```
-wiver.savings_weights_gs[0] = np.linspace(0, 2, wiver.n_savings_categories)
-wiver.savings_weights_gs[1] = np.linspace(0, 5, wiver.n_savings_categories)
-wiver.savings_weights_gs[2] = np.linspace(0, 10, wiver.n_savings_categories)
-```
-
-If there is a big difference between the savings categories,
-as in the given example for mode 2, there is a high level of tour optimization
-(as in the case of postal services),
-and the mean distance of the linking trips are small.
-If there is a low difference between the categories as in example for group 0,
-there is few tour optimization and the linking trips are longer.
+the savings-parameter have to be > 1.0
+A parameter close to 1 represents a high level of tour optimization (as in the case of postal services),
+and the mean distance of the linking trips are small
+A larger parameter means a low level of tour optimization and the linking trips are longer.
+An infititive value means no tour optimization at all.
 
 **Trip Balancing**
 
@@ -152,16 +136,16 @@ The number of trips to a destination zone should be proportional to the sink pot
 The following example should illustrate the balancing algorithm:
 
 There are in total 20 tours with 100 stops to 3 destinations starting in a depot in zone 1.
-The destinations have a sink potential of [1, 4, 5].
+The destinations have a sink potential of `[1, 4, 5]`.
 So the destinations should receive 10, 40, and 50 trips.
-target_trips_gj = [10, 40, 50]
+`target_trips_gj = [10, 40, 50]`
 
 Without balancing, it might be that zone 1 receives more trips, because it is close to the depot,
 while destinations 0 and 2 receive less trips than expected:
-trips_gj = [5, 60, 35].
+`trips_gj = [5, 60, 35]`.
 Then a balancing factor is calculated, wich increases the probability,
 that destinations 0 and 2 are delivered and decreases the probability that a trip goes to zone 1.
-After some iterations, the model should converge and stops if the threshold
+After some iterations, the model should converge for a group and stops if the threshold
 (relative difference between target trips and modelled trips) or the maximum number of iterations are reached:
 
 ```
@@ -173,6 +157,10 @@ relative_difference = [-0.1, 0.075, -0.04]
 
 wiver.calc_with_balancing(max_iterations=10, threshold=0.1)
 ```
+
+The number of iterations needed to converge for a group is stored in `wiver.converged_g`.
+A value of 0 means, that the trip balancing for the group did not converge yet.
+
 
 **Time Series**
 The results of the model can be calculated for different time slices.
