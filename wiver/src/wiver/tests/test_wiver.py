@@ -293,6 +293,14 @@ class Test02_Wiver:
         after = wiver.p_destination_tj[t].copy()
         print(after)
 
+        m = wiver.mode_g[group]
+        res = np.zeros((wiver.n_zones))
+        for j in range(wiver.n_zones):
+            res[j] = wiver.calc_p_destination(group, m, h, j)
+        res /= res.sum()
+        print(res)
+        np.testing.assert_allclose(res, wiver.p_destination_tj[t])
+
     def test_03_savings(self, wiver: WIVER, zone_h: int):
         """Test the savings function for closeby points 1 and 3
         from different home zones (parameter: zone_h)"""
@@ -432,9 +440,20 @@ class Test02_Wiver:
         assert arr_gij_before == arr_gij_after
 
     def test_10_wiver_calc(self, wiver: WIVER):
-        """Test the whole model"""
+        """Test the whole model with different number of threads"""
         wiver.calc()
+        res = wiver.trips_gsij
         print(wiver.trips_gsij.sum(-1).sum(-1))
+
+        wiver.set_n_threads(1)
+        wiver.calc()
+        res2 = wiver.trips_gsij
+        np.testing.assert_allclose(res, res2)
+
+        wiver.set_n_threads(16)
+        wiver.calc()
+        res3 = wiver.trips_gsij
+        np.testing.assert_allclose(res, res3)
 
     def test_21_no_destinations(self, wiver: WIVER):
         """Test exceptions when there is demand
