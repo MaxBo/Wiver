@@ -62,9 +62,9 @@ Installation
 
 The easiest way to handle dependencies is to use `conda <https://conda.io/miniconda.html/>`_.
 
-There conda packages for python 3.5 to 3.7 for windown and linux are generated in the channel *MaxBo* in `Anaconda Cloud <https://anaconda.org/MaxBo/wiver/>`_::
+There conda packages for python 3.6 to 3.10 for windown and linux are generated in the channel *MaxBo* in `Anaconda Cloud <https://anaconda.org/MaxBo/wiver/>`_::
 
-  conda create -n wiver python=3.7
+  conda create -n wiver python=3.10
   activate wiver
 
   conda config --add channels conda-forge
