@@ -16,7 +16,7 @@ jobs:
       with:
         update-conda: true
         python-version: 3.7
-        conda-channels: MaxBo, conda-forge, defaults
+        conda-channels: defaults, conda-forge, MaxBo
 
     - name: Install dependencies and set channels
       run: |
