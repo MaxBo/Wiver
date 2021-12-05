@@ -4,12 +4,13 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>wiver.wiver_cython module &#8212; Wiver Business Trip Model</title>
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css" />
     
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
@@ -46,52 +47,52 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="module-wiver.wiver_cython">
+  <section id="module-wiver.wiver_cython">
 <span id="wiver-wiver-cython-module"></span><h1>wiver.wiver_cython module<a class="headerlink" href="#module-wiver.wiver_cython" title="Permalink to this headline">¶</a></h1>
 <dl class="py exception">
-<dt id="wiver.wiver_cython.DataConsistencyError">
-<em class="property">exception </em><code class="sig-prename descclassname">wiver.wiver_cython.</code><code class="sig-name descname">DataConsistencyError</code><a class="headerlink" href="#wiver.wiver_cython.DataConsistencyError" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython.DataConsistencyError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">wiver.wiver_cython.</span></span><span class="sig-name descname"><span class="pre">DataConsistencyError</span></span><a class="headerlink" href="#wiver.wiver_cython.DataConsistencyError" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">IndexError</span></code></p>
 <p>Data is not consistent and could lead to IndexErrors when running the model
 with these data</p>
 </dd></dl>
 
 <dl class="py exception">
-<dt id="wiver.wiver_cython.DestinationChoiceError">
-<em class="property">exception </em><code class="sig-prename descclassname">wiver.wiver_cython.</code><code class="sig-name descname">DestinationChoiceError</code><a class="headerlink" href="#wiver.wiver_cython.DestinationChoiceError" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython.DestinationChoiceError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">wiver.wiver_cython.</span></span><span class="sig-name descname"><span class="pre">DestinationChoiceError</span></span><a class="headerlink" href="#wiver.wiver_cython.DestinationChoiceError" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ValueError</span></code></p>
 <p>Error in destination choice model,
 no accessible destinations found for demand</p>
 </dd></dl>
 
 <dl class="py class">
-<dt id="wiver.wiver_cython._WIVER">
-<em class="property">class </em><code class="sig-prename descclassname">wiver.wiver_cython.</code><code class="sig-name descname">_WIVER</code><a class="headerlink" href="#wiver.wiver_cython._WIVER" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">wiver.wiver_cython.</span></span><span class="sig-name descname"><span class="pre">_WIVER</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">cythonarrays.array_shapes.ArrayShapes</span></code></p>
 <p>BaseClass for WIVER model</p>
 <dl class="py method">
-<dt id="wiver.wiver_cython._WIVER.adjust_linking_trips">
-<code class="sig-name descname">adjust_linking_trips</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">g</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_cython._WIVER.adjust_linking_trips" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER.adjust_linking_trips">
+<span class="sig-name descname"><span class="pre">adjust_linking_trips</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_cython._WIVER.adjust_linking_trips" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adjust the number of linking trips for the group to the target value
 to account for rounding errors with small probabilities
 which do not sum um to 1.0</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="wiver.wiver_cython._WIVER.aggregate_to_modes">
-<code class="sig-name descname">aggregate_to_modes</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_cython._WIVER.aggregate_to_modes" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER.aggregate_to_modes">
+<span class="sig-name descname"><span class="pre">aggregate_to_modes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_cython._WIVER.aggregate_to_modes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Aggregate result matrices to mode-matrices</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="wiver.wiver_cython._WIVER.assert_data_consistency">
-<code class="sig-name descname">assert_data_consistency</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_cython._WIVER.assert_data_consistency" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER.assert_data_consistency">
+<span class="sig-name descname"><span class="pre">assert_data_consistency</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_cython._WIVER.assert_data_consistency" title="Permalink to this definition">¶</a></dt>
 <dd><p>assert the data consistency</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="wiver.wiver_cython._WIVER.assert_data_consistency_of_array">
-<code class="sig-name descname">assert_data_consistency_of_array</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">unicode attrname</em>, <em class="sig-param">unicode dim</em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_cython._WIVER.assert_data_consistency_of_array" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER.assert_data_consistency_of_array">
+<span class="sig-name descname"><span class="pre">assert_data_consistency_of_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unicode</span> <span class="pre">attrname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unicode</span> <span class="pre">dim</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_cython._WIVER.assert_data_consistency_of_array" title="Permalink to this definition">¶</a></dt>
 <dd><p>assert the consistency of array attrname</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -104,8 +105,8 @@ which do not sum um to 1.0</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="wiver.wiver_cython._WIVER.calc_daily_trips">
-<code class="sig-name descname">calc_daily_trips</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">long32 g</em><span class="sig-paren">)</span> &#x2192; char<a class="headerlink" href="#wiver.wiver_cython._WIVER.calc_daily_trips" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER.calc_daily_trips">
+<span class="sig-name descname"><span class="pre">calc_daily_trips</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">long32</span> <span class="pre">g</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">char</span></span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER.calc_daily_trips" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calc the daily trips for all groups and zones</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -121,86 +122,86 @@ which do not sum um to 1.0</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="wiver.wiver_cython._WIVER.calc_destination_choice">
-<code class="sig-name descname">calc_destination_choice</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">char t</em>, <em class="sig-param">long32 g</em>, <em class="sig-param">long32 h</em><span class="sig-paren">)</span> &#x2192; char<a class="headerlink" href="#wiver.wiver_cython._WIVER.calc_destination_choice" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER.calc_destination_choice">
+<span class="sig-name descname"><span class="pre">calc_destination_choice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">char</span> <span class="pre">t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">long32</span> <span class="pre">g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">long32</span> <span class="pre">h</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">char</span></span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER.calc_destination_choice" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="wiver.wiver_cython._WIVER.calc_linking_trip_choice">
-<code class="sig-name descname">calc_linking_trip_choice</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">char t</em>, <em class="sig-param">long32 g</em>, <em class="sig-param">long32 h</em><span class="sig-paren">)</span> &#x2192; char<a class="headerlink" href="#wiver.wiver_cython._WIVER.calc_linking_trip_choice" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER.calc_linking_trip_choice">
+<span class="sig-name descname"><span class="pre">calc_linking_trip_choice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">char</span> <span class="pre">t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">long32</span> <span class="pre">g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">long32</span> <span class="pre">h</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">char</span></span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER.calc_linking_trip_choice" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="wiver.wiver_cython._WIVER.calc_linking_trips">
-<code class="sig-name descname">calc_linking_trips</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">long32 g</em>, <em class="sig-param">double tours</em><span class="sig-paren">)</span> &#x2192; double<a class="headerlink" href="#wiver.wiver_cython._WIVER.calc_linking_trips" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER.calc_linking_trips">
+<span class="sig-name descname"><span class="pre">calc_linking_trips</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">long32</span> <span class="pre">g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">double</span> <span class="pre">tours</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">double</span></span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER.calc_linking_trips" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="wiver.wiver_cython._WIVER.calc_mean_distance">
-<code class="sig-name descname">calc_mean_distance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_cython._WIVER.calc_mean_distance" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER.calc_mean_distance">
+<span class="sig-name descname"><span class="pre">calc_mean_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_cython._WIVER.calc_mean_distance" title="Permalink to this definition">¶</a></dt>
 <dd><p>calculate mean distance for groups</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="wiver.wiver_cython._WIVER.calc_mean_distance_mode">
-<code class="sig-name descname">calc_mean_distance_mode</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_cython._WIVER.calc_mean_distance_mode" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER.calc_mean_distance_mode">
+<span class="sig-name descname"><span class="pre">calc_mean_distance_mode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_cython._WIVER.calc_mean_distance_mode" title="Permalink to this definition">¶</a></dt>
 <dd><p>calculate mean distance for modes</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="wiver.wiver_cython._WIVER.calc_p_destination">
-<code class="sig-name descname">calc_p_destination</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">long32 g</em>, <em class="sig-param">char m</em>, <em class="sig-param">long32 h</em>, <em class="sig-param">long32 j</em><span class="sig-paren">)</span> &#x2192; double<a class="headerlink" href="#wiver.wiver_cython._WIVER.calc_p_destination" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER.calc_p_destination">
+<span class="sig-name descname"><span class="pre">calc_p_destination</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">long32</span> <span class="pre">g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">char</span> <span class="pre">m</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">long32</span> <span class="pre">h</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">long32</span> <span class="pre">j</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">double</span></span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER.calc_p_destination" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="wiver.wiver_cython._WIVER.calc_savings">
-<code class="sig-name descname">calc_savings</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">long32 g</em>, <em class="sig-param">char m</em>, <em class="sig-param">long32 h</em>, <em class="sig-param">long32 i</em>, <em class="sig-param">long32 j</em><span class="sig-paren">)</span> &#x2192; double<a class="headerlink" href="#wiver.wiver_cython._WIVER.calc_savings" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER.calc_savings">
+<span class="sig-name descname"><span class="pre">calc_savings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">long32</span> <span class="pre">g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">char</span> <span class="pre">m</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">long32</span> <span class="pre">h</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">long32</span> <span class="pre">i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">long32</span> <span class="pre">j</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">double</span></span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER.calc_savings" title="Permalink to this definition">¶</a></dt>
 <dd><p>calc the savings for group g with home zone h from zone i to j</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="wiver.wiver_cython._WIVER.calc_savings_factor">
-<code class="sig-name descname">calc_savings_factor</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">long32 g</em>, <em class="sig-param">char m</em>, <em class="sig-param">long32 h</em>, <em class="sig-param">long32 i</em>, <em class="sig-param">long32 j</em><span class="sig-paren">)</span> &#x2192; double<a class="headerlink" href="#wiver.wiver_cython._WIVER.calc_savings_factor" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER.calc_savings_factor">
+<span class="sig-name descname"><span class="pre">calc_savings_factor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">long32</span> <span class="pre">g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">char</span> <span class="pre">m</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">long32</span> <span class="pre">h</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">long32</span> <span class="pre">i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">long32</span> <span class="pre">j</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">double</span></span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER.calc_savings_factor" title="Permalink to this definition">¶</a></dt>
 <dd><p>calc the saving factor for group g with home zone h from zone i to j</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="wiver.wiver_cython._WIVER.calc_time_series">
-<code class="sig-name descname">calc_time_series</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_cython._WIVER.calc_time_series" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER.calc_time_series">
+<span class="sig-name descname"><span class="pre">calc_time_series</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_cython._WIVER.calc_time_series" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calc the time series</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="wiver.wiver_cython._WIVER.calc_tours">
-<code class="sig-name descname">calc_tours</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">long32 g</em>, <em class="sig-param">long32 h</em><span class="sig-paren">)</span> &#x2192; double<a class="headerlink" href="#wiver.wiver_cython._WIVER.calc_tours" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER.calc_tours">
+<span class="sig-name descname"><span class="pre">calc_tours</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">long32</span> <span class="pre">g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">long32</span> <span class="pre">h</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">double</span></span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER.calc_tours" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="wiver.wiver_cython._WIVER.calc_trips">
-<code class="sig-name descname">calc_trips</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">char t</em>, <em class="sig-param">long32 g</em>, <em class="sig-param">long32 h</em>, <em class="sig-param">double tours</em>, <em class="sig-param">double linking_trips</em><span class="sig-paren">)</span> &#x2192; char<a class="headerlink" href="#wiver.wiver_cython._WIVER.calc_trips" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER.calc_trips">
+<span class="sig-name descname"><span class="pre">calc_trips</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">char</span> <span class="pre">t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">long32</span> <span class="pre">g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">long32</span> <span class="pre">h</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">double</span> <span class="pre">tours</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">double</span> <span class="pre">linking_trips</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">char</span></span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER.calc_trips" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="wiver.wiver_cython._WIVER.normalise_time_series">
-<code class="sig-name descname">normalise_time_series</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">ndarray time_series</em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_cython._WIVER.normalise_time_series" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER.normalise_time_series">
+<span class="sig-name descname"><span class="pre">normalise_time_series</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ndarray</span> <span class="pre">time_series</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_cython._WIVER.normalise_time_series" title="Permalink to this definition">¶</a></dt>
 <dd><p>normalise a time_series to ensure it adds up to 100 %</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="wiver.wiver_cython._WIVER.raise_destination_choice_error">
-<code class="sig-name descname">raise_destination_choice_error</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">g</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">h</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_cython._WIVER.raise_destination_choice_error" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER.raise_destination_choice_error">
+<span class="sig-name descname"><span class="pre">raise_destination_choice_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">h</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_cython._WIVER.raise_destination_choice_error" title="Permalink to this definition">¶</a></dt>
 <dd><p>raise a DestinationChoiceError for destination trips</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="wiver.wiver_cython._WIVER.raise_linking_trips_error">
-<code class="sig-name descname">raise_linking_trips_error</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">g</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">h</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_cython._WIVER.raise_linking_trips_error" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER.raise_linking_trips_error">
+<span class="sig-name descname"><span class="pre">raise_linking_trips_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">h</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_cython._WIVER.raise_linking_trips_error" title="Permalink to this definition">¶</a></dt>
 <dd><p>raise a DestinationChoiceError for linking trips</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="wiver.wiver_cython._WIVER._active_g">
-<code class="sig-name descname">_active_g</code><a class="headerlink" href="#wiver.wiver_cython._WIVER._active_g" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER._active_g">
+<span class="sig-name descname"><span class="pre">_active_g</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._active_g" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_1D_i1’</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -210,8 +211,8 @@ which do not sum um to 1.0</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="wiver.wiver_cython._WIVER._balancing_factor_gj">
-<code class="sig-name descname">_balancing_factor_gj</code><a class="headerlink" href="#wiver.wiver_cython._WIVER._balancing_factor_gj" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER._balancing_factor_gj">
+<span class="sig-name descname"><span class="pre">_balancing_factor_gj</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._balancing_factor_gj" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_2D_d’</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -221,8 +222,8 @@ which do not sum um to 1.0</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="wiver.wiver_cython._WIVER._converged_g">
-<code class="sig-name descname">_converged_g</code><a class="headerlink" href="#wiver.wiver_cython._WIVER._converged_g" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER._converged_g">
+<span class="sig-name descname"><span class="pre">_converged_g</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._converged_g" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_1D_i2’</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -232,8 +233,8 @@ which do not sum um to 1.0</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="wiver.wiver_cython._WIVER._home_based_trips_gij">
-<code class="sig-name descname">_home_based_trips_gij</code><a class="headerlink" href="#wiver.wiver_cython._WIVER._home_based_trips_gij" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER._home_based_trips_gij">
+<span class="sig-name descname"><span class="pre">_home_based_trips_gij</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._home_based_trips_gij" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_3D_d’</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -243,8 +244,8 @@ which do not sum um to 1.0</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="wiver.wiver_cython._WIVER._km_ij">
-<code class="sig-name descname">_km_ij</code><a class="headerlink" href="#wiver.wiver_cython._WIVER._km_ij" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER._km_ij">
+<span class="sig-name descname"><span class="pre">_km_ij</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._km_ij" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_2D_d’</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -254,8 +255,8 @@ which do not sum um to 1.0</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="wiver.wiver_cython._WIVER._linking_trips_gij">
-<code class="sig-name descname">_linking_trips_gij</code><a class="headerlink" href="#wiver.wiver_cython._WIVER._linking_trips_gij" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER._linking_trips_gij">
+<span class="sig-name descname"><span class="pre">_linking_trips_gij</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._linking_trips_gij" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_3D_d’</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -265,8 +266,8 @@ which do not sum um to 1.0</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="wiver.wiver_cython._WIVER._mean_distance_g">
-<code class="sig-name descname">_mean_distance_g</code><a class="headerlink" href="#wiver.wiver_cython._WIVER._mean_distance_g" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER._mean_distance_g">
+<span class="sig-name descname"><span class="pre">_mean_distance_g</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._mean_distance_g" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_1D_d’</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -276,8 +277,8 @@ which do not sum um to 1.0</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="wiver.wiver_cython._WIVER._mean_distance_m">
-<code class="sig-name descname">_mean_distance_m</code><a class="headerlink" href="#wiver.wiver_cython._WIVER._mean_distance_m" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER._mean_distance_m">
+<span class="sig-name descname"><span class="pre">_mean_distance_m</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._mean_distance_m" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_1D_d’</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -287,8 +288,8 @@ which do not sum um to 1.0</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="wiver.wiver_cython._WIVER._mode_g">
-<code class="sig-name descname">_mode_g</code><a class="headerlink" href="#wiver.wiver_cython._WIVER._mode_g" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER._mode_g">
+<span class="sig-name descname"><span class="pre">_mode_g</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._mode_g" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_1D_i1’</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -298,8 +299,8 @@ which do not sum um to 1.0</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="wiver.wiver_cython._WIVER._p_destination_tj">
-<code class="sig-name descname">_p_destination_tj</code><a class="headerlink" href="#wiver.wiver_cython._WIVER._p_destination_tj" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER._p_destination_tj">
+<span class="sig-name descname"><span class="pre">_p_destination_tj</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._p_destination_tj" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_2D_d’</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -309,8 +310,8 @@ which do not sum um to 1.0</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="wiver.wiver_cython._WIVER._p_links_tij">
-<code class="sig-name descname">_p_links_tij</code><a class="headerlink" href="#wiver.wiver_cython._WIVER._p_links_tij" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER._p_links_tij">
+<span class="sig-name descname"><span class="pre">_p_links_tij</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._p_links_tij" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_3D_d’</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -320,8 +321,8 @@ which do not sum um to 1.0</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="wiver.wiver_cython._WIVER._param_dist_g">
-<code class="sig-name descname">_param_dist_g</code><a class="headerlink" href="#wiver.wiver_cython._WIVER._param_dist_g" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER._param_dist_g">
+<span class="sig-name descname"><span class="pre">_param_dist_g</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._param_dist_g" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_1D_d’</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -331,8 +332,8 @@ which do not sum um to 1.0</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="wiver.wiver_cython._WIVER._return_trips_gij">
-<code class="sig-name descname">_return_trips_gij</code><a class="headerlink" href="#wiver.wiver_cython._WIVER._return_trips_gij" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER._return_trips_gij">
+<span class="sig-name descname"><span class="pre">_return_trips_gij</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._return_trips_gij" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_3D_d’</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -342,8 +343,8 @@ which do not sum um to 1.0</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="wiver.wiver_cython._WIVER._savings_param_g">
-<code class="sig-name descname">_savings_param_g</code><a class="headerlink" href="#wiver.wiver_cython._WIVER._savings_param_g" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER._savings_param_g">
+<span class="sig-name descname"><span class="pre">_savings_param_g</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._savings_param_g" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_1D_d’</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -353,8 +354,8 @@ which do not sum um to 1.0</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="wiver.wiver_cython._WIVER._sector_g">
-<code class="sig-name descname">_sector_g</code><a class="headerlink" href="#wiver.wiver_cython._WIVER._sector_g" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER._sector_g">
+<span class="sig-name descname"><span class="pre">_sector_g</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._sector_g" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_1D_i1’</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -364,8 +365,8 @@ which do not sum um to 1.0</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="wiver.wiver_cython._WIVER._sink_potential_gj">
-<code class="sig-name descname">_sink_potential_gj</code><a class="headerlink" href="#wiver.wiver_cython._WIVER._sink_potential_gj" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER._sink_potential_gj">
+<span class="sig-name descname"><span class="pre">_sink_potential_gj</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._sink_potential_gj" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_2D_d’</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -375,8 +376,8 @@ which do not sum um to 1.0</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="wiver.wiver_cython._WIVER._source_potential_gh">
-<code class="sig-name descname">_source_potential_gh</code><a class="headerlink" href="#wiver.wiver_cython._WIVER._source_potential_gh" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER._source_potential_gh">
+<span class="sig-name descname"><span class="pre">_source_potential_gh</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._source_potential_gh" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_2D_d’</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -386,8 +387,8 @@ which do not sum um to 1.0</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="wiver.wiver_cython._WIVER._stops_per_tour_g">
-<code class="sig-name descname">_stops_per_tour_g</code><a class="headerlink" href="#wiver.wiver_cython._WIVER._stops_per_tour_g" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER._stops_per_tour_g">
+<span class="sig-name descname"><span class="pre">_stops_per_tour_g</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._stops_per_tour_g" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_1D_d’</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -397,8 +398,8 @@ which do not sum um to 1.0</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="wiver.wiver_cython._WIVER._time_series_ending_trips_gs">
-<code class="sig-name descname">_time_series_ending_trips_gs</code><a class="headerlink" href="#wiver.wiver_cython._WIVER._time_series_ending_trips_gs" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER._time_series_ending_trips_gs">
+<span class="sig-name descname"><span class="pre">_time_series_ending_trips_gs</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._time_series_ending_trips_gs" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_2D_d’</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -408,8 +409,8 @@ which do not sum um to 1.0</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="wiver.wiver_cython._WIVER._time_series_linking_trips_gs">
-<code class="sig-name descname">_time_series_linking_trips_gs</code><a class="headerlink" href="#wiver.wiver_cython._WIVER._time_series_linking_trips_gs" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER._time_series_linking_trips_gs">
+<span class="sig-name descname"><span class="pre">_time_series_linking_trips_gs</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._time_series_linking_trips_gs" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_2D_d’</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -419,8 +420,8 @@ which do not sum um to 1.0</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="wiver.wiver_cython._WIVER._time_series_starting_trips_gs">
-<code class="sig-name descname">_time_series_starting_trips_gs</code><a class="headerlink" href="#wiver.wiver_cython._WIVER._time_series_starting_trips_gs" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER._time_series_starting_trips_gs">
+<span class="sig-name descname"><span class="pre">_time_series_starting_trips_gs</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._time_series_starting_trips_gs" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_2D_d’</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -430,8 +431,8 @@ which do not sum um to 1.0</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="wiver.wiver_cython._WIVER._tour_rates_g">
-<code class="sig-name descname">_tour_rates_g</code><a class="headerlink" href="#wiver.wiver_cython._WIVER._tour_rates_g" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER._tour_rates_g">
+<span class="sig-name descname"><span class="pre">_tour_rates_g</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._tour_rates_g" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_1D_d’</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -441,8 +442,8 @@ which do not sum um to 1.0</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="wiver.wiver_cython._WIVER._travel_time_mij">
-<code class="sig-name descname">_travel_time_mij</code><a class="headerlink" href="#wiver.wiver_cython._WIVER._travel_time_mij" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER._travel_time_mij">
+<span class="sig-name descname"><span class="pre">_travel_time_mij</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._travel_time_mij" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_3D_d’</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -452,8 +453,8 @@ which do not sum um to 1.0</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="wiver.wiver_cython._WIVER._trips_gij">
-<code class="sig-name descname">_trips_gij</code><a class="headerlink" href="#wiver.wiver_cython._WIVER._trips_gij" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER._trips_gij">
+<span class="sig-name descname"><span class="pre">_trips_gij</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._trips_gij" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_3D_d’</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -463,8 +464,8 @@ which do not sum um to 1.0</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="wiver.wiver_cython._WIVER._trips_gsij">
-<code class="sig-name descname">_trips_gsij</code><a class="headerlink" href="#wiver.wiver_cython._WIVER._trips_gsij" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER._trips_gsij">
+<span class="sig-name descname"><span class="pre">_trips_gsij</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._trips_gsij" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_4D_d’</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -474,8 +475,8 @@ which do not sum um to 1.0</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="wiver.wiver_cython._WIVER._trips_mij">
-<code class="sig-name descname">_trips_mij</code><a class="headerlink" href="#wiver.wiver_cython._WIVER._trips_mij" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER._trips_mij">
+<span class="sig-name descname"><span class="pre">_trips_mij</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._trips_mij" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_3D_d’</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -485,8 +486,8 @@ which do not sum um to 1.0</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="wiver.wiver_cython._WIVER._trips_msij">
-<code class="sig-name descname">_trips_msij</code><a class="headerlink" href="#wiver.wiver_cython._WIVER._trips_msij" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER._trips_msij">
+<span class="sig-name descname"><span class="pre">_trips_msij</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._trips_msij" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_4D_d’</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -496,8 +497,8 @@ which do not sum um to 1.0</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="wiver.wiver_cython._WIVER._trips_to_destination_gj">
-<code class="sig-name descname">_trips_to_destination_gj</code><a class="headerlink" href="#wiver.wiver_cython._WIVER._trips_to_destination_gj" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER._trips_to_destination_gj">
+<span class="sig-name descname"><span class="pre">_trips_to_destination_gj</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._trips_to_destination_gj" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_2D_d’</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -507,8 +508,8 @@ which do not sum um to 1.0</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="wiver.wiver_cython._WIVER._zone_no">
-<code class="sig-name descname">_zone_no</code><a class="headerlink" href="#wiver.wiver_cython._WIVER._zone_no" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER._zone_no">
+<span class="sig-name descname"><span class="pre">_zone_no</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._zone_no" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_1D_i8’</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -518,8 +519,8 @@ which do not sum um to 1.0</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="wiver.wiver_cython._WIVER.n_groups">
-<code class="sig-name descname">n_groups</code><a class="headerlink" href="#wiver.wiver_cython._WIVER.n_groups" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER.n_groups">
+<span class="sig-name descname"><span class="pre">n_groups</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER.n_groups" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘long32’</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -529,8 +530,8 @@ which do not sum um to 1.0</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="wiver.wiver_cython._WIVER.n_modes">
-<code class="sig-name descname">n_modes</code><a class="headerlink" href="#wiver.wiver_cython._WIVER.n_modes" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER.n_modes">
+<span class="sig-name descname"><span class="pre">n_modes</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER.n_modes" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘char’</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -540,8 +541,8 @@ which do not sum um to 1.0</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="wiver.wiver_cython._WIVER.n_sectors">
-<code class="sig-name descname">n_sectors</code><a class="headerlink" href="#wiver.wiver_cython._WIVER.n_sectors" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER.n_sectors">
+<span class="sig-name descname"><span class="pre">n_sectors</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER.n_sectors" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘char’</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -551,8 +552,8 @@ which do not sum um to 1.0</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="wiver.wiver_cython._WIVER.n_threads">
-<code class="sig-name descname">n_threads</code><a class="headerlink" href="#wiver.wiver_cython._WIVER.n_threads" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER.n_threads">
+<span class="sig-name descname"><span class="pre">n_threads</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER.n_threads" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘char’</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -562,8 +563,8 @@ which do not sum um to 1.0</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="wiver.wiver_cython._WIVER.n_time_slices">
-<code class="sig-name descname">n_time_slices</code><a class="headerlink" href="#wiver.wiver_cython._WIVER.n_time_slices" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER.n_time_slices">
+<span class="sig-name descname"><span class="pre">n_time_slices</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER.n_time_slices" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘char’</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -573,8 +574,8 @@ which do not sum um to 1.0</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="wiver.wiver_cython._WIVER.n_zones">
-<code class="sig-name descname">n_zones</code><a class="headerlink" href="#wiver.wiver_cython._WIVER.n_zones" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython._WIVER.n_zones">
+<span class="sig-name descname"><span class="pre">n_zones</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER.n_zones" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘long32’</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -586,11 +587,11 @@ which do not sum um to 1.0</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="wiver.wiver_cython.__pyx_unpickle__WIVER">
-<code class="sig-prename descclassname">wiver.wiver_cython.</code><code class="sig-name descname">__pyx_unpickle__WIVER</code><span class="sig-paren">(</span><em class="sig-param">__pyx_type</em>, <em class="sig-param">long __pyx_checksum</em>, <em class="sig-param">__pyx_state</em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_cython.__pyx_unpickle__WIVER" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="wiver.wiver_cython.__pyx_unpickle__WIVER">
+<span class="sig-prename descclassname"><span class="pre">wiver.wiver_cython.</span></span><span class="sig-name descname"><span class="pre">__pyx_unpickle__WIVER</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">__pyx_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">long</span> <span class="pre">__pyx_checksum</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">__pyx_state</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_cython.__pyx_unpickle__WIVER" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-</div>
+</section>
 
 
             <div class="clearer"></div>
@@ -616,7 +617,7 @@ which do not sum um to 1.0</p>
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
@@ -649,8 +650,8 @@ which do not sum um to 1.0</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2017, Gertz Gutsche Rümenapp.
-      Last updated on Jan 02, 2021.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.1.
+      Last updated on Dec 05, 2021.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.3.1.
     </div>
   </body>
 </html>

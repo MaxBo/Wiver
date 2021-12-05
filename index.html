@@ -4,12 +4,13 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Welcome to the Wiver Commercial Trip Model documentation &#8212; Wiver Business Trip Model</title>
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css" />
     
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
@@ -40,18 +41,18 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="welcome-to-the-wiver-commercial-trip-model-documentation">
+  <section id="welcome-to-the-wiver-commercial-trip-model-documentation">
 <h1>Welcome to the Wiver Commercial Trip Model documentation<a class="headerlink" href="#welcome-to-the-wiver-commercial-trip-model-documentation" title="Permalink to this headline">¶</a></h1>
 <p>Wiver is a Commercial Trip Model to simulate commercial vehicle tours in urban areas.</p>
 <a class="reference external image-reference" href="http://www.gnu.org/licenses/gpl-3.0"><img alt="License: GPL v3" src="https://img.shields.io/badge/License-GPL%20v3-blue.svg" /></a>
-<a class="reference external image-reference" href="https://travis-ci.org/MaxBo/Wiver"><img alt="Build Status" src="https://travis-ci.org/MaxBo/Wiver.svg?branch=master" /></a>
 <a class="reference external image-reference" href="https://ci.appveyor.com/project/MaxBo/wiver"><img alt="Build status" src="https://ci.appveyor.com/api/projects/status/q0lek1t5tl5lcq29?svg=true" /></a>
+<a class="reference external image-reference" href="https://github.com/MaxBo/wiver/actions/workflows/python-package-conda.yml"><img alt="Build Status" src="https://github.com/MaxBo/wiver/actions/workflows/python-package-conda.yml/badge.svg" /></a>
 <a class="reference external image-reference" href="https://codecov.io/gh/MaxBo/Wiver"><img alt="codecov" src="https://codecov.io/gh/MaxBo/Wiver/branch/master/graph/badge.svg" /></a>
 <a class="reference external image-reference" href="https://badge.fury.io/py/wiver"><img alt="PyPI version" src="https://badge.fury.io/py/wiver.svg" /></a>
 <a class="reference external image-reference" href="https://anaconda.org/maxbo/wiver"><img alt="Anaconda-Server Badge" src="https://anaconda.org/maxbo/wiver/badges/version.svg" /></a>
 <a class="reference external image-reference" href="https://anaconda.org/maxbo/wiver"><img alt="Anaconda-LastUpdate" src="https://anaconda.org/maxbo/wiver/badges/latest_release_date.svg" /></a>
-</div>
-<div class="section" id="wiver-business-trip-model">
+</section>
+<section id="wiver-business-trip-model">
 <h1>Wiver - Business Trip Model<a class="headerlink" href="#wiver-business-trip-model" title="Permalink to this headline">¶</a></h1>
 <p>Wiver is a Business Trip Model based upon the model developed by Sonntag et al. (1998).</p>
 <p>It is a macroscopic, tour-based model, that calculates demand matrices for different economic sectors and vehicle types.
@@ -62,7 +63,7 @@ It consists of the steps</p>
 <li><p>Tour Optimization (Savings Algorithm)</p></li>
 <li><p>Trip Balancing</p></li>
 </ul>
-<div class="section" id="model-components">
+<section id="model-components">
 <h2>Model Components<a class="headerlink" href="#model-components" title="Permalink to this headline">¶</a></h2>
 <p>The model has the following dimensions:</p>
 <ul class="simple">
@@ -187,17 +188,17 @@ In the following example we have 2 groups and 3 time-slices (morning, day, eveni
 <p>For group 0, 50% of the tours start in the morning, 40% during the day and 10% in the evening. For group 1, all tours start in the morning.
 The linking trips are carried out during the day.
 The ending trips, which return to the depot happen to 30% during the day and to 70% in the evening for group 0 and happen all in the evening for group 1.</p>
-</div>
-<div class="section" id="code-documentation">
+</section>
+<section id="code-documentation">
 <h2>Code Documentation<a class="headerlink" href="#code-documentation" title="Permalink to this headline">¶</a></h2>
 <p><a class="reference external" href="https://maxbo.github.io/Wiver/">Documentation</a></p>
-</div>
-</div>
-<div class="section" id="installation">
+</section>
+</section>
+<section id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
 <p>The easiest way to handle dependencies is to use <a class="reference external" href="https://conda.io/miniconda.html">conda</a>.</p>
-<p>There conda packages for python 3.6 to 3.9 for windows and linux are generated in the channel <em>MaxBo</em> in <a class="reference external" href="https://anaconda.org/MaxBo">Anaconda Cloud</a>.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">create</span> <span class="o">-</span><span class="n">n</span> <span class="n">wiver</span> <span class="o">-</span><span class="n">c</span> <span class="n">MaxBo</span> <span class="n">python</span><span class="o">=</span><span class="mf">3.9</span> <span class="n">wiver</span>
+<p>There conda packages for python 3.6 to 3.10 for windows and linux are generated in the channel <em>MaxBo</em> in <a class="reference external" href="https://anaconda.org/MaxBo">Anaconda Cloud</a>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">create</span> <span class="o">-</span><span class="n">n</span> <span class="n">wiver</span> <span class="o">-</span><span class="n">c</span> <span class="n">MaxBo</span> <span class="n">python</span><span class="o">=</span><span class="mf">3.10</span> <span class="n">wiver</span>
 <span class="n">conda</span> <span class="n">activate</span> <span class="n">wiver</span>
 </pre></div>
 </div>
@@ -212,8 +213,8 @@ The ending trips, which return to the depot happen to 30% during the day and to 
 <span class="n">py</span><span class="o">.</span><span class="n">test</span> <span class="o">--</span><span class="n">pyargs</span> <span class="n">wiver</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="description">
+</section>
+<section id="description">
 <h1>Description<a class="headerlink" href="#description" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
 <ul>
@@ -227,8 +228,8 @@ The ending trips, which return to the depot happen to 30% during the day and to 
 <li class="toctree-l1"><a class="reference internal" href="description/model.html#installation">Installation</a></li>
 </ul>
 </div>
-</div>
-<div class="section" id="id1">
+</section>
+<section id="id1">
 <h1>Code Documentation<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
 <ul>
@@ -251,15 +252,15 @@ The ending trips, which return to the depot happen to 30% during the day and to 
 </li>
 </ul>
 </div>
-</div>
-<div class="section" id="indices-and-tables">
+</section>
+<section id="indices-and-tables">
 <h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
 <li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
 <li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
 <li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
 </ul>
-</div>
+</section>
 
 
             <div class="clearer"></div>
@@ -296,7 +297,7 @@ The ending trips, which return to the depot happen to 30% during the day and to 
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
@@ -324,8 +325,8 @@ The ending trips, which return to the depot happen to 30% during the day and to 
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2017, Gertz Gutsche Rümenapp.
-      Last updated on Jan 02, 2021.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.1.
+      Last updated on Dec 05, 2021.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.3.1.
     </div>
   </body>
 </html>

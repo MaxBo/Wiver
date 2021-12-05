@@ -4,12 +4,13 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Description &#8212; Wiver Business Trip Model</title>
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css" />
     
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
@@ -44,7 +45,7 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="description">
+  <section id="description">
 <h1>Description<a class="headerlink" href="#description" title="Permalink to this headline">¶</a></h1>
 <p>Wiver is a Business Trip Model based upon the model developed by Sonntag et al. (1998).</p>
 <p>It is a macroscopic, tour-based model, that calculates demand matrices for different economic sectors and vehicle types.
@@ -73,33 +74,33 @@ It consists of the steps:</p>
 </pre></div>
 </div>
 <p>The input data is to be provided as a <a class="reference external" href="http://xarray.pydata.org/en/stable/">xarray-Dataset</a> with the following Data variables:</p>
-<div class="section" id="tour-generation">
+<section id="tour-generation">
 <h2>Tour Generation<a class="headerlink" href="#tour-generation" title="Permalink to this headline">¶</a></h2>
 <p>For each economic sector the number of employees per travel analysis zone (TAZ) is required:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">source_potential_gh</span>            <span class="p">(</span><span class="n">n_groups</span><span class="p">,</span> <span class="n">n_zones</span><span class="p">)</span> <span class="n">float64</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="destination-choice-model">
+</section>
+<section id="destination-choice-model">
 <h2>Destination Choice Model<a class="headerlink" href="#destination-choice-model" title="Permalink to this headline">¶</a></h2>
 <p>For each economic sector a destination choice model is calculated between all TAZ.
 The important factors are the trip attraction-potential of the destination zone j, the trip distance between zone i and j and the travel impedance coefficient which depends on the economic sector.</p>
 <p>The destination choice model produces a matrix of trips between zones.</p>
-</div>
-<div class="section" id="tour-optimization-savings-algorithm">
+</section>
+<section id="tour-optimization-savings-algorithm">
 <h2>Tour Optimization (Savings Algorithm)<a class="headerlink" href="#tour-optimization-savings-algorithm" title="Permalink to this headline">¶</a></h2>
 <p>The tour optimization step appies a savings algorithm in order to simulate that linking trips are more or less efficiently planned (depending on the economic sector).</p>
-</div>
-<div class="section" id="trip-balancing">
+</section>
+<section id="trip-balancing">
 <h2>Trip Balancing<a class="headerlink" href="#trip-balancing" title="Permalink to this headline">¶</a></h2>
 <p>The trip balancing step checks if the number of trips to a destination zone is higher or lower than its relative trip attraction potential. In a next iteration, the attraction potential is then adjusted.</p>
-</div>
-</div>
-<div class="section" id="installation">
+</section>
+</section>
+<section id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
 <p>The easiest way to handle dependencies is to use <a class="reference external" href="https://conda.io/miniconda.html/">conda</a>.</p>
-<p>There conda packages for python 3.5 to 3.7 for windown and linux are generated in the channel <em>MaxBo</em> in <a class="reference external" href="https://anaconda.org/MaxBo/wiver/">Anaconda Cloud</a>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">create</span> <span class="o">-</span><span class="n">n</span> <span class="n">wiver</span> <span class="n">python</span><span class="o">=</span><span class="mf">3.7</span>
+<p>There conda packages for python 3.6 to 3.10 for windown and linux are generated in the channel <em>MaxBo</em> in <a class="reference external" href="https://anaconda.org/MaxBo/wiver/">Anaconda Cloud</a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">create</span> <span class="o">-</span><span class="n">n</span> <span class="n">wiver</span> <span class="n">python</span><span class="o">=</span><span class="mf">3.10</span>
 <span class="n">activate</span> <span class="n">wiver</span>
 
 <span class="n">conda</span> <span class="n">config</span> <span class="o">--</span><span class="n">add</span> <span class="n">channels</span> <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
@@ -119,7 +120,7 @@ The important factors are the trip attraction-potential of the destination zone 
 <span class="n">py</span><span class="o">.</span><span class="n">test</span> <span class="o">--</span><span class="n">pyargs</span> <span class="n">wiver</span>
 </pre></div>
 </div>
-</div>
+</section>
 
 
             <div class="clearer"></div>
@@ -157,7 +158,7 @@ The important factors are the trip attraction-potential of the destination zone 
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
@@ -188,8 +189,8 @@ The important factors are the trip attraction-potential of the destination zone 
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2017, Gertz Gutsche Rümenapp.
-      Last updated on Jan 02, 2021.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.1.
+      Last updated on Dec 05, 2021.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.3.1.
     </div>
   </body>
 </html>
