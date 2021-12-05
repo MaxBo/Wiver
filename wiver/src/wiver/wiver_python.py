@@ -601,6 +601,7 @@ class WIVER(_WIVER, _ArrayProperties):
             trips_ij.sum('destinations').rename({'origins': 'zone_no',})) / 2
 
         df_modelled = modelled_trips.to_dataframe(name='modelled_trips')
+        df_modelled.index.names = modelled_trips.dims
 
         group_labels = []
         for g, group in enumerate(self.groups):
@@ -625,17 +626,21 @@ class WIVER(_WIVER, _ArrayProperties):
         ending_trips_i = ending_trips_gh.sum('groups')
 
         df_balancing = self.data.balancing_factor.to_dataframe(name='balance')
+        df_balancing.index.names = self.data.balancing_factor.dims
         df_balancing = df_balancing.reset_index().pivot(
             index='destinations', columns='groups', values='balance')
         df_balancing.columns =['Bal_{}'.format(col)
                                   for col in group_labels]
 
         df_s = starting_trips_i.to_dataframe(name='starting_trips')
+        df_s.index.names = starting_trips_i.dims
         df_e = ending_trips_i.to_dataframe(name='ending_trips')
+        df_s.index.names = ending_trips_i.dims
         df_e.index.name = 'zone_no'
         df_modelled['start_end'] = df_s.starting_trips + df_e.ending_trips
 
         df_ending = ending_trips_gh.to_dataframe(name='ending_trips_g')
+        df_ending.index.names = ending_trips_gh.dims
         df_ending = df_ending.reset_index().pivot(
             index='destinations', columns='groups', values='ending_trips_g')
 
@@ -644,12 +649,14 @@ class WIVER(_WIVER, _ArrayProperties):
                             for col in group_labels]
 
         df_starting = starting_trips_gh.to_dataframe(name='starting_trips_g')
+        df_starting.index.names = starting_trips_gh.dims
         df_starting = df_starting.reset_index().pivot(
             index='zone_no', columns='groups', values='starting_trips_g')
         df_starting.columns =['Start_{}'.format(col)
                               for col in group_labels]
 
         df_sp = self.data.sink_potential.to_dataframe(name='sink_potential')
+        df_sp.index.names = self.data.sink_potential.dims
         df_sp = df_sp.reset_index().\
             rename(columns={'destinations': 'zone_no',}).\
             pivot(index='zone_no', columns='groups', values='sink_potential')
@@ -657,6 +664,7 @@ class WIVER(_WIVER, _ArrayProperties):
                         for col in group_labels]
 
         df_name = self.data.zone_name.to_dataframe()
+        df_name.index.names = self.data.zone_name.dims
 
         df = pd.concat([df_name,
                         df_modelled,

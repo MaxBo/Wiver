@@ -1,4 +1,4 @@
-name: Build, test, and upload conda for Linux
+name: build conda for Linux
 
 on: [push]
 
@@ -48,7 +48,7 @@ jobs:
         branch: gh-pages # The branch the action should deploy to.
         folder: ../docs # The folder the action should deploy.
 
-    - name: Upload files for cythonarrays and matrixconverters
+    - name: Upload pyckage to conda
       env:
         ANACONDA_TOKEN: ${{ secrets.ANACONDA_GITHUBACTION_TOKEN }}
         ANACONDA_USERNAME: MaxBo

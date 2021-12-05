@@ -116,9 +116,6 @@ test_script:
   #- ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
   - cmd: IF DEFINED ANACONDA_TOKEN (conda build wiver/conda.recipe --user MaxBo --token %ANACONDA_TOKEN% ) ELSE (conda build wiver/conda.recipe --no-anaconda-upload)
 
-  - ps: $wc = New-Object 'System.Net.WebClient'
-  - ps: $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path $env:TMPDIR\junit_test_results.xml))
-
 after_test:
   - cmd: cd wiver
   - cmd: conda install -y twine

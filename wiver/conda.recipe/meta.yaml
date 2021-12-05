@@ -27,13 +27,15 @@ requirements:
     - matrixconverters
     - openpyxl
     - pytest-benchmark
+    - pytest-cov
 
 test:
   requires:
     - pytest-benchmark
+    - pytest-cov
 
   commands:
-    - py.test --junitxml={{ environ["TMPDIR"] }}/junit_test_results.xml --pyargs wiver
+    - py.test --pyargs wiver
 
 about:
   home: https://maxbo.github.io/wiver
