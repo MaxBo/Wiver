@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
     <title>wiver.wiver_python module &#8212; Wiver Business Trip Model</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
@@ -13,7 +13,9 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -44,7 +46,7 @@
           <div class="body" role="main">
             
   <section id="module-wiver.wiver_python">
-<span id="wiver-wiver-python-module"></span><h1>wiver.wiver_python module<a class="headerlink" href="#module-wiver.wiver_python" title="Permalink to this headline">¶</a></h1>
+<span id="wiver-wiver-python-module"></span><h1>wiver.wiver_python module<a class="headerlink" href="#module-wiver.wiver_python" title="Permalink to this heading">¶</a></h1>
 <dl class="py exception">
 <dt class="sig sig-object py" id="wiver.wiver_python.InvalidWiverInputData">
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">wiver.wiver_python.</span></span><span class="sig-name descname"><span class="pre">InvalidWiverInputData</span></span><a class="headerlink" href="#wiver.wiver_python.InvalidWiverInputData" title="Permalink to this definition">¶</a></dt>
@@ -55,10 +57,10 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="wiver.wiver_python.WIVER">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">wiver.wiver_python.</span></span><span class="sig-name descname"><span class="pre">WIVER</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_groups</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_zones</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_time_slices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_modes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_sectors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_threads</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_python.WIVER" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="wiver.wiver_cython.html#wiver.wiver_cython._WIVER" title="wiver.wiver_cython._WIVER"><code class="xref py py-class docutils literal notranslate"><span class="pre">wiver.wiver_cython._WIVER</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">cythonarrays.array_properties._ArrayProperties</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="wiver.wiver_cython.html#wiver.wiver_cython._WIVER" title="wiver.wiver_cython._WIVER"><code class="xref py py-class docutils literal notranslate"><span class="pre">_WIVER</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_ArrayProperties</span></code></p>
 <p>WIVER Business Trip Model</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>n_groups</strong> (<em>int</em>) – </p></li>
 <li><p><strong>n_zones</strong> (<em>int</em>) – </p></li>
@@ -66,7 +68,7 @@
 <li><p><strong>n_modes</strong> (<em>int</em>) – </p></li>
 <li><p><strong>n_sectors</strong> (<em>int</em>) – </p></li>
 <li><p><strong>n_threads</strong> (<em>int</em>) – </p></li>
-<li><p><strong>logger</strong> (<em>logging.Logger</em>) – </p></li>
+<li><p><strong>logger</strong> (<em>Logger</em>) – </p></li>
 </ul>
 </dd>
 </dl>
@@ -74,15 +76,15 @@
 <dt class="sig sig-object py" id="wiver.wiver_python.WIVER.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_groups</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_zones</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_time_slices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_modes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_sectors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_threads</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_python.WIVER.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>n_groups</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – the number of groups</p></li>
 <li><p><strong>n_zones</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – the number of zones</p></li>
 <li><p><strong>n_time_slices</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – the number of time slices</p></li>
 <li><p><strong>n_modes</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – the number of transport modes</p></li>
 <li><p><strong>n_sectors</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – the number of economic sectors</p></li>
-<li><p><strong>n_threads</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]) – the maximum number of threads to use for calculation</p></li>
-<li><p><strong>logger</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Logger</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]) – an optional logger to use from within wiver. If not provided,
+<li><p><strong>n_threads</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – the maximum number of threads to use for calculation</p></li>
+<li><p><strong>logger</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Logger</span></code>]) – an optional logger to use from within wiver. If not provided,
 a logger is created</p></li>
 </ul>
 </dd>
@@ -94,7 +96,7 @@ a logger is created</p></li>
 <span class="sig-name descname"><span class="pre">adjust_balancing_factor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iteration</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_python.WIVER.adjust_balancing_factor" title="Permalink to this definition">¶</a></dt>
 <dd><p>adjust the balancing factor for the destination choice model</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>threshold</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – if the difference between the modelled and the target trips is &lt; threshold,
 the model converges</p></li>
@@ -115,7 +117,7 @@ the model converges</p></li>
 <span class="sig-name descname"><span class="pre">calc_starting_and_ending_trips</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_python.WIVER.calc_starting_and_ending_trips" title="Permalink to this definition">¶</a></dt>
 <dd><p>calculate the starting trips per zone and group and return them as Dataframe</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
 </dd>
 </dl>
@@ -126,7 +128,7 @@ the model converges</p></li>
 <span class="sig-name descname"><span class="pre">calc_with_balancing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_python.WIVER.calc_with_balancing" title="Permalink to this definition">¶</a></dt>
 <dd><p>calculate with balancing the destination choice model</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>max_iterations</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – the maximum number of iterations</p></li>
 <li><p><strong>threshold</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – if the difference between the modelled and the target trips is &lt; threshold,
@@ -147,7 +149,7 @@ the model converges</p></li>
 <span class="sig-name descname"><span class="pre">define_balancing</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_python.WIVER.define_balancing" title="Permalink to this definition">¶</a></dt>
 <dd><p>Define the balancing factors and return them as dataset</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Dataset</span></code></p>
 </dd>
 </dl>
@@ -164,7 +166,7 @@ the model converges</p></li>
 <span class="sig-name descname"><span class="pre">define_matrices</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_python.WIVER.define_matrices" title="Permalink to this definition">¶</a></dt>
 <dd><p>Define the matrices and return them as dataset</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Dataset</span></code></p>
 </dd>
 </dl>
@@ -175,7 +177,7 @@ the model converges</p></li>
 <span class="sig-name descname"><span class="pre">define_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_python.WIVER.define_params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Define the params and return them as dataset</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Dataset</span></code></p>
 </dd>
 </dl>
@@ -186,7 +188,7 @@ the model converges</p></li>
 <span class="sig-name descname"><span class="pre">define_results</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_python.WIVER.define_results" title="Permalink to this definition">¶</a></dt>
 <dd><p>Define the results and return them as dataset</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Dataset</span></code></p>
 </dd>
 </dl>
@@ -197,7 +199,7 @@ the model converges</p></li>
 <span class="sig-name descname"><span class="pre">define_zonal_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_python.WIVER.define_zonal_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Define the zonal data and return them as dataset</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Dataset</span></code></p>
 </dd>
 </dl>
@@ -214,7 +216,7 @@ the model converges</p></li>
 <span class="sig-name descname"><span class="pre">read_all_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">datasets</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_python.WIVER.read_all_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read Datasets from netcdf-file</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>datasets</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – dict with the filenames of the input and output data</p>
 </dd>
 </dl>
@@ -225,7 +227,7 @@ the model converges</p></li>
 <span class="sig-name descname"><span class="pre">read_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_python.WIVER.read_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>read single dataset from file</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>dataset_name</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – the dataset that should be read</p></li>
 <li><p><strong>fn</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – filename to read from</p></li>
@@ -240,13 +242,13 @@ the model converges</p></li>
 <dd><p>Read a Wiver Model
 from a set of netcdf-Filename defined in files</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>files</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – dict with the file names of the input data</p></li>
-<li><p><strong>n_threads</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]) – the maximum number of threads to use for calculation</p></li>
+<li><p><strong>n_threads</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – the maximum number of threads to use for calculation</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="#wiver.wiver_python.WIVER" title="wiver.wiver_python.WIVER"><code class="xref py py-class docutils literal notranslate"><span class="pre">WIVER</span></code></a></p>
 </dd>
 </dl>
@@ -257,7 +259,7 @@ from a set of netcdf-Filename defined in files</p>
 <span class="sig-name descname"><span class="pre">save_all_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wiver_files</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_python.WIVER.save_all_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save Dataset to netcdf-files</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>wiver_files</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – dict with the input and output filenames</p>
 </dd>
 </dl>
@@ -268,7 +270,7 @@ from a set of netcdf-Filename defined in files</p>
 <span class="sig-name descname"><span class="pre">save_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_python.WIVER.save_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save Dataset to netcdf-file</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>dataset_name</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – the dataset that should be saved</p></li>
 <li><p><strong>fn</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – filename to write to</p></li>
@@ -282,7 +284,7 @@ from a set of netcdf-Filename defined in files</p>
 <span class="sig-name descname"><span class="pre">save_detailed_results_to_visum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visum_format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'BK'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_python.WIVER.save_detailed_results_to_visum" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save the detailed results to VISUM-Format including the matrices for each group</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>folder</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – the folder where the Visum-Matrices will be written</p></li>
 <li><p><strong>visum_format</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – the Visum-Matrix format (Default=Binary Compressed (BK))</p></li>
@@ -296,7 +298,7 @@ from a set of netcdf-Filename defined in files</p>
 <span class="sig-name descname"><span class="pre">save_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wiver_files</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_python.WIVER.save_results" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save results except trips_gsij to folder</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>wiver_files</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – dict with the filenames of the input and output data</p>
 </dd>
 </dl>
@@ -307,7 +309,7 @@ from a set of netcdf-Filename defined in files</p>
 <span class="sig-name descname"><span class="pre">save_results_to_visum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visum_format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'BK'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_python.WIVER.save_results_to_visum" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save the results to VISUM-Format</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>folder</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – the folder where the Visum-Matrices will be written</p></li>
 <li><p><strong>visum_format</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – the Visum-Matrix format (Default=Binary Compressed (BK))</p></li>
@@ -321,7 +323,7 @@ from a set of netcdf-Filename defined in files</p>
 <span class="sig-name descname"><span class="pre">set_arrays_from_balancing_ds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_python.WIVER.set_arrays_from_balancing_ds" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set arrays from balancing dataset</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>ds</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Dataset</span></code>) – Dataset with the balancing factors</p>
 </dd>
 </dl>
@@ -338,8 +340,8 @@ from a set of netcdf-Filename defined in files</p>
 <span class="sig-name descname"><span class="pre">set_n_threads</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_threads</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_python.WIVER.set_n_threads" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the number of threads</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>n_threads</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]) – the maximum number of threads to use for calculation</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n_threads</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – the maximum number of threads to use for calculation</p>
 </dd>
 </dl>
 </dd></dl>
@@ -366,9 +368,50 @@ from a set of netcdf-Filename defined in files</p>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="wiver.wiver_cython.html"
-                        title="previous chapter">wiver.wiver_cython module</a></p>
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">wiver.wiver_python module</a><ul>
+<li><a class="reference internal" href="#wiver.wiver_python.InvalidWiverInputData"><code class="docutils literal notranslate"><span class="pre">InvalidWiverInputData</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_python.WIVER"><code class="docutils literal notranslate"><span class="pre">WIVER</span></code></a><ul>
+<li><a class="reference internal" href="#wiver.wiver_python.WIVER.__init__"><code class="docutils literal notranslate"><span class="pre">WIVER.__init__()</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_python.WIVER.adjust_balancing_factor"><code class="docutils literal notranslate"><span class="pre">WIVER.adjust_balancing_factor()</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_python.WIVER.calc"><code class="docutils literal notranslate"><span class="pre">WIVER.calc()</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_python.WIVER.calc_starting_and_ending_trips"><code class="docutils literal notranslate"><span class="pre">WIVER.calc_starting_and_ending_trips()</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_python.WIVER.calc_with_balancing"><code class="docutils literal notranslate"><span class="pre">WIVER.calc_with_balancing()</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_python.WIVER.define_arrays"><code class="docutils literal notranslate"><span class="pre">WIVER.define_arrays()</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_python.WIVER.define_balancing"><code class="docutils literal notranslate"><span class="pre">WIVER.define_balancing()</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_python.WIVER.define_datasets"><code class="docutils literal notranslate"><span class="pre">WIVER.define_datasets()</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_python.WIVER.define_matrices"><code class="docutils literal notranslate"><span class="pre">WIVER.define_matrices()</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_python.WIVER.define_params"><code class="docutils literal notranslate"><span class="pre">WIVER.define_params()</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_python.WIVER.define_results"><code class="docutils literal notranslate"><span class="pre">WIVER.define_results()</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_python.WIVER.define_zonal_data"><code class="docutils literal notranslate"><span class="pre">WIVER.define_zonal_data()</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_python.WIVER.merge_datasets"><code class="docutils literal notranslate"><span class="pre">WIVER.merge_datasets()</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_python.WIVER.read_all_data"><code class="docutils literal notranslate"><span class="pre">WIVER.read_all_data()</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_python.WIVER.read_data"><code class="docutils literal notranslate"><span class="pre">WIVER.read_data()</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_python.WIVER.read_from_netcdf"><code class="docutils literal notranslate"><span class="pre">WIVER.read_from_netcdf()</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_python.WIVER.save_all_data"><code class="docutils literal notranslate"><span class="pre">WIVER.save_all_data()</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_python.WIVER.save_data"><code class="docutils literal notranslate"><span class="pre">WIVER.save_data()</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_python.WIVER.save_detailed_results_to_visum"><code class="docutils literal notranslate"><span class="pre">WIVER.save_detailed_results_to_visum()</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_python.WIVER.save_results"><code class="docutils literal notranslate"><span class="pre">WIVER.save_results()</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_python.WIVER.save_results_to_visum"><code class="docutils literal notranslate"><span class="pre">WIVER.save_results_to_visum()</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_python.WIVER.set_arrays_from_balancing_ds"><code class="docutils literal notranslate"><span class="pre">WIVER.set_arrays_from_balancing_ds()</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_python.WIVER.set_arrays_from_dataset"><code class="docutils literal notranslate"><span class="pre">WIVER.set_arrays_from_dataset()</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_python.WIVER.set_n_threads"><code class="docutils literal notranslate"><span class="pre">WIVER.set_n_threads()</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_python.WIVER.validate_input_data"><code class="docutils literal notranslate"><span class="pre">WIVER.validate_input_data()</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_python.WIVER._coordinates"><code class="docutils literal notranslate"><span class="pre">WIVER._coordinates</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="wiver.wiver_cython.html"
+                          title="previous chapter">wiver.wiver_cython module</a></p>
+  </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -385,7 +428,7 @@ from a set of netcdf-Filename defined in files</p>
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -410,8 +453,8 @@ from a set of netcdf-Filename defined in files</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2017, Gertz Gutsche Rümenapp.
-      Last updated on Dec 05, 2021.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.3.1.
+      Last updated on Apr 11, 2023.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
     </div>
   </body>
 </html>

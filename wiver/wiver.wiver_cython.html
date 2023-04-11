@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
     <title>wiver.wiver_cython module &#8212; Wiver Business Trip Model</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
@@ -13,7 +13,9 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -48,7 +50,7 @@
           <div class="body" role="main">
             
   <section id="module-wiver.wiver_cython">
-<span id="wiver-wiver-cython-module"></span><h1>wiver.wiver_cython module<a class="headerlink" href="#module-wiver.wiver_cython" title="Permalink to this headline">¶</a></h1>
+<span id="wiver-wiver-cython-module"></span><h1>wiver.wiver_cython module<a class="headerlink" href="#module-wiver.wiver_cython" title="Permalink to this heading">¶</a></h1>
 <dl class="py exception">
 <dt class="sig sig-object py" id="wiver.wiver_cython.DataConsistencyError">
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">wiver.wiver_cython.</span></span><span class="sig-name descname"><span class="pre">DataConsistencyError</span></span><a class="headerlink" href="#wiver.wiver_cython.DataConsistencyError" title="Permalink to this definition">¶</a></dt>
@@ -68,7 +70,7 @@ no accessible destinations found for demand</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="wiver.wiver_cython._WIVER">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">wiver.wiver_cython.</span></span><span class="sig-name descname"><span class="pre">_WIVER</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">cythonarrays.array_shapes.ArrayShapes</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ArrayShapes</span></code></p>
 <p>BaseClass for WIVER model</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="wiver.wiver_cython._WIVER.adjust_linking_trips">
@@ -95,7 +97,7 @@ which do not sum um to 1.0</p>
 <span class="sig-name descname"><span class="pre">assert_data_consistency_of_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unicode</span> <span class="pre">attrname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unicode</span> <span class="pre">dim</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_cython._WIVER.assert_data_consistency_of_array" title="Permalink to this definition">¶</a></dt>
 <dd><p>assert the consistency of array attrname</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>attrname</strong> – the name of the attribute to test</p></li>
 <li><p><strong>dim</strong> – the name of the dimension to test</p></li>
@@ -109,13 +111,13 @@ which do not sum um to 1.0</p>
 <span class="sig-name descname"><span class="pre">calc_daily_trips</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">long32</span> <span class="pre">g</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">char</span></span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER.calc_daily_trips" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calc the daily trips for all groups and zones</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>g</strong> (<em>int</em>) – the group</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>-1, if an exeption is raised, 0 otherwise</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -204,7 +206,7 @@ which do not sum um to 1.0</p>
 <span class="sig-name descname"><span class="pre">_active_g</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._active_g" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_1D_i1’</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>_active_g</p>
 </dd>
 </dl>
@@ -215,7 +217,7 @@ which do not sum um to 1.0</p>
 <span class="sig-name descname"><span class="pre">_balancing_factor_gj</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._balancing_factor_gj" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_2D_d’</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>_balancing_factor_gj</p>
 </dd>
 </dl>
@@ -226,7 +228,7 @@ which do not sum um to 1.0</p>
 <span class="sig-name descname"><span class="pre">_converged_g</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._converged_g" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_1D_i2’</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>_converged_g</p>
 </dd>
 </dl>
@@ -237,7 +239,7 @@ which do not sum um to 1.0</p>
 <span class="sig-name descname"><span class="pre">_home_based_trips_gij</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._home_based_trips_gij" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_3D_d’</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>_home_based_trips_gij</p>
 </dd>
 </dl>
@@ -248,7 +250,7 @@ which do not sum um to 1.0</p>
 <span class="sig-name descname"><span class="pre">_km_ij</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._km_ij" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_2D_d’</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>_km_ij</p>
 </dd>
 </dl>
@@ -259,7 +261,7 @@ which do not sum um to 1.0</p>
 <span class="sig-name descname"><span class="pre">_linking_trips_gij</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._linking_trips_gij" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_3D_d’</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>_linking_trips_gij</p>
 </dd>
 </dl>
@@ -270,7 +272,7 @@ which do not sum um to 1.0</p>
 <span class="sig-name descname"><span class="pre">_mean_distance_g</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._mean_distance_g" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_1D_d’</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>_mean_distance_g</p>
 </dd>
 </dl>
@@ -281,7 +283,7 @@ which do not sum um to 1.0</p>
 <span class="sig-name descname"><span class="pre">_mean_distance_m</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._mean_distance_m" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_1D_d’</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>_mean_distance_m</p>
 </dd>
 </dl>
@@ -292,7 +294,7 @@ which do not sum um to 1.0</p>
 <span class="sig-name descname"><span class="pre">_mode_g</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._mode_g" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_1D_i1’</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>_mode_g</p>
 </dd>
 </dl>
@@ -303,7 +305,7 @@ which do not sum um to 1.0</p>
 <span class="sig-name descname"><span class="pre">_p_destination_tj</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._p_destination_tj" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_2D_d’</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>_p_destination_tj</p>
 </dd>
 </dl>
@@ -314,7 +316,7 @@ which do not sum um to 1.0</p>
 <span class="sig-name descname"><span class="pre">_p_links_tij</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._p_links_tij" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_3D_d’</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>_p_links_tij</p>
 </dd>
 </dl>
@@ -325,7 +327,7 @@ which do not sum um to 1.0</p>
 <span class="sig-name descname"><span class="pre">_param_dist_g</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._param_dist_g" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_1D_d’</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>_param_dist_g</p>
 </dd>
 </dl>
@@ -336,7 +338,7 @@ which do not sum um to 1.0</p>
 <span class="sig-name descname"><span class="pre">_return_trips_gij</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._return_trips_gij" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_3D_d’</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>_return_trips_gij</p>
 </dd>
 </dl>
@@ -347,7 +349,7 @@ which do not sum um to 1.0</p>
 <span class="sig-name descname"><span class="pre">_savings_param_g</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._savings_param_g" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_1D_d’</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>_savings_param_g</p>
 </dd>
 </dl>
@@ -358,7 +360,7 @@ which do not sum um to 1.0</p>
 <span class="sig-name descname"><span class="pre">_sector_g</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._sector_g" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_1D_i1’</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>_sector_g</p>
 </dd>
 </dl>
@@ -369,7 +371,7 @@ which do not sum um to 1.0</p>
 <span class="sig-name descname"><span class="pre">_sink_potential_gj</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._sink_potential_gj" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_2D_d’</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>_sink_potential_gj</p>
 </dd>
 </dl>
@@ -380,7 +382,7 @@ which do not sum um to 1.0</p>
 <span class="sig-name descname"><span class="pre">_source_potential_gh</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._source_potential_gh" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_2D_d’</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>_source_potential_gh</p>
 </dd>
 </dl>
@@ -391,7 +393,7 @@ which do not sum um to 1.0</p>
 <span class="sig-name descname"><span class="pre">_stops_per_tour_g</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._stops_per_tour_g" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_1D_d’</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>_stops_per_tour_g</p>
 </dd>
 </dl>
@@ -402,7 +404,7 @@ which do not sum um to 1.0</p>
 <span class="sig-name descname"><span class="pre">_time_series_ending_trips_gs</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._time_series_ending_trips_gs" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_2D_d’</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>_time_series_ending_trips_gs</p>
 </dd>
 </dl>
@@ -413,7 +415,7 @@ which do not sum um to 1.0</p>
 <span class="sig-name descname"><span class="pre">_time_series_linking_trips_gs</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._time_series_linking_trips_gs" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_2D_d’</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>_time_series_linking_trips_gs</p>
 </dd>
 </dl>
@@ -424,7 +426,7 @@ which do not sum um to 1.0</p>
 <span class="sig-name descname"><span class="pre">_time_series_starting_trips_gs</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._time_series_starting_trips_gs" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_2D_d’</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>_time_series_starting_trips_gs</p>
 </dd>
 </dl>
@@ -435,7 +437,7 @@ which do not sum um to 1.0</p>
 <span class="sig-name descname"><span class="pre">_tour_rates_g</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._tour_rates_g" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_1D_d’</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>_tour_rates_g</p>
 </dd>
 </dl>
@@ -446,7 +448,7 @@ which do not sum um to 1.0</p>
 <span class="sig-name descname"><span class="pre">_travel_time_mij</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._travel_time_mij" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_3D_d’</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>_travel_time_mij</p>
 </dd>
 </dl>
@@ -457,7 +459,7 @@ which do not sum um to 1.0</p>
 <span class="sig-name descname"><span class="pre">_trips_gij</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._trips_gij" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_3D_d’</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>_trips_gij</p>
 </dd>
 </dl>
@@ -468,7 +470,7 @@ which do not sum um to 1.0</p>
 <span class="sig-name descname"><span class="pre">_trips_gsij</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._trips_gsij" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_4D_d’</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>_trips_gsij</p>
 </dd>
 </dl>
@@ -479,7 +481,7 @@ which do not sum um to 1.0</p>
 <span class="sig-name descname"><span class="pre">_trips_mij</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._trips_mij" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_3D_d’</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>_trips_mij</p>
 </dd>
 </dl>
@@ -490,7 +492,7 @@ which do not sum um to 1.0</p>
 <span class="sig-name descname"><span class="pre">_trips_msij</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._trips_msij" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_4D_d’</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>_trips_msij</p>
 </dd>
 </dl>
@@ -501,7 +503,7 @@ which do not sum um to 1.0</p>
 <span class="sig-name descname"><span class="pre">_trips_to_destination_gj</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._trips_to_destination_gj" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_2D_d’</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>_trips_to_destination_gj</p>
 </dd>
 </dl>
@@ -512,7 +514,7 @@ which do not sum um to 1.0</p>
 <span class="sig-name descname"><span class="pre">_zone_no</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER._zone_no" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘ARRAY_1D_i8’</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>_zone_no</p>
 </dd>
 </dl>
@@ -523,7 +525,7 @@ which do not sum um to 1.0</p>
 <span class="sig-name descname"><span class="pre">n_groups</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER.n_groups" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘long32’</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>n_groups</p>
 </dd>
 </dl>
@@ -534,7 +536,7 @@ which do not sum um to 1.0</p>
 <span class="sig-name descname"><span class="pre">n_modes</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER.n_modes" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘char’</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>n_modes</p>
 </dd>
 </dl>
@@ -545,7 +547,7 @@ which do not sum um to 1.0</p>
 <span class="sig-name descname"><span class="pre">n_sectors</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER.n_sectors" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘char’</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>n_sectors</p>
 </dd>
 </dl>
@@ -556,7 +558,7 @@ which do not sum um to 1.0</p>
 <span class="sig-name descname"><span class="pre">n_threads</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER.n_threads" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘char’</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>n_threads</p>
 </dd>
 </dl>
@@ -567,7 +569,7 @@ which do not sum um to 1.0</p>
 <span class="sig-name descname"><span class="pre">n_time_slices</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER.n_time_slices" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘char’</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>n_time_slices</p>
 </dd>
 </dl>
@@ -578,7 +580,7 @@ which do not sum um to 1.0</p>
 <span class="sig-name descname"><span class="pre">n_zones</span></span><a class="headerlink" href="#wiver.wiver_cython._WIVER.n_zones" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘long32’</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>n_zones</p>
 </dd>
 </dl>
@@ -600,12 +602,85 @@ which do not sum um to 1.0</p>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="wiver.run_wiver.html"
-                        title="previous chapter">wiver.run_wiver module</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="wiver.wiver_python.html"
-                        title="next chapter">wiver.wiver_python module</a></p>
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">wiver.wiver_cython module</a><ul>
+<li><a class="reference internal" href="#wiver.wiver_cython.DataConsistencyError"><code class="docutils literal notranslate"><span class="pre">DataConsistencyError</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython.DestinationChoiceError"><code class="docutils literal notranslate"><span class="pre">DestinationChoiceError</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER"><code class="docutils literal notranslate"><span class="pre">_WIVER</span></code></a><ul>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER.adjust_linking_trips"><code class="docutils literal notranslate"><span class="pre">_WIVER.adjust_linking_trips()</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER.aggregate_to_modes"><code class="docutils literal notranslate"><span class="pre">_WIVER.aggregate_to_modes()</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER.assert_data_consistency"><code class="docutils literal notranslate"><span class="pre">_WIVER.assert_data_consistency()</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER.assert_data_consistency_of_array"><code class="docutils literal notranslate"><span class="pre">_WIVER.assert_data_consistency_of_array()</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER.calc_daily_trips"><code class="docutils literal notranslate"><span class="pre">_WIVER.calc_daily_trips()</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER.calc_destination_choice"><code class="docutils literal notranslate"><span class="pre">_WIVER.calc_destination_choice()</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER.calc_linking_trip_choice"><code class="docutils literal notranslate"><span class="pre">_WIVER.calc_linking_trip_choice()</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER.calc_linking_trips"><code class="docutils literal notranslate"><span class="pre">_WIVER.calc_linking_trips()</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER.calc_mean_distance"><code class="docutils literal notranslate"><span class="pre">_WIVER.calc_mean_distance()</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER.calc_mean_distance_mode"><code class="docutils literal notranslate"><span class="pre">_WIVER.calc_mean_distance_mode()</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER.calc_p_destination"><code class="docutils literal notranslate"><span class="pre">_WIVER.calc_p_destination()</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER.calc_savings"><code class="docutils literal notranslate"><span class="pre">_WIVER.calc_savings()</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER.calc_savings_factor"><code class="docutils literal notranslate"><span class="pre">_WIVER.calc_savings_factor()</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER.calc_time_series"><code class="docutils literal notranslate"><span class="pre">_WIVER.calc_time_series()</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER.calc_tours"><code class="docutils literal notranslate"><span class="pre">_WIVER.calc_tours()</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER.calc_trips"><code class="docutils literal notranslate"><span class="pre">_WIVER.calc_trips()</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER.normalise_time_series"><code class="docutils literal notranslate"><span class="pre">_WIVER.normalise_time_series()</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER.raise_destination_choice_error"><code class="docutils literal notranslate"><span class="pre">_WIVER.raise_destination_choice_error()</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER.raise_linking_trips_error"><code class="docutils literal notranslate"><span class="pre">_WIVER.raise_linking_trips_error()</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER._active_g"><code class="docutils literal notranslate"><span class="pre">_WIVER._active_g</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER._balancing_factor_gj"><code class="docutils literal notranslate"><span class="pre">_WIVER._balancing_factor_gj</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER._converged_g"><code class="docutils literal notranslate"><span class="pre">_WIVER._converged_g</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER._home_based_trips_gij"><code class="docutils literal notranslate"><span class="pre">_WIVER._home_based_trips_gij</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER._km_ij"><code class="docutils literal notranslate"><span class="pre">_WIVER._km_ij</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER._linking_trips_gij"><code class="docutils literal notranslate"><span class="pre">_WIVER._linking_trips_gij</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER._mean_distance_g"><code class="docutils literal notranslate"><span class="pre">_WIVER._mean_distance_g</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER._mean_distance_m"><code class="docutils literal notranslate"><span class="pre">_WIVER._mean_distance_m</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER._mode_g"><code class="docutils literal notranslate"><span class="pre">_WIVER._mode_g</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER._p_destination_tj"><code class="docutils literal notranslate"><span class="pre">_WIVER._p_destination_tj</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER._p_links_tij"><code class="docutils literal notranslate"><span class="pre">_WIVER._p_links_tij</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER._param_dist_g"><code class="docutils literal notranslate"><span class="pre">_WIVER._param_dist_g</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER._return_trips_gij"><code class="docutils literal notranslate"><span class="pre">_WIVER._return_trips_gij</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER._savings_param_g"><code class="docutils literal notranslate"><span class="pre">_WIVER._savings_param_g</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER._sector_g"><code class="docutils literal notranslate"><span class="pre">_WIVER._sector_g</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER._sink_potential_gj"><code class="docutils literal notranslate"><span class="pre">_WIVER._sink_potential_gj</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER._source_potential_gh"><code class="docutils literal notranslate"><span class="pre">_WIVER._source_potential_gh</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER._stops_per_tour_g"><code class="docutils literal notranslate"><span class="pre">_WIVER._stops_per_tour_g</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER._time_series_ending_trips_gs"><code class="docutils literal notranslate"><span class="pre">_WIVER._time_series_ending_trips_gs</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER._time_series_linking_trips_gs"><code class="docutils literal notranslate"><span class="pre">_WIVER._time_series_linking_trips_gs</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER._time_series_starting_trips_gs"><code class="docutils literal notranslate"><span class="pre">_WIVER._time_series_starting_trips_gs</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER._tour_rates_g"><code class="docutils literal notranslate"><span class="pre">_WIVER._tour_rates_g</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER._travel_time_mij"><code class="docutils literal notranslate"><span class="pre">_WIVER._travel_time_mij</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER._trips_gij"><code class="docutils literal notranslate"><span class="pre">_WIVER._trips_gij</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER._trips_gsij"><code class="docutils literal notranslate"><span class="pre">_WIVER._trips_gsij</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER._trips_mij"><code class="docutils literal notranslate"><span class="pre">_WIVER._trips_mij</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER._trips_msij"><code class="docutils literal notranslate"><span class="pre">_WIVER._trips_msij</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER._trips_to_destination_gj"><code class="docutils literal notranslate"><span class="pre">_WIVER._trips_to_destination_gj</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER._zone_no"><code class="docutils literal notranslate"><span class="pre">_WIVER._zone_no</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER.n_groups"><code class="docutils literal notranslate"><span class="pre">_WIVER.n_groups</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER.n_modes"><code class="docutils literal notranslate"><span class="pre">_WIVER.n_modes</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER.n_sectors"><code class="docutils literal notranslate"><span class="pre">_WIVER.n_sectors</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER.n_threads"><code class="docutils literal notranslate"><span class="pre">_WIVER.n_threads</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER.n_time_slices"><code class="docutils literal notranslate"><span class="pre">_WIVER.n_time_slices</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_cython._WIVER.n_zones"><code class="docutils literal notranslate"><span class="pre">_WIVER.n_zones</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#wiver.wiver_cython.__pyx_unpickle__WIVER"><code class="docutils literal notranslate"><span class="pre">__pyx_unpickle__WIVER()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="wiver.run_wiver.html"
+                          title="previous chapter">wiver.run_wiver module</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="wiver.wiver_python.html"
+                          title="next chapter">wiver.wiver_python module</a></p>
+  </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -622,7 +697,7 @@ which do not sum um to 1.0</p>
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -650,8 +725,8 @@ which do not sum um to 1.0</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2017, Gertz Gutsche Rümenapp.
-      Last updated on Dec 05, 2021.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.3.1.
+      Last updated on Apr 11, 2023.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
     </div>
   </body>
 </html>
