@@ -409,20 +409,39 @@ def calc_starting_ending_trips(wiver: WIVER,
     wiver.read_data('results', fn)
     df = wiver.calc_starting_and_ending_trips()
     df.to_sql(name='wiver', con=connection, if_exists='replace')
+    connection.close()
 
     sheetname = 'data'
-    # write to existing excel-file
-    if os.path.isfile(starting_ending_trips_file):
-        book = load_workbook(starting_ending_trips_file)
-        with pd.ExcelWriter(starting_ending_trips_file, engine='openpyxl') as writer:
-            writer.book = book
-            #  overwrite the sheet if exists
-            if sheetname in book.sheetnames:
-                writer.book.remove(writer.book[sheetname])
-            df.to_excel(writer, sheet_name=sheetname)
-    # otherwise create a new xlsx-file
-    else:
-        df.to_excel(starting_ending_trips_file, sheet_name=sheetname)
+    #check if filepath is writable or if there is an opened file
+    i = 0
+    fn0, ext = os.path.splitext(starting_ending_trips_file)
+    while True:
+        if os.path.exists(starting_ending_trips_file):
+            try:
+                with open(starting_ending_trips_file, 'a') as f:
+                    assert f.writable()
+            except (PermissionError, AssertionError):
+                # file exist but is not writable
+                i += 1
+                starting_ending_trips_file = f'{fn0}_{i}{ext}'
+            else:
+                # file exist bus is writable
+                mode = 'a'
+                break
+        else:
+            # file does not exist yet
+            mode = 'w'
+            break
+
+    kwargs = {}
+    if mode == 'a':
+        kwargs['if_sheet_exists'] = 'replace'
+    with pd.ExcelWriter(starting_ending_trips_file,
+                        engine='openpyxl',
+                        mode=mode,
+                        **kwargs) as writer:
+
+        df.to_excel(writer, sheet_name=sheetname)
 
 
 if __name__ == '__main__':
