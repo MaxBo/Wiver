@@ -19,6 +19,7 @@ requirements:
     - cythonarrays
     - matrixconverters
     - openpyxl
+    - h5netcdf
 
   run:
     - python
@@ -28,6 +29,7 @@ requirements:
     - openpyxl
     - pytest-benchmark
     - pytest-cov
+    - h5netcdf
 
 test:
   requires:
