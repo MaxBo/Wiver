@@ -140,7 +140,7 @@ after_test:
 
   # install code coverage
   - cmd: IF %UPLOAD_COV%==true ( conda install -y pytest-cov pytest-benchmark)
-  - ps: if ($env:UPLOAD_COV) { Invoke-WebRequest -Uri https://uploader.codecov.io/latest/windows/codecov.exe -Outfile codecov.exe }
+  - cmd: IF %UPLOAD_COV%==true ( appveyor DownloadFile https://uploader.codecov.io/latest/windows/codecov.exe -FileName codecov.exe)
 
   # code coverage: install packages editable
   - cmd: python setup.py develop
