@@ -26,6 +26,15 @@ environment:
 
   matrix:
 
+ #Python 3.11
+    - TARGET_ARCH: x64
+      CONDA_NPY: 121
+      CONDA_PY: 311
+      PYTHON_VERSION: 3.11
+      MINICONDA: C:\Miniconda37-x64
+      CONDA_INSTALL_LOCN: C:\\Miniconda37-x64
+      UPLOAD_COV: true
+
  #Python 3.10
     - TARGET_ARCH: x64
       CONDA_NPY: 121
@@ -50,7 +59,7 @@ environment:
       PYTHON_VERSION: 3.8
       MINICONDA: C:\Miniconda37-x64
       CONDA_INSTALL_LOCN: C:\\Miniconda37-x64
-      UPLOAD_COV: true
+      UPLOAD_COV: false
 
     - TARGET_ARCH: x64
       CONDA_NPY: 116
@@ -131,7 +140,6 @@ after_test:
 
   # install code coverage
   - cmd: IF %UPLOAD_COV%==true ( conda install -y pytest-cov pytest-benchmark)
-  - cmd: IF %UPLOAD_COV%==true ( pip install codecov)
 
   # code coverage: install packages editable
   - cmd: python setup.py develop
@@ -145,11 +153,8 @@ after_test:
   - cmd: IF %UPLOAD_COV%==true ( coverage combine wiver\.coverage )
   - cmd: IF %UPLOAD_COV%==true ( coverage xml )
 
+  - cmd: IF %UPLOAD_COV%==true ( appveyor DownloadFile https://uploader.codecov.io/latest/windows/codecov.exe -FileName codecov.exe)
   - cmd: IF %UPLOAD_COV%==true ( codecov -X gcov -f "coverage.xml" )
-
-
-  #- ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
-
 
 
 artifacts:

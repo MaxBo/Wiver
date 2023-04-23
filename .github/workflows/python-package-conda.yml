@@ -8,7 +8,7 @@ jobs:
     strategy:
       max-parallel: 5
       matrix:
-        python-version: [3.6, 3.7, 3.8, 3.9, '3.10']
+        python-version: ['3.6', '3.7', '3.8', '3.9', '3.10', '3.11']
     steps:
     - uses: actions/checkout@v2
     - name: Setup base conda for Python 3.7
@@ -32,11 +32,11 @@ jobs:
         conda build --python ${{ matrix.python-version }} wiver/conda.recipe
 
     - name: Create Docs
-      if: ${{ matrix.python-version == '3.10' }}
+      if: ${{ matrix.python-version == '3.11' }}
       run: |
         export TMPDIR=${{ runner.TEMP }}
         export CONDA_BLD_PATH=$TMPDIR
-        source activate test-environment
+        /usr/share/miniconda/bin/conda shell.bash activate test-environment
         python -m pip install sphinx sphinxcontrib-napoleon sphinx-autodoc-typehints 'mistune<2' m2r2
         export PATH=$HOME/.local/bin:$PATH
         conda install -y cythoninstallhelpers cythonarrays matrixconverters
@@ -45,7 +45,7 @@ jobs:
         sphinx-build docs_rst ../docs
 
     - name: Deploy Docs to gh-pages
-      if: ${{ matrix.python-version == '3.10' }}
+      if: ${{ matrix.python-version == '3.11' }}
       uses: JamesIves/github-pages-deploy-action@4.1.7
       with:
         branch: gh-pages # The branch the action should deploy to.
@@ -58,8 +58,7 @@ jobs:
 
         CONDA_BLD_PATH: ${{ runner.TEMP }}
 
-      #if: ${{ github.ref_type == 'TAG' }}
       run: |
-        source activate test-environment
+        /usr/share/miniconda/bin/conda shell.bash activate test-environment
         export PATH=$HOME/.local/bin:$PATH
         anaconda -t $ANACONDA_TOKEN upload --skip-existing --user $ANACONDA_USERNAME $CONDA_BLD_PATH/linux-64/wiver-*.tar.bz2
