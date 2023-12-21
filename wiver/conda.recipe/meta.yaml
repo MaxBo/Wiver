@@ -21,8 +21,8 @@ requirements:
   run:
     - python
     - orca
-    - cythonarrays
-    - matrixconverters
+    - MaxBo::cythonarrays
+    - MaxBo::matrixconverters
     - openpyxl <=3.1
     - h5netcdf
     - xarray

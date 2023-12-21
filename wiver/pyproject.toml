@@ -20,7 +20,7 @@ dependencies = [
     "xarray",
     "h5netcdf",
     "orca",
-    "openpyxl",
+    "openpyxl<=3.1",
 ]
 
 description = "Commercial Trip Model"
