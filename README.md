@@ -1,7 +1,7 @@
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
-[![Build status](https://ci.appveyor.com/api/projects/status/q0lek1t5tl5lcq29?svg=true)](https://ci.appveyor.com/project/MaxBo/wiver)
-[![Build Status](https://github.com/MaxBo/wiver/actions/workflows/python-package-conda.yml/badge.svg)](https://github.com/MaxBo/wiver/actions/workflows/python-package-conda.yml)
+[![Build Status](https://github.com/MaxBo/wiver/actions/workflows/linux-conda.yml/badge.svg)](https://github.com/MaxBo/wiver/actions/workflows/linux-conda.yml)
+[![Build Status](https://github.com/MaxBo/wiver/actions/workflows/windows-conda.yml/badge.svg)](https://github.com/MaxBo/wiver/actions/workflows/windows-conda.yml)
 [![codecov](https://codecov.io/gh/MaxBo/Wiver/branch/master/graph/badge.svg)](https://codecov.io/gh/MaxBo/Wiver)
 [![PyPI version](https://badge.fury.io/py/wiver.svg)](https://badge.fury.io/py/wiver)
 [![Anaconda-Server Badge](https://anaconda.org/maxbo/wiver/badges/version.svg)](https://anaconda.org/maxbo/wiver)
@@ -188,17 +188,15 @@ The ending trips, which return to the depot happen to 30% during the day and to 
 
 The easiest way to handle dependencies is to use [conda](https://conda.io/miniconda.html).
 
-There conda packages for python 3.6 to 3.10 for windows and linux are generated in the channel *MaxBo* in [Anaconda Cloud](https://anaconda.org/MaxBo).
+There conda packages for python 3.8 to 3.12 for windows and linux are generated in the channel *MaxBo* in [Anaconda Cloud](https://anaconda.org/MaxBo).
 ```
-conda create -n wiver -c MaxBo python=3.10 wiver
+conda create -n wiver -c MaxBo python=3.12 wiver
 conda activate wiver
 
 ```
 
 Or you install it in an virtual environment with `pip install wiver`
 ```
-pip install cythoninstallhelpers
-pip install cythonarrays
 pip install wiver
 ```
 

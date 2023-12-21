@@ -1,8 +1,8 @@
-{% set data = load_setup_py_data() %}
+{% set version_str = load_file_regex(load_file='src/wiver/_version.py', regex_pattern='^[_]{0,2}version[_]{0,2}\\s*=\\s*[\'\\"]([^\'\\"]*)[\'\\"]') %}
 
 package:
   name: wiver
-  version: {{ data.get('version') }}
+  version: {{ version_str[1] }}
 
 source:
   path: ../
@@ -15,11 +15,8 @@ build:
 requirements:
   build:
     - python
-    - orca
-    - cythonarrays
-    - matrixconverters
-    - openpyxl
-    - h5netcdf
+    - setuptools>=61.0
+    - MaxBo::cythonarrays
 
   run:
     - python
@@ -27,9 +24,8 @@ requirements:
     - cythonarrays
     - matrixconverters
     - openpyxl
-    - pytest-benchmark
-    - pytest-cov
     - h5netcdf
+    - xarray
 
 test:
   requires:
