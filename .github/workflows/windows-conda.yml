@@ -30,7 +30,7 @@ jobs:
         auto-activate-base: true
         activate-environment: ""
         miniforge-version: latest
-        channels: conda-forge
+        channels: MaxBo, conda-forge
       env:
         TMPDIR: ${{ runner.TEMP }}
         CONDA_BLD_PATH: env.TMPDIR
@@ -95,8 +95,8 @@ jobs:
         LIBARCHIVE: C:\Miniconda\Library\bin\archive.dll
       run: |
         (
-        conda build -c MaxBo -c conda-forge --python ${{ matrix.python-version }} --no-test wiver\conda.recipe
-        conda install -c local -c conda-forge -n test-conda wiver
+        conda build ---python ${{ matrix.python-version }} --no-test wiver\conda.recipe
+        conda install --use-local -n test-conda wiver
         )
 
     - name: test wiver for python version
