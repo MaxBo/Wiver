@@ -30,7 +30,7 @@ jobs:
         auto-activate-base: true
         activate-environment: ""
         miniforge-version: latest
-        channels: conda-forge, MaxBo
+        channels: conda-forge
       env:
         TMPDIR: ${{ runner.TEMP }}
         CONDA_BLD_PATH: env.TMPDIR
@@ -41,42 +41,6 @@ jobs:
         mamba install -n base "conda>=23.7" conda-build conda-verify anaconda-client boa twine
         mamba create -n test-wheels python=${{ matrix.python-version }} numpy pytest-cov pytest-benchmark build
         mamba create -n test-conda python=${{ matrix.python-version }} numpy pytest-cov pytest-benchmark
-        )
-
-    - name: build wiver for python version
-      env:
-        CONDA_BLD_PATH: ${{ runner.TEMP }}
-        TMPDIR: ${{ runner.TEMP }}
-        LIBARCHIVE: C:\Miniconda\Library\bin\archive.dll
-      run: |
-        (
-        conda build --python ${{ matrix.python-version }} --no-test wiver\conda.recipe
-        conda install -c local -c conda-forge -n test-conda wiver
-        )
-
-    - name: test wiver for python version
-      env:
-        CONDA_BLD_PATH: ${{ runner.TEMP }}
-        TMPDIR: ${{ runner.TEMP }}
-      run: |
-        (
-        mamba activate test-conda
-        python -m pytest --pyargs wiver
-        echo "### All tests with conda passed! :rocket:" >> $GITHUB_STEP_SUMMARY
-        )
-
-    - name: Upload package to conda
-
-      env:
-        CONDA_BLD_PATH: ${{ runner.TEMP }}
-        ANACONDA_TOKEN: ${{ secrets.ANACONDA_GITHUBACTION_TOKEN }}
-        ANACONDA_USERNAME: MaxBo
-      if: ${{ env.ANACONDA_TOKEN }}
-
-      run: |
-        (
-        mamba activate base
-        anaconda -t %ANACONDA_TOKEN% upload --skip-existing --user %ANACONDA_USERNAME% %CONDA_BLD_PATH%\win-64\wiver-*.tar.bz2
         )
 
     - name: Build wheel and run tests for wiver
@@ -122,6 +86,42 @@ jobs:
         (
         mamba activate base
         twine upload --skip-existing -p ${{ secrets.PYPI_API_TOKEN }} wiver\dist\*
+        )
+
+    - name: build wiver for python version
+      env:
+        CONDA_BLD_PATH: ${{ runner.TEMP }}
+        TMPDIR: ${{ runner.TEMP }}
+        LIBARCHIVE: C:\Miniconda\Library\bin\archive.dll
+      run: |
+        (
+        conda build -c MaxBo -c conda-forge --python ${{ matrix.python-version }} --no-test wiver\conda.recipe
+        conda install -c local -c conda-forge -n test-conda wiver
+        )
+
+    - name: test wiver for python version
+      env:
+        CONDA_BLD_PATH: ${{ runner.TEMP }}
+        TMPDIR: ${{ runner.TEMP }}
+      run: |
+        (
+        mamba activate test-conda
+        python -m pytest --pyargs wiver
+        echo "### All tests with conda passed! :rocket:" >> $GITHUB_STEP_SUMMARY
+        )
+
+    - name: Upload package to conda
+
+      env:
+        CONDA_BLD_PATH: ${{ runner.TEMP }}
+        ANACONDA_TOKEN: ${{ secrets.ANACONDA_GITHUBACTION_TOKEN }}
+        ANACONDA_USERNAME: MaxBo
+      if: ${{ env.ANACONDA_TOKEN }}
+
+      run: |
+        (
+        mamba activate base
+        anaconda -t %ANACONDA_TOKEN% upload --skip-existing --user %ANACONDA_USERNAME% %CONDA_BLD_PATH%\win-64\wiver-*.tar.bz2
         )
 
     - name: Setup tmate session

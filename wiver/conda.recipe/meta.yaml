@@ -23,7 +23,7 @@ requirements:
     - orca
     - cythonarrays
     - matrixconverters
-    - openpyxl
+    - openpyxl <= 3.1
     - h5netcdf
     - xarray
 
