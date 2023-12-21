@@ -24,14 +24,14 @@ jobs:
       with:
         update-conda: true
         python-version: 3.11
-        conda-channels: MaxBo, conda-forge, defaults
+        conda-channels: conda-forge, MaxBo
 
     - name: Install dependencies and set channels
       run: |
         conda install conda-build conda-verify anaconda-client twine readme_renderer
-        conda create -q -n test-environment python=${{ matrix.python-version }} numpy pytest-cov build
+        conda create -q -n test-environment python=${{ matrix.python-version }} numpy pytest-cov pytest-benchmark build
 
-    - name: Build wheel and run tests for cythonarrays
+    - name: Build wheel and run tests for wiver
       run: |
         (
         eval "$($CONDA_EXE shell.bash activate test-environment)"
@@ -48,7 +48,6 @@ jobs:
       if: ${{ matrix.python-version == '3.12' }}
       run: |
         eval "$($CONDA_EXE shell.bash activate test-environment)"
-        which python
         cd wiver
         pip install sphinx sphinxcontrib-napoleon sphinx-autodoc-typehints 'mistune<2' m2r2
         sphinx-apidoc -f --separate -o docs_rst/wiver src/wiver
@@ -77,3 +76,13 @@ jobs:
         /usr/share/miniconda/bin/conda shell.bash activate test-environment
         export PATH=$HOME/.local/bin:$PATH
         anaconda -t $ANACONDA_TOKEN upload --skip-existing --user $ANACONDA_USERNAME $CONDA_BLD_PATH/linux-64/wiver-*.tar.bz2
+
+    - name: Publish wiver to PyPI
+      if: startsWith(github.ref, 'refs/tags/')
+      env:
+        TWINE_USERNAME: '__token__'
+      run: |
+        (
+        conda activate base
+        twine upload --skip-existing -p ${{ secrets.PYPI_API_TOKEN }} wiver\dist\*
+        )
