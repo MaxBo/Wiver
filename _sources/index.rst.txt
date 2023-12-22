@@ -3,7 +3,7 @@
 Wiver is a Commercial Trip Model to simulate commercial vehicle tours in urban areas.
 
 
-.. mdinclude:: ../README.md
+.. mdinclude:: ../../README.md
 
 Description
 ===========
