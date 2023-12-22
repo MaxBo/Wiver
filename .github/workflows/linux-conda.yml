@@ -84,5 +84,5 @@ jobs:
       run: |
         (
         eval "$($CONDA_EXE shell.bash activate base)"
-        twine upload --skip-existing -p ${{ secrets.PYPI_API_TOKEN }} wiver\dist\*
+        twine upload --skip-existing -p ${{ secrets.PYPI_API_TOKEN }} wiver/dist/*
         )
