@@ -83,6 +83,6 @@ jobs:
         TWINE_USERNAME: '__token__'
       run: |
         (
-        conda activate base
+        eval "$($CONDA_EXE shell.bash activate base)"
         twine upload --skip-existing -p ${{ secrets.PYPI_API_TOKEN }} wiver\dist\*
         )
