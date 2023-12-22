@@ -1,0 +1,65 @@
+[build-system]
+requires = [
+    "setuptools >= 61.0",
+    'numpy',
+    'cythonarrays',
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "wiver"
+
+dynamic = ["version"]
+
+dependencies = [
+    "cython",
+    "numpy",
+    "cythonarrays",
+    "matrixconverters",
+    "pandas",
+    "xarray",
+    "h5netcdf",
+    "orca",
+    "openpyxl<=3.1",
+]
+
+description = "Commercial Trip Model"
+maintainers = [
+    { name = "Max Bohnet", email = "bohnet@ggr-planung.de" },
+]
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "License :: OSI Approved :: GNU Lesser General Public License v2 or later (LGPLv2+)",
+    "Programming Language :: Cython",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries",
+]
+
+[project.urls]
+"Documentation" = "https://maxbo.github.io/wiver/"
+"Source" = "https://github.com/MaxBo/wiver/"
+"Issue Tracker" = "https://github.com/MaxBo/wiver/issues"
+
+[tool.setuptools.dynamic]
+version = {attr = "wiver.__version__"}
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+    "pytest-benchmark",
+]
+
+[tool.pytest.ini_options]
+testpaths = [
+    "tests",
+]
+
+[tool.setuptools.package-data]
+wiver = ['*.pxd', '*.pyx', '*.pyxbld']

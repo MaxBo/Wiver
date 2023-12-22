@@ -9,7 +9,7 @@ import numpy as np
 import pandas as pd
 import xarray as xr
 
-from cythoninstallhelpers.configure_logger import get_logger
+from cythonarrays.configure_logger import get_logger
 from cythonarrays.array_properties import _ArrayProperties
 from matrixconverters.save_ptv import SavePTV
 from matrixconverters.xarray2netcdf import xr2netcdf
