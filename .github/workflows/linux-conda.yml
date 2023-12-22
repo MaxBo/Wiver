@@ -74,13 +74,3 @@ jobs:
         /usr/share/miniconda/bin/conda shell.bash activate test-environment
         export PATH=$HOME/.local/bin:$PATH
         anaconda -t $ANACONDA_TOKEN upload --skip-existing --user $ANACONDA_USERNAME $CONDA_BLD_PATH/linux-64/wiver-*.tar.bz2
-
-    - name: Publish wiver to PyPI
-      if: startsWith(github.ref, 'refs/tags/')
-      env:
-        TWINE_USERNAME: '__token__'
-      run: |
-        (
-        eval "$($CONDA_EXE shell.bash activate base)"
-        twine upload --skip-existing -p ${{ secrets.PYPI_API_TOKEN }} wiver/dist/*
-        )
