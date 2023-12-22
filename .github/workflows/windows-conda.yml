@@ -95,7 +95,7 @@ jobs:
         LIBARCHIVE: C:\Miniconda\Library\bin\archive.dll
       run: |
         (
-        conda build ---python ${{ matrix.python-version }} --no-test wiver\conda.recipe
+        conda build --python ${{ matrix.python-version }} --no-test wiver\conda.recipe
         conda install --use-local -n test-conda wiver
         )
 
