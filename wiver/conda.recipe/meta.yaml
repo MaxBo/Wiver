@@ -16,13 +16,13 @@ requirements:
   build:
     - python
     - setuptools>=61.0
-    - MaxBo::cythonarrays
+    - cythonarrays
 
   run:
     - python
     - orca
-    - MaxBo::cythonarrays
-    - MaxBo::matrixconverters
+    - cythonarrays
+    - matrixconverters
     - openpyxl <=3.1
     - h5netcdf
     - xarray
