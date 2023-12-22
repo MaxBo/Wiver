@@ -5,8 +5,6 @@ on:
     branches:
       - master
   push:
-    branches:
-      - master
     tags:
       - v[0-9].[0-9]+.[0-9]+
 
@@ -84,5 +82,5 @@ jobs:
       run: |
         (
         eval "$($CONDA_EXE shell.bash activate base)"
-        twine upload --skip-existing -p ${{ secrets.PYPI_API_TOKEN }} wiver\dist\*
+        twine upload --skip-existing -p ${{ secrets.PYPI_API_TOKEN }} wiver/dist/*
         )
