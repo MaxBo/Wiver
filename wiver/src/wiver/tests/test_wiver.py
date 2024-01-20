@@ -206,7 +206,7 @@ class Test01_WiverData:
         """Test the WiverData creation"""
         wiver.merge_datasets()
         print(wiver.data)
-        dims = wiver.data.dims
+        dims = wiver.data.sizes
         assert dims['origins'] == wiver.n_zones
         assert dims['destinations'] == wiver.n_zones
         assert dims['modes'] == wiver.n_modes

@@ -113,7 +113,7 @@ class WIVER(_WIVER, _ArrayProperties):
                               self.balancing))
 
         # set the dimensions
-        dims = self.data.dims
+        dims = self.data.sizes
         self.n_zones = dims['origins']
         self.n_groups = dims['groups']
         self.n_modes = dims['modes']
