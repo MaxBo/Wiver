@@ -194,7 +194,6 @@ class Test01_WiverData:
     """Test the WiverData"""
     def test_01_test_definitions(self, wiver: WIVER):
         """Test the WiverData creation"""
-        wiver.define_datasets()
         print(wiver.params)
         print(wiver.zonal_data)
         print(wiver.matrices)
@@ -205,7 +204,6 @@ class Test01_WiverData:
 
     def test_02_test_merge_definitions(self, wiver: WIVER):
         """Test the WiverData creation"""
-        wiver.define_datasets()
         wiver.merge_datasets()
         print(wiver.data)
         dims = wiver.data.dims
@@ -219,7 +217,6 @@ class Test01_WiverData:
         """Dave data as test data"""
         folder = os.path.dirname(wiver_files['params'])
         print('save to {}'.format(folder))
-        wiver.define_datasets()
         wiver.calc()
         wiver.save_all_data(wiver_files)
 
@@ -250,7 +247,6 @@ class Test01_WiverData:
     def test_06_save_data_as_visum(self, wiver: WIVER, folder: str):
         """Dave results as Visum data"""
         print('save to {}'.format(folder))
-        wiver.define_datasets()
         wiver.calc()
         wiver.save_results_to_visum(folder, visum_format='B')
         wiver.save_results_to_visum(folder, visum_format='V')
@@ -593,8 +589,17 @@ class Test02_Wiver:
         """
         wiver.param_dist_g[0] = param_dist
         wiver.calc()
-        after = wiver.mean_distance_g
-        print(after)
+        np.testing.assert_allclose(wiver.mean_distance_g,
+                                   wiver.vehicle_km_g / wiver.trips_g, rtol=10e-5)
+        np.testing.assert_allclose(wiver.mean_distance_first_trips_g,
+                                   wiver.base_trips_km_g/ wiver.base_trips_g,
+                                   rtol=10e-5)
+        np.testing.assert_allclose(wiver.mean_distance_linking_trips_g,
+                                   wiver.linking_trips_km_g / wiver.linking_trips_g,
+                                   rtol=10e-5)
+        print('mean km', wiver.mean_distance_g)
+        print('trips', wiver.trips_g.data)
+        print('km', wiver.vehicle_km_g.data)
 
     def test_41_mean_distance_savings(self, wiver: WIVER, param_savings_param: float):
         """
@@ -603,8 +608,24 @@ class Test02_Wiver:
         """
         wiver.savings_param_g[0] = param_savings_param
         wiver.calc()
-        after = wiver.mean_distance_g
-        print(after)
+        np.testing.assert_allclose(wiver.mean_distance_g,
+                                   wiver.vehicle_km_g / wiver.trips_g, rtol=10e-5)
+        np.testing.assert_allclose(wiver.mean_distance_first_trips_g,
+                                   wiver.base_trips_km_g/ wiver.base_trips_g,
+                                   rtol=10e-5)
+        np.testing.assert_allclose(wiver.mean_distance_linking_trips_g,
+                                   wiver.linking_trips_km_g / wiver.linking_trips_g,
+                                   rtol=10e-5)
+
+        print('mean km:', wiver.mean_distance_g)
+        print('trips:', wiver.trips_g.data)
+        print('km:', wiver.vehicle_km_g.data)
+        print('base mean km:', wiver.mean_distance_first_trips_g)
+        print('base trips:',wiver.base_trips_g.data)
+        print('base trip km:',wiver.base_trips_km_g.data)
+        print('linking mean km:',wiver.mean_distance_linking_trips_g)
+        print('lining trips:',wiver.linking_trips_g.data)
+        print('linking km:',wiver.linking_trips_km_g.data)
 
     def test_42_mean_distance_modes(self, wiver: WIVER, param_dist: float):
         """
@@ -621,7 +642,6 @@ class Test02_Wiver:
         Test if the trip distribution equals the sink_potential
         and that the total number of trips stay constant
         """
-        wiver.define_datasets()
         sp = wiver.zonal_data.sink_potential
         target_share = sp / sp.sum('destinations')
         wiver.calc_with_balancing(max_iterations=100, threshold=0.001)
@@ -660,18 +680,15 @@ class Test03_TestExport:
     def test_10_wiver_results(self, wiver: WIVER, wiver_files: Dict[str, str]):
         """Test export of the results"""
         wiver.calc()
-        wiver.define_datasets()
         wiver.save_results(wiver_files)
 
     def test_11_wiver_detailed_results(self, wiver: WIVER, result_folder: str):
         """Test export of the results to visum"""
         wiver.calc()
-        wiver.define_datasets()
         wiver.save_detailed_results_to_visum(result_folder)
 
     def test_12_calc_starting_ending_trips(self, wiver: WIVER):
         """Test calculation of starting and ending trips"""
-        wiver.define_datasets()
         wiver.merge_datasets()
         wiver.calc_with_balancing()
         df = wiver.calc_starting_and_ending_trips()

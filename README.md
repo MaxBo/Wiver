@@ -43,6 +43,25 @@ The input data can to be provided as a [xarray-Dataset](https://xarray.org) with
 
 **Zones, Sectors, Modes, and Groups**
 
+## Visum-AddIn
+There is a AddIn for PTV VISUM, that uses this wiver-model to calculate commercial travel demand.
+
+The data structure of the "4-Step-Demand-Model" of VISUM is used to represent the input-
+and result data of the Wiver-model.
+
+The following Visum-Elements are represented in this wiver-package:
+
+| VISUM    | WIVER |
+| -------- | ------- |
+| Zone  | Zone    |
+| PersonGroup | Sector     |
+| DemandStratum    | Group    |
+| DemandSegment    | Mode    |
+| AnalysisTimeInterval    | Time Slice    |
+| NumPersons(PersonGroup) per Zone    | source_potential_gh    |
+| Attraction(DemandStratum) per Zone    | sink_potential_gj    |
+
+
 The zones have a number and optionally a name:
 ```
 wiver.zone_no = [10, 20, 30, 40, 50]
@@ -180,6 +199,36 @@ wiver.time_series_ending_trips_gs = np.array([[0, 3, 7],
 For group 0, 50% of the tours start in the morning, 40% during the day and 10% in the evening. For group 1, all tours start in the morning.
 The linking trips are carried out during the day.
 The ending trips, which return to the depot happen to 30% during the day and to 70% in the evening for group 0 and happen all in the evening for group 1.
+
+
+***Results***
+The results of the model can be accessed via the xr.Dataset `wiver.results` .
+It provides the following DataArrays (e.g. `wiver.results.trips_gij`):
+
+| DataArray    | Description |
+| -------- | ------- |
+| trips_gij  | total trip matrix per group    |
+| home_based_trips_gij  | trip matrix from homebase to first stop per group    |
+| return_trips_gij  | trip matrix from last stop to homebase per group    |
+| linking_trips_gij  | linking trip matrix between stops per group    |
+| trips_gsij  | trip matrix per group and time interval   |
+| trips_mij  | trip Matrix per demand segment    |
+| trips_msij  | trip Matrix per demand segment and time interval    |
+| mean_distance_groups  | mean trip distance by group    |
+| mean_distance_first_trips_groups  | mean distance of home based trips by group    |
+| mean_distance_linking_trips_groups  | mean distance of linking trips by group    |
+| mean_distance_modes  | mean trip distance by demand segment    |
+
+In addition, the following properties provide summary statistics as Data Arrays:
+
+| DataArray    | Description |
+| -------- | ------- |
+| trips_g  | total trips per group    |
+| base_trips_g  | trips from and to homebase per group    |
+| linking_trips_g  | linking trips per group    |
+| vehicle_km_g  | total vehicle kilometers per group   |
+| base_trips_km_g  | otal vehicle km of trips from and to the home base per group    |
+| linking_trips_km_g  | total vehicle km of linking trips per group    |
 
 ## Code Documentation
 [Documentation](https://maxbo.github.io/Wiver/)
