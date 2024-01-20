@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5b801204" />
     <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=bd074a33" />
     
-    <script src="../_static/documentation_options.js?v=60b3a732"></script>
+    <script src="../_static/documentation_options.js?v=1d24b1d9"></script>
     <script src="../_static/doctools.js?v=d248f5b3"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
@@ -149,12 +149,6 @@ the model converges</p></li>
 <dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dataset</span></code></span></p>
 </dd>
 </dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="wiver.wiver_python.WIVER.define_datasets">
-<span class="sig-name descname"><span class="pre">define_datasets</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_python.WIVER.define_datasets" title="Link to this definition">¶</a></dt>
-<dd><p>Define the datasets</p>
 </dd></dl>
 
 <dl class="py method">
@@ -353,6 +347,72 @@ from a set of netcdf-Filename defined in files</p>
 <span class="sig-name descname"><span class="pre">_coordinates</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'n_groups':</span> <span class="pre">'groups',</span> <span class="pre">'n_modes':</span> <span class="pre">'modes',</span> <span class="pre">'n_sectors':</span> <span class="pre">'sector_short',</span> <span class="pre">'n_time_slices':</span> <span class="pre">'lbl_time_slice',</span> <span class="pre">'n_zones':</span> <span class="pre">'zone_name'}</span></em><a class="headerlink" href="#wiver.wiver_python.WIVER._coordinates" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
+<dl class="py property">
+<dt class="sig sig-object py" id="wiver.wiver_python.WIVER.balancing">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">balancing</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Dataset</span></em><a class="headerlink" href="#wiver.wiver_python.WIVER.balancing" title="Link to this definition">¶</a></dt>
+<dd><p>return the balancing-Dataset and define it, if not yet done</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="wiver.wiver_python.WIVER.base_trips_g">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">base_trips_g</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">DataArray</span></em><a class="headerlink" href="#wiver.wiver_python.WIVER.base_trips_g" title="Link to this definition">¶</a></dt>
+<dd><p>the total trips from and to the home base per group</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="wiver.wiver_python.WIVER.base_trips_km_g">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">base_trips_km_g</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">DataArray</span></em><a class="headerlink" href="#wiver.wiver_python.WIVER.base_trips_km_g" title="Link to this definition">¶</a></dt>
+<dd><p>the total vehicle km of trips from and to the home base per group</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="wiver.wiver_python.WIVER.linking_trips_g">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">linking_trips_g</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">DataArray</span></em><a class="headerlink" href="#wiver.wiver_python.WIVER.linking_trips_g" title="Link to this definition">¶</a></dt>
+<dd><p>the total linking trips per group</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="wiver.wiver_python.WIVER.linking_trips_km_g">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">linking_trips_km_g</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">DataArray</span></em><a class="headerlink" href="#wiver.wiver_python.WIVER.linking_trips_km_g" title="Link to this definition">¶</a></dt>
+<dd><p>the total vehicle km of linking trips per group</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="wiver.wiver_python.WIVER.matrices">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">matrices</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Dataset</span></em><a class="headerlink" href="#wiver.wiver_python.WIVER.matrices" title="Link to this definition">¶</a></dt>
+<dd><p>return the matrices-Dataset and define it, if not yet done</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="wiver.wiver_python.WIVER.params">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Dataset</span></em><a class="headerlink" href="#wiver.wiver_python.WIVER.params" title="Link to this definition">¶</a></dt>
+<dd><p>return the results-Dataset and define it, if not yet done</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="wiver.wiver_python.WIVER.results">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">results</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Dataset</span></em><a class="headerlink" href="#wiver.wiver_python.WIVER.results" title="Link to this definition">¶</a></dt>
+<dd><p>return the results-Dataset and define it, if not yet done</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="wiver.wiver_python.WIVER.trips_g">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">trips_g</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">DataArray</span></em><a class="headerlink" href="#wiver.wiver_python.WIVER.trips_g" title="Link to this definition">¶</a></dt>
+<dd><p>the total trips per group</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="wiver.wiver_python.WIVER.vehicle_km_g">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">vehicle_km_g</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">DataArray</span></em><a class="headerlink" href="#wiver.wiver_python.WIVER.vehicle_km_g" title="Link to this definition">¶</a></dt>
+<dd><p>the total vehicle kilometers per group</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="wiver.wiver_python.WIVER.zonal_data">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">zonal_data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Dataset</span></em><a class="headerlink" href="#wiver.wiver_python.WIVER.zonal_data" title="Link to this definition">¶</a></dt>
+<dd><p>return the zonal_data-Dataset and define it, if not yet done</p>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -377,7 +437,6 @@ from a set of netcdf-Filename defined in files</p>
 <li><a class="reference internal" href="#wiver.wiver_python.WIVER.calc_with_balancing"><code class="docutils literal notranslate"><span class="pre">WIVER.calc_with_balancing()</span></code></a></li>
 <li><a class="reference internal" href="#wiver.wiver_python.WIVER.define_arrays"><code class="docutils literal notranslate"><span class="pre">WIVER.define_arrays()</span></code></a></li>
 <li><a class="reference internal" href="#wiver.wiver_python.WIVER.define_balancing"><code class="docutils literal notranslate"><span class="pre">WIVER.define_balancing()</span></code></a></li>
-<li><a class="reference internal" href="#wiver.wiver_python.WIVER.define_datasets"><code class="docutils literal notranslate"><span class="pre">WIVER.define_datasets()</span></code></a></li>
 <li><a class="reference internal" href="#wiver.wiver_python.WIVER.define_matrices"><code class="docutils literal notranslate"><span class="pre">WIVER.define_matrices()</span></code></a></li>
 <li><a class="reference internal" href="#wiver.wiver_python.WIVER.define_params"><code class="docutils literal notranslate"><span class="pre">WIVER.define_params()</span></code></a></li>
 <li><a class="reference internal" href="#wiver.wiver_python.WIVER.define_results"><code class="docutils literal notranslate"><span class="pre">WIVER.define_results()</span></code></a></li>
@@ -396,6 +455,17 @@ from a set of netcdf-Filename defined in files</p>
 <li><a class="reference internal" href="#wiver.wiver_python.WIVER.set_n_threads"><code class="docutils literal notranslate"><span class="pre">WIVER.set_n_threads()</span></code></a></li>
 <li><a class="reference internal" href="#wiver.wiver_python.WIVER.validate_input_data"><code class="docutils literal notranslate"><span class="pre">WIVER.validate_input_data()</span></code></a></li>
 <li><a class="reference internal" href="#wiver.wiver_python.WIVER._coordinates"><code class="docutils literal notranslate"><span class="pre">WIVER._coordinates</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_python.WIVER.balancing"><code class="docutils literal notranslate"><span class="pre">WIVER.balancing</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_python.WIVER.base_trips_g"><code class="docutils literal notranslate"><span class="pre">WIVER.base_trips_g</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_python.WIVER.base_trips_km_g"><code class="docutils literal notranslate"><span class="pre">WIVER.base_trips_km_g</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_python.WIVER.linking_trips_g"><code class="docutils literal notranslate"><span class="pre">WIVER.linking_trips_g</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_python.WIVER.linking_trips_km_g"><code class="docutils literal notranslate"><span class="pre">WIVER.linking_trips_km_g</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_python.WIVER.matrices"><code class="docutils literal notranslate"><span class="pre">WIVER.matrices</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_python.WIVER.params"><code class="docutils literal notranslate"><span class="pre">WIVER.params</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_python.WIVER.results"><code class="docutils literal notranslate"><span class="pre">WIVER.results</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_python.WIVER.trips_g"><code class="docutils literal notranslate"><span class="pre">WIVER.trips_g</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_python.WIVER.vehicle_km_g"><code class="docutils literal notranslate"><span class="pre">WIVER.vehicle_km_g</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_python.WIVER.zonal_data"><code class="docutils literal notranslate"><span class="pre">WIVER.zonal_data</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -449,7 +519,7 @@ from a set of netcdf-Filename defined in files</p>
     </div>
     <div class="footer" role="contentinfo">
     &#169; Copyright 2017, Gertz Gutsche Rümenapp.
-      Last updated on Dec 30, 2023.
+      Last updated on Jan 20, 2024.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
   </body>

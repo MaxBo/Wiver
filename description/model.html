@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5b801204" />
     <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=bd074a33" />
     
-    <script src="../_static/documentation_options.js?v=60b3a732"></script>
+    <script src="../_static/documentation_options.js?v=1d24b1d9"></script>
     <script src="../_static/doctools.js?v=d248f5b3"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
@@ -72,6 +72,24 @@ It consists of the steps:</p>
 </pre></div>
 </div>
 <p>The input data is to be provided as a <a class="reference external" href="http://xarray.pydata.org/en/stable/">xarray-Dataset</a> with the following Data variables:</p>
+<section id="wiver-in-visum">
+<h2>wiver in VISUM<a class="headerlink" href="#wiver-in-visum" title="Link to this heading">¶</a></h2>
+<p>There is a AddIn for PTV VISUM, that uses this wiver-model to calculate commercial travel demand.</p>
+<p>The data structure of the “4-Step-Demand-Model” of VISUM is used to represent the input-
+and result data of the Wiver-model.</p>
+<p>The following Visum-Elements are represented in this wiver-package:</p>
+<div class="line-block">
+<div class="line">VISUM    | WIVER |</div>
+<div class="line">——– | ——- |</div>
+<div class="line">Zone  | Zone    |</div>
+<div class="line">PersonGroup | Sector     |</div>
+<div class="line">DemandStratum    | Group    |</div>
+<div class="line">DemandSegment    | Mode    |</div>
+<div class="line">AnalysisTimeInterval    | Time Slice    |</div>
+<div class="line">NumPersons(PersonGroup) per Zone    | source_potential_gh    |</div>
+<div class="line">Attraction(DemandStratum) per Zone    | sink_potential_gj    |</div>
+</div>
+</section>
 <section id="tour-generation">
 <h2>Tour Generation<a class="headerlink" href="#tour-generation" title="Link to this heading">¶</a></h2>
 <p>For each economic sector the number of employees per travel analysis zone (TAZ) is required:</p>
@@ -97,8 +115,8 @@ The important factors are the trip attraction-potential of the destination zone 
 <section id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h1>
 <p>The easiest way to handle dependencies is to use <a class="reference external" href="https://conda.io/miniconda.html/">conda</a>.</p>
-<p>There conda packages for python 3.6 to 3.10 for windown and linux are generated in the channel <em>MaxBo</em> in <a class="reference external" href="https://anaconda.org/MaxBo/wiver/">Anaconda Cloud</a>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">create</span> <span class="o">-</span><span class="n">n</span> <span class="n">wiver</span> <span class="n">python</span><span class="o">=</span><span class="mf">3.10</span>
+<p>There conda packages for python 3.8 to 3.12 for windown and linux are generated in the channel <em>MaxBo</em> in <a class="reference external" href="https://anaconda.org/MaxBo/wiver/">Anaconda Cloud</a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">create</span> <span class="o">-</span><span class="n">n</span> <span class="n">wiver</span> <span class="n">python</span><span class="o">=</span><span class="mf">3.11</span>
 <span class="n">activate</span> <span class="n">wiver</span>
 
 <span class="n">conda</span> <span class="n">config</span> <span class="o">--</span><span class="n">add</span> <span class="n">channels</span> <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
@@ -108,9 +126,7 @@ The important factors are the trip attraction-potential of the destination zone 
 </pre></div>
 </div>
 <p>Or you install it in an virtual environment with <cite>pip install wiver</cite>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">cythoninstallhelpers</span>
-<span class="n">pip</span> <span class="n">install</span> <span class="n">cythonarrays</span>
-<span class="n">pip</span> <span class="n">install</span> <span class="n">wiver</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">wiver</span>
 </pre></div>
 </div>
 <p>Test the package:</p>
@@ -131,6 +147,7 @@ The important factors are the trip attraction-potential of the destination zone 
     <h3><a href="../index.html">Table of Contents</a></h3>
     <ul>
 <li><a class="reference internal" href="#">Description</a><ul>
+<li><a class="reference internal" href="#wiver-in-visum">wiver in VISUM</a></li>
 <li><a class="reference internal" href="#tour-generation">Tour Generation</a></li>
 <li><a class="reference internal" href="#destination-choice-model">Destination Choice Model</a></li>
 <li><a class="reference internal" href="#tour-optimization-savings-algorithm">Tour Optimization (Savings Algorithm)</a></li>
@@ -193,7 +210,7 @@ The important factors are the trip attraction-potential of the destination zone 
     </div>
     <div class="footer" role="contentinfo">
     &#169; Copyright 2017, Gertz Gutsche Rümenapp.
-      Last updated on Dec 30, 2023.
+      Last updated on Jan 20, 2024.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
   </body>
