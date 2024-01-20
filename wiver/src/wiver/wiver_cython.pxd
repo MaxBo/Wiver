@@ -45,6 +45,8 @@ cdef class _WIVER(ArrayShapes):
 
     # Mean Distance for each group
     cdef public ARRAY_1D_d _mean_distance_g
+    cdef public ARRAY_1D_d _mean_distance_first_trips_g
+    cdef public ARRAY_1D_d _mean_distance_linking_trips_g
     # Mean Distance for each mode
     cdef public ARRAY_1D_d _mean_distance_m
 

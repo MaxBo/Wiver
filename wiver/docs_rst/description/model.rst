@@ -30,6 +30,25 @@ The model has the following dimensions::
 
 The input data is to be provided as a `xarray-Dataset <http://xarray.pydata.org/en/stable/>`_ with the following Data variables:
 
+wiver in VISUM
+################
+There is a AddIn for PTV VISUM, that uses this wiver-model to calculate commercial travel demand.
+
+The data structure of the "4-Step-Demand-Model" of VISUM is used to represent the input-
+and result data of the Wiver-model.
+
+The following Visum-Elements are represented in this wiver-package:
+
+| VISUM    | WIVER |
+| -------- | ------- |
+| Zone  | Zone    |
+| PersonGroup | Sector     |
+| DemandStratum    | Group    |
+| DemandSegment    | Mode    |
+| AnalysisTimeInterval    | Time Slice    |
+| NumPersons(PersonGroup) per Zone    | source_potential_gh    |
+| Attraction(DemandStratum) per Zone    | sink_potential_gj    |
+
 
 Tour Generation
 ################
@@ -62,9 +81,9 @@ Installation
 
 The easiest way to handle dependencies is to use `conda <https://conda.io/miniconda.html/>`_.
 
-There conda packages for python 3.6 to 3.10 for windown and linux are generated in the channel *MaxBo* in `Anaconda Cloud <https://anaconda.org/MaxBo/wiver/>`_::
+There conda packages for python 3.8 to 3.12 for windown and linux are generated in the channel *MaxBo* in `Anaconda Cloud <https://anaconda.org/MaxBo/wiver/>`_::
 
-  conda create -n wiver python=3.10
+  conda create -n wiver python=3.11
   activate wiver
 
   conda config --add channels conda-forge
@@ -74,8 +93,6 @@ There conda packages for python 3.6 to 3.10 for windown and linux are generated 
 
 Or you install it in an virtual environment with `pip install wiver`::
 
-  pip install cythoninstallhelpers
-  pip install cythonarrays
   pip install wiver
 
 Test the package::

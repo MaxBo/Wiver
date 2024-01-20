@@ -167,6 +167,8 @@ cdef class _WIVER(ArrayShapes):
                 tl=total_linking_trips, tdl=total_distance_linking_trips,
                 dl=mean_distance_linking_trip))
             self._mean_distance_g[g] = mean_distance
+            self._mean_distance_first_trips_g[g] = mean_distance_first_trip
+            self._mean_distance_linking_trips_g[g] = mean_distance_linking_trip
 
 
     @cython.initializedcheck(False)
@@ -391,40 +393,40 @@ cdef class _WIVER(ArrayShapes):
 
 
     # python wrapper functions around nogil-functions - for testing purposes
-    def calc_savings(self, long32 g, char m, long32 h, long32 i, long32 j) -> double:
+    def calc_savings(self, long32 g, char m, long32 h, long32 i, long32 j) -> float:
         """
         calc the savings for group g with home zone h from zone i to j
         """
         return self._calc_savings(g, m, h, i, j)
 
     def calc_savings_factor(self, long32 g, char m,
-                            long32 h, long32 i, long32 j) -> double:
+                            long32 h, long32 i, long32 j) -> float:
         """
         calc the saving factor for group g with home zone h from zone i to j
         """
         return self._calc_savings_factor(g, m, h, i, j)
 
-    def calc_tours(self, long32 g, long32 h) -> double:
+    def calc_tours(self, long32 g, long32 h) -> float:
         return self._calc_tours(g, h)
 
-    def calc_linking_trips(self, long32 g, double tours) -> double:
+    def calc_linking_trips(self, long32 g, double tours) -> float:
         return self._calc_linking_trips(g, tours)
 
-    def calc_p_destination(self, long32 g, char m, long32 h, long32 j) -> double:
+    def calc_p_destination(self, long32 g, char m, long32 h, long32 j) -> float:
         return self._calc_p_destination(g, m, h, j)
 
-    def calc_destination_choice(self, char t, long32 g, long32 h) -> char:
+    def calc_destination_choice(self, char t, long32 g, long32 h) -> int:
         r = self._calc_destination_choice(t, g, h)
         if r:
             self.raise_destination_choice_error(g, h)
 
-    def calc_linking_trip_choice(self, char t, long32 g, long32 h) -> char:
+    def calc_linking_trip_choice(self, char t, long32 g, long32 h) -> int:
         r = self._calc_linking_trip_choice(t, g, h)
         if r:
             self.raise_linking_trips_error(g, h)
 
     def calc_trips(self, char t, long32 g, long32 h,
-                   double tours, double linking_trips) -> char:
+                   double tours, double linking_trips) -> int:
         return self._calc_trips(t, g, h, tours, linking_trips)
 
     def normalise_time_series(self, np.ndarray time_series):

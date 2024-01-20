@@ -113,7 +113,7 @@ class WIVER(_WIVER, _ArrayProperties):
                               self.balancing))
 
         # set the dimensions
-        dims = self.data.dims
+        dims = self.data.sizes
         self.n_zones = dims['origins']
         self.n_groups = dims['groups']
         self.n_modes = dims['modes']
@@ -161,9 +161,6 @@ class WIVER(_WIVER, _ArrayProperties):
 
         self.set_arrays_from_balancing_ds(ds)
 
-        # results
-        self.results = self.define_results()
-
     def set_arrays_from_balancing_ds(self, ds: xr.Dataset):
         """
         Set arrays from balancing dataset
@@ -199,6 +196,8 @@ class WIVER(_WIVER, _ArrayProperties):
         self.init_array('km_ij', 'n_zones, n_zones')
         self.init_array('travel_time_mij', 'n_modes, n_zones, n_zones')
         self.init_array('mean_distance_g', 'n_groups')
+        self.init_array('mean_distance_first_trips_g', 'n_groups')
+        self.init_array('mean_distance_linking_trips_g', 'n_groups')
         self.init_array('mean_distance_m', 'n_modes')
         self.init_array('param_dist_g', 'n_groups', -0.1)
         self.init_array('tour_rates_g', 'n_groups', 1)
@@ -237,13 +236,40 @@ class WIVER(_WIVER, _ArrayProperties):
         if (self.stops_per_tour_g < 1).any():
             raise InvalidWiverInputData('Stops per Tour < 1.0 are not allowed')
 
-    def define_datasets(self):
-        """Define the datasets"""
-        self.params = self.define_params()
-        self.matrices = self.define_matrices()
-        self.zonal_data = self.define_zonal_data()
-        self.balancing = self.define_balancing()
-        self.results = self.define_results()
+    @property
+    def params(self) -> xr.Dataset:
+        """return the results-Dataset and define it, if not yet done"""
+        if not hasattr(self, '_params'):
+            self._params = self.define_params()
+        return self._params
+
+    @property
+    def matrices(self) -> xr.Dataset:
+        """return the matrices-Dataset and define it, if not yet done"""
+        if not hasattr(self, '_matrices'):
+            self._matrices = self.define_matrices()
+        return self._matrices
+
+    @property
+    def zonal_data(self) -> xr.Dataset:
+        """return the zonal_data-Dataset and define it, if not yet done"""
+        if not hasattr(self, '_zonal_data'):
+            self._zonal_data = self.define_zonal_data()
+        return self._zonal_data
+
+    @property
+    def balancing(self) -> xr.Dataset:
+        """return the balancing-Dataset and define it, if not yet done"""
+        if not hasattr(self, '_balancing'):
+            self._balancing = self.define_balancing()
+        return self._balancing
+
+    @property
+    def results(self) -> xr.Dataset:
+        """return the results-Dataset and define it, if not yet done"""
+        if not hasattr(self, '_results'):
+            self._results = self.define_results()
+        return self._results
 
     def define_params(self) -> xr.Dataset:
         """
@@ -335,6 +361,12 @@ class WIVER(_WIVER, _ArrayProperties):
         ds['zone_name'] = (('zone_no'), self.zone_name)
         ds['trips_gij'] = (('groups', 'origins', 'destinations'),
                            self.trips_gij)
+        ds['home_based_trips_gij'] = (('groups', 'origins', 'destinations'),
+                                      self.home_based_trips_gij)
+        ds['return_trips_gij'] = (('groups', 'origins', 'destinations'),
+                                  self.return_trips_gij)
+        ds['linking_trips_gij'] = (('groups', 'origins', 'destinations'),
+                                   self.linking_trips_gij)
         ds['trips_gsij'] = (('groups', 'time_slices',
                              'origins', 'destinations'),
                             self.trips_gsij)
@@ -345,6 +377,10 @@ class WIVER(_WIVER, _ArrayProperties):
                             self.trips_msij)
         ds['mean_distance_groups'] = (('groups',),
                                       self.mean_distance_g)
+        ds['mean_distance_first_trips_groups'] = (('groups',),
+                                      self.mean_distance_first_trips_g)
+        ds['mean_distance_linking_trips_groups'] = (('groups',),
+                                      self.mean_distance_linking_trips_g)
         ds['mean_distance_modes'] = (('modes',),
                                      self.mean_distance_m)
 
@@ -418,7 +454,7 @@ class WIVER(_WIVER, _ArrayProperties):
         self.logger.info('read {}'.format(fn))
         ds = xr.open_dataset(fn).load()
         ds.close()
-        setattr(self, dataset_name, ds)
+        setattr(self, f'_{dataset_name}', ds)
 
     def save_results(self, wiver_files: Dict[str, str]):
         """
@@ -677,3 +713,37 @@ class WIVER(_WIVER, _ArrayProperties):
                        axis=1)
         return df
 
+    @property
+    def trips_g(self) -> xr.DataArray:
+        """the total trips per group"""
+        return self.results.trips_gij.sum('origins').sum('destinations')
+
+    @property
+    def base_trips_g(self) -> xr.DataArray:
+        """the total trips from and to the home base per group"""
+        return (self.results.home_based_trips_gij +
+                self.results.return_trips_gij).sum('origins').sum('destinations')
+
+    @property
+    def linking_trips_g(self) -> xr.DataArray:
+        """the total linking trips per group"""
+        return self.results.linking_trips_gij.sum('origins').sum('destinations')
+
+    @property
+    def vehicle_km_g(self) -> xr.DataArray:
+        """the total vehicle kilometers per group"""
+        return (self.results.trips_gij *
+                self.matrices.distance_matrix).sum('origins').sum('destinations')
+
+    @property
+    def base_trips_km_g(self) -> xr.DataArray:
+        """the total vehicle km of trips from and to the home base per group"""
+        return ((self.results.home_based_trips_gij +
+                 self.results.return_trips_gij) *
+                self.matrices.distance_matrix).sum('origins').sum('destinations')
+
+    @property
+    def linking_trips_km_g(self) -> xr.DataArray:
+        """the total vehicle km of linking trips per group"""
+        return (self.results.linking_trips_gij *
+                self.matrices.distance_matrix).sum('origins').sum('destinations')
