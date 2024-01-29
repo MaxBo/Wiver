@@ -132,6 +132,7 @@ def wiver(request) -> WIVER:
     wiver = WIVER(n_groups=3,
                   n_zones=5,
                   n_time_slices=3,
+                  n_time_series=7,
                   n_modes=3,
                   n_sectors=len(sector_name))
 
@@ -164,15 +165,24 @@ def wiver(request) -> WIVER:
     wiver.tour_rates_g = np.array([2, 3, 1])
     wiver.stops_per_tour_g = np.array([3, 2, 4])
 
-    wiver.time_series_starting_trips_gs = np.array([[5, 3, 1],
-                                                    [6, 2, 0],
-                                                    [10, 0, 0]])
-    wiver.time_series_linking_trips_gs = np.array([[2, 3, 2],
-                                                   [1, 6, 1],
-                                                   [2, 5, 3]])
-    wiver.time_series_ending_trips_gs = np.array([[0, 3, 6],
-                                                  [1, 2, 8],
-                                                  [0, 0, 9]])
+    wiver.lbl_time_slices = ['morgens', 'mittags', 'abends']
+    wiver.lbl_time_series = ['Hin1', 'Hin2', 'Hin3',
+                             'Linking',
+                             'Home1', 'Home2', 'Home3',
+                             ]
+
+    wiver.time_series_values_rs = np.array([[5, 3, 1],
+                                            [6, 2, 0],
+                                            [10, 0, 0],
+                                            [1, 6, 1],
+                                            [0, 3, 6],
+                                            [1, 2, 8],
+                                            [0, 0, 9],
+                                            ])
+
+    wiver.time_series_starting_trips_g = np.array([0, 1, 2])
+    wiver.time_series_linking_trips_g = np.array([3, 3, 3])
+    wiver.time_series_ending_trips_g = np.array([4, 5, 6])
 
     wiver.zone_no = np.arange(10, 60, 10)
     wiver.zone_name = np.array(['{}-Stadt'.format(i)
@@ -205,6 +215,7 @@ class Test01_WiverData:
     def test_02_test_merge_definitions(self, wiver: WIVER):
         """Test the WiverData creation"""
         wiver.merge_datasets()
+        wiver.assign_coordinates()
         print(wiver.data)
         dims = wiver.data.sizes
         assert dims['origins'] == wiver.n_zones
@@ -212,6 +223,17 @@ class Test01_WiverData:
         assert dims['modes'] == wiver.n_modes
         assert dims['groups'] == wiver.n_groups
         assert dims['time_slices'] == wiver.n_time_slices
+        assert dims['time_series'] == wiver.n_time_series
+
+        coords = wiver.data.coords
+
+        np.testing.assert_equal(coords['sectors'], wiver.sector_short)
+        np.testing.assert_equal(coords['groups'], wiver.group_names)
+        np.testing.assert_equal(coords['modes'], wiver.modes)
+        np.testing.assert_equal(coords['time_slices'], wiver.lbl_time_slices)
+        np.testing.assert_equal(coords['time_series'], wiver.lbl_time_series)
+        np.testing.assert_equal(coords['origins'], wiver.zone_no)
+        np.testing.assert_equal(coords['destinations'], wiver.zone_no)
 
     def test_03_save_data(self, wiver: WIVER, wiver_files: Dict[str, str]):
         """Dave data as test data"""
@@ -425,11 +447,7 @@ class Test02_Wiver:
 
         # test the normalisation of the time series
         np.testing.assert_almost_equal(
-            wiver.time_series_starting_trips_gs.sum(-1), 1)
-        np.testing.assert_almost_equal(
-            wiver.time_series_linking_trips_gs.sum(-1), 1)
-        np.testing.assert_almost_equal(
-            wiver.time_series_ending_trips_gs.sum(-1), 1)
+            wiver.time_series_values_rs.sum(-1), 1)
 
         # test that the trips of the time slices add up to the daily matrix
         actual = wiver.trips_gsij.sum(1)
@@ -690,6 +708,7 @@ class Test03_TestExport:
     def test_12_calc_starting_ending_trips(self, wiver: WIVER):
         """Test calculation of starting and ending trips"""
         wiver.merge_datasets()
+        wiver.assign_coordinates()
         wiver.calc_with_balancing()
         df = wiver.calc_starting_and_ending_trips()
         actual = df['start_end']

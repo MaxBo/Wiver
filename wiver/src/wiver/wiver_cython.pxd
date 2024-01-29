@@ -15,6 +15,7 @@ cdef class _WIVER(ArrayShapes):
     cdef public long32 n_zones
     cdef public char n_threads
     cdef public char n_time_slices
+    cdef public char n_time_series
     cdef public char n_modes
     cdef public char n_sectors
 
@@ -59,10 +60,13 @@ cdef class _WIVER(ArrayShapes):
     cdef public ARRAY_2D_d _sink_potential_gj
     cdef public ARRAY_2D_d _balancing_factor_gj
 
+    # time series
+    cdef public ARRAY_2D_d _time_series_values_rs
+
     # time series for each group
-    cdef public ARRAY_2D_d _time_series_starting_trips_gs
-    cdef public ARRAY_2D_d _time_series_linking_trips_gs
-    cdef public ARRAY_2D_d _time_series_ending_trips_gs
+    cdef public ARRAY_1D_i1 _time_series_starting_trips_g
+    cdef public ARRAY_1D_i1 _time_series_linking_trips_g
+    cdef public ARRAY_1D_i1 _time_series_ending_trips_g
 
     # resulting trips
     cdef public ARRAY_3D_d _trips_gij

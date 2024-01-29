@@ -27,17 +27,19 @@ class InvalidWiverInputData(ValueError):
 
 class WIVER(_WIVER, _ArrayProperties):
     """WIVER Business Trip Model"""
-    _coordinates = {'n_groups': 'groups',
-                    'n_modes': 'modes',
-                    'n_zones': 'zone_name',
-                    'n_time_slices': 'lbl_time_slice',
-                    'n_sectors': 'sector_short',
+    _coordinates = {'groups': 'group_names',
+                    'modes': 'modes',
+                    'zone_no': 'zone_no',
+                    'time_slices': 'lbl_time_slices',
+                    'time_series': 'lbl_time_series',
+                    'sectors': 'sector_short',
                     }
 
     def __init__(self,
                  n_groups: int,
                  n_zones: int,
                  n_time_slices: int=5,
+                 n_time_series: int=1,
                  n_modes: int=4,
                  n_sectors: int=2,
                  n_threads: int=None,
@@ -51,6 +53,8 @@ class WIVER(_WIVER, _ArrayProperties):
             the number of zones
         n_time_slices:
             the number of time slices
+        n_time_series:
+            the number of time series
         n_modes:
             the number of transport modes
         n_sectors:
@@ -70,6 +74,7 @@ class WIVER(_WIVER, _ArrayProperties):
         self.n_zones = n_zones
         self.n_sectors = n_sectors
         self.n_time_slices = n_time_slices
+        self.n_time_series = n_time_series
         self.set_n_threads(n_threads=n_threads)
 
         self.define_arrays()
@@ -109,8 +114,8 @@ class WIVER(_WIVER, _ArrayProperties):
         self = cls(n_groups=0, n_zones=0, n_threads=n_threads)
         # add datasets
         self.read_all_data(files)
-        self.data = xr.merge((self.params, self.matrices, self.zonal_data,
-                              self.balancing))
+        self.data = xr.merge((self.params, self.zonal_data,
+                              self.matrices, self.balancing))
 
         # set the dimensions
         dims = self.data.sizes
@@ -118,6 +123,7 @@ class WIVER(_WIVER, _ArrayProperties):
         self.n_groups = dims['groups']
         self.n_modes = dims['modes']
         self.n_time_slices = dims['time_slices']
+        self.n_time_series = dims['time_series']
         self.set_n_threads()
 
         # resize the arrays to the right dimensions
@@ -145,9 +151,12 @@ class WIVER(_WIVER, _ArrayProperties):
         self.savings_param_g = ds.savings_param.data
         self.tour_rates_g = ds.tour_rates.data
         self.stops_per_tour_g = ds.stops_per_tour.data
-        self.time_series_starting_trips_gs = ds.time_series_starting_trips.data
-        self.time_series_linking_trips_gs = ds.time_series_linking_trips.data
-        self.time_series_ending_trips_gs = ds.time_series_ending_trips.data
+
+        self.time_series_values_rs = ds.time_series_values.data
+
+        self.time_series_starting_trips_g = ds.time_series_starting_trips.data
+        self.time_series_linking_trips_g = ds.time_series_linking_trips.data
+        self.time_series_ending_trips_g = ds.time_series_ending_trips.data
 
         # zonal data
         self.source_potential_gh = ds.source_potential.data
@@ -184,7 +193,8 @@ class WIVER(_WIVER, _ArrayProperties):
         self.init_object_array('sectors', 'n_sectors')
         self.init_array('zone_no', 'n_zones')
         self.init_object_array('zone_name', 'n_zones')
-        self.init_object_array('lbl_time_slice', 'n_time_slices')
+        self.init_object_array('lbl_time_slices', 'n_time_slices')
+        self.init_object_array('lbl_time_series', 'n_time_series')
 
         self.init_array('mode_g', 'n_groups', 0)
         self.init_array('sector_g', 'n_groups', 0)
@@ -224,12 +234,15 @@ class WIVER(_WIVER, _ArrayProperties):
         self.init_array('trips_msij',
                         'n_modes, n_time_slices, n_zones, n_zones', 0)
 
-        self.init_array('time_series_starting_trips_gs',
-                        'n_groups, n_time_slices', 1)
-        self.init_array('time_series_linking_trips_gs',
-                        'n_groups, n_time_slices', 1)
-        self.init_array('time_series_ending_trips_gs',
-                        'n_groups, n_time_slices', 1)
+        self.init_array('time_series_values_rs',
+                        'n_time_series, n_time_slices', 1)
+
+        self.init_array('time_series_starting_trips_g',
+                        'n_groups', 0)
+        self.init_array('time_series_linking_trips_g',
+                        'n_groups', 0)
+        self.init_array('time_series_ending_trips_g',
+                        'n_groups', 0)
 
     def validate_input_data(self):
         """make checks on the input data"""
@@ -303,12 +316,16 @@ class WIVER(_WIVER, _ArrayProperties):
                             self.tour_rates_g)
         ds['stops_per_tour'] = (('groups'),
                                 self.stops_per_tour_g)
+
+        ds['time_series_values'] = (
+            ('time_series', 'time_slices'), self.time_series_values_rs)
+
         ds['time_series_starting_trips'] = (
-            ('groups', 'time_slices'), self.time_series_starting_trips_gs)
+            ('groups',), self.time_series_starting_trips_g)
         ds['time_series_linking_trips'] = (
-            ('groups', 'time_slices'), self.time_series_linking_trips_gs)
+            ('groups',), self.time_series_linking_trips_g)
         ds['time_series_ending_trips'] = (
-            ('groups', 'time_slices'), self.time_series_ending_trips_gs)
+            ('groups',), self.time_series_ending_trips_g)
         return ds
 
     def define_balancing(self) -> xr.Dataset:
@@ -389,8 +406,16 @@ class WIVER(_WIVER, _ArrayProperties):
     def merge_datasets(self):
         """Merge the datasets"""
         self.data = xr.merge((self.params, self.zonal_data,
-                              self.matrices, self.balancing,
-                              self.results))
+                         self.matrices, self.balancing))
+
+    def assign_coordinates(self):
+        """
+        set the coordinates from self._coordinates to self.data
+        """
+        coord_dict = {}
+        for key, value in self._coordinates.items():
+            coord_dict[key] = getattr(self, value)
+        self.data = self.data.assign_coords(**coord_dict)
 
     def save_all_data(self, wiver_files: Dict[str, str]):
         """
