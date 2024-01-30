@@ -35,6 +35,7 @@ from wiver.wiver_python import WIVER
 wiver = WIVER(n_groups=3,
 			  n_zones=5,
 			  n_time_slices=3,
+			  n_time_series=5,
 			  n_modes=3,
 			  n_sectors=2)
 ```
@@ -58,6 +59,7 @@ The following Visum-Elements are represented in this wiver-package:
 | DemandStratum    | Group    |
 | DemandSegment    | Mode    |
 | AnalysisTimeInterval    | Time Slice    |
+| TimeSeries    | Time Series    |
 | NumPersons(PersonGroup) per Zone    | source_potential_gh    |
 | Attraction(DemandStratum) per Zone    | sink_potential_gj    |
 
@@ -184,20 +186,34 @@ A value of 0 means, that the trip balancing for the group did not converge yet.
 **Time Series**
 The results of the model can be calculated for different time slices.
 In the morning, most tours start in the depot, during the day, there are more linking trips between the destinations and in the afternoon the vehicles return to their deopt (home zone).
-The time series for each group are defined for starting, linking, and ending trips.
-In the following example we have 2 groups and 3 time-slices (morning, day, evening).
+
+In the following example we have 5 time_series and 3 time-slices (morning, day, evening).
+The first group uses as time series for starting, linking, and ending trips the time series 0, 2, and 3.
+The second group uses as time series for starting, linking, and ending trips the time series 1, 2, and 4.
+
 
 ```
-wiver.time_series_starting_trips_gs = np.array([[5, 4, 1],
-												[10, 0, 0]])
-wiver.time_series_linking_trips_gs = np.array([[2, 3, 2],
-											   [2, 5, 3]])
-wiver.time_series_ending_trips_gs = np.array([[0, 3, 7],
-											  [0, 0, 9]])
+wiver.n_time_slices = 3
+wiver.n_time_series = 5
+
+wiver.lbl_time_slices = ['moring', 'day', 'evening']
+wiver.lbl_time_series = ['Start1', 'Start2', 'Linking', 'Home1', 'Home2']
+
+wiver.time_series_values_rs = np.array([
+[5, 4, 1],
+[10, 0, 0],
+[2, 3, 2],
+[0, 3, 7],
+[0, 0, 9],
+])
+
+wiver.time_series_starting_trips_g = [0, 1]
+wiver.time_series_linking_trips_g = [2, 2]
+wiver.time_series_ending_trips_g = [3, 4]
 ```
 
 For group 0, 50% of the tours start in the morning, 40% during the day and 10% in the evening. For group 1, all tours start in the morning.
-The linking trips are carried out during the day.
+The linking trips are carried out during the day, both groups use the same time series number 2.
 The ending trips, which return to the depot happen to 30% during the day and to 70% in the evening for group 0 and happen all in the evening for group 1.
 
 

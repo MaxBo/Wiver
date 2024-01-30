@@ -104,7 +104,7 @@ cdef class _WIVER(ArrayShapes):
 
     def raise_linking_trips_error(self, g: int, h: int):
         """raise a DestinationChoiceError for linking trips"""
-        msg = '''No destinations cannot be linked for group {g} and home zone {h} because they is no accessibility between the destinations'''
+        msg = '''Destinations cannot be linked for group {g} and home zone {h} because they is no accessibility between the destinations'''
         raise DestinationChoiceError(msg.format(g=g, h=h))
 
     @cython.initializedcheck(False)
@@ -438,20 +438,22 @@ cdef class _WIVER(ArrayShapes):
         """Calc the time series"""
         self.assert_data_consistency()
         cdef long32 g, s, i, j
+        cdef char r_starting, r_linking, r_ending
         cdef double trips, w_starting, w_linking, w_ending
         self.reset_array('trips_gsij')
         # normalize the weights to ensure that all time slices sum up to 100 %
-        self.normalise_time_series(self.time_series_starting_trips_gs)
-        self.normalise_time_series(self.time_series_linking_trips_gs)
-        self.normalise_time_series(self.time_series_ending_trips_gs)
+        self.normalise_time_series(self.time_series_values_rs)
 
         # loop over all groups
         with nogil, parallel(num_threads=self.n_threads):
             for g in prange(self.n_groups):
+                r_starting = self._time_series_starting_trips_g[g]
+                r_linking = self._time_series_linking_trips_g[g]
+                r_ending = self._time_series_ending_trips_g[g]
                 for s in range(self.n_time_slices):
-                    w_starting = self._time_series_starting_trips_gs[g, s]
-                    w_linking = self._time_series_linking_trips_gs[g, s]
-                    w_ending = self._time_series_ending_trips_gs[g, s]
+                    w_starting = self._time_series_values_rs[r_starting, s]
+                    w_linking = self._time_series_values_rs[r_linking, s]
+                    w_ending = self._time_series_values_rs[r_ending, s]
                     for i in range(self.n_zones):
                         for j in range(self.n_zones):
                             trips = (

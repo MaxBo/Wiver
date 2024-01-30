@@ -289,6 +289,7 @@ def save_input_data(wiver: WIVER, wiver_files: dict):
     datasets = ('params', 'zonal_data', 'matrices',
                 'balancing')
     wiver.merge_datasets()
+    wiver.assign_coordinates()
     for dataset_name in datasets:
         fn = wiver_files[dataset_name]
         wiver.save_data(dataset_name, fn)
