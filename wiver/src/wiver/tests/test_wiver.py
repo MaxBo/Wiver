@@ -564,18 +564,23 @@ class Test02_Wiver:
         wiver.travel_time_mij[m, :, [1, 2]] = np.inf
         # this should raise a Destination Choice Error, because there are
         # destinations for group 1, but they cannot be reached
-        with pytest.raises(DestinationChoiceError) as e:
+        with pytest.raises(DestinationChoiceError,
+                           match=r'^No accessible destinations') as e:
             wiver.calc()
         print(e.value)
         # reset travel times
         wiver.travel_time_mij[m, :] = backup
         wiver.calc()
 
-        # infinitive travel times for linking trips
+        # to have between zones 1 and 2 only linking trips,
+        # set source potential of theses zones to 0
+        wiver.source_potential_gh[g] = np.array([100, 0, 0, 0, 100])
+        # infinitive travel times for linking trips between zones 1 and 2
         wiver.travel_time_mij[m, 1:3, 1:3] = np.inf
         # calculating the linking trips should raise an error
         # because of lack of accessibility between the destinations
-        with pytest.raises(DestinationChoiceError) as e:
+        with pytest.raises(DestinationChoiceError,
+                           match=r'^Destinations cannot be linked') as e:
             wiver.calc()
         print(e.value)
 

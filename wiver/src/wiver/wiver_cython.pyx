@@ -104,7 +104,7 @@ cdef class _WIVER(ArrayShapes):
 
     def raise_linking_trips_error(self, g: int, h: int):
         """raise a DestinationChoiceError for linking trips"""
-        msg = '''No destinations cannot be linked for group {g} and home zone {h} because they is no accessibility between the destinations'''
+        msg = '''Destinations cannot be linked for group {g} and home zone {h} because they is no accessibility between the destinations'''
         raise DestinationChoiceError(msg.format(g=g, h=h))
 
     @cython.initializedcheck(False)
