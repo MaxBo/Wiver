@@ -17,14 +17,16 @@ The model has the following dimensions::
   * n_groups: the number of demand groups defined by economic sectors and vehicle types
   * n_modes: the number of vehicle types
   * n_time_slices: the number of time slices to stratify the demand by time of day
+  * n_time_series: the number of time series
   * n_threads: the number of threads to use for parallel computation. Defaults to all available threads
 
-  Dimensions:                        (n_groups: 2, n_modes: 3, n_threads: 2, n_sectors: 2, n_time_slices: 3, n_zones: 5)
+  Dimensions:                        (n_groups: 2, n_modes: 3, n_threads: 2, n_sectors: 2, n_time_slices: 3, n_time_series: 5, n_zones: 5)
   Coordinates:
     * n_groups                       (n_groups) object 'Gruppe 0' 'Gruppe 1'
     * n_modes                        (n_modes) object 'Rad' 'Pkw' 'OV'
     * n_sectors                      (n_sectors) object 'Industrie' 'DL'
-    * n_time_slices                  (n_time_slices) object None None None
+    * n_time_slices                  (n_time_slices) object 'morgens', 'mittags', 'abends'
+    * n_time_series                  (n_time_series) object 'Hin1' 'Hin2' ... 'Home2'
     * n_zones                        (n_zones) object 'A-Stadt' 'B-Stadt' ...
   Dimensions without coordinates: n_threads
 
@@ -46,6 +48,7 @@ The following Visum-Elements are represented in this wiver-package:
 | DemandStratum    | Group    |
 | DemandSegment    | Mode    |
 | AnalysisTimeInterval    | Time Slice    |
+| TimeSeries    | Time Series    |
 | NumPersons(PersonGroup) per Zone    | source_potential_gh    |
 | Attraction(DemandStratum) per Zone    | sink_potential_gj    |
 

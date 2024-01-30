@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5b801204" />
     <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=bd074a33" />
     
-    <script src="../_static/documentation_options.js?v=1d24b1d9"></script>
+    <script src="../_static/documentation_options.js?v=6cf1fb80"></script>
     <script src="../_static/doctools.js?v=d248f5b3"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
@@ -52,7 +52,7 @@
 
 <dl class="py class">
 <dt class="sig sig-object py" id="wiver.wiver_python.WIVER">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">wiver.wiver_python.</span></span><span class="sig-name descname"><span class="pre">WIVER</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_groups</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_zones</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_time_slices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_modes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_sectors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_threads</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_python.WIVER" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">wiver.wiver_python.</span></span><span class="sig-name descname"><span class="pre">WIVER</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_groups</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_zones</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_time_slices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_time_series</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_modes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_sectors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_threads</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_python.WIVER" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="wiver.wiver_cython.html#wiver.wiver_cython._WIVER" title="wiver.wiver_cython._WIVER"><code class="xref py py-class docutils literal notranslate"><span class="pre">_WIVER</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_ArrayProperties</span></code></p>
 <p>WIVER Business Trip Model</p>
 <dl class="field-list simple">
@@ -61,6 +61,7 @@
 <li><p><strong>n_groups</strong> (<em>int</em>) – </p></li>
 <li><p><strong>n_zones</strong> (<em>int</em>) – </p></li>
 <li><p><strong>n_time_slices</strong> (<em>int</em>) – </p></li>
+<li><p><strong>n_time_series</strong> (<em>int</em>) – </p></li>
 <li><p><strong>n_modes</strong> (<em>int</em>) – </p></li>
 <li><p><strong>n_sectors</strong> (<em>int</em>) – </p></li>
 <li><p><strong>n_threads</strong> (<em>int</em>) – </p></li>
@@ -70,13 +71,14 @@
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="wiver.wiver_python.WIVER.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_groups</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_zones</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_time_slices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_modes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_sectors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_threads</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_python.WIVER.__init__" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_groups</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_zones</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_time_slices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_time_series</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_modes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_sectors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_threads</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_python.WIVER.__init__" title="Link to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>n_groups</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – the number of groups</p></li>
 <li><p><strong>n_zones</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – the number of zones</p></li>
 <li><p><strong>n_time_slices</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – the number of time slices</p></li>
+<li><p><strong>n_time_series</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – the number of time series</p></li>
 <li><p><strong>n_modes</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – the number of transport modes</p></li>
 <li><p><strong>n_sectors</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – the number of economic sectors</p></li>
 <li><p><strong>n_threads</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – the maximum number of threads to use for calculation</p></li>
@@ -100,6 +102,12 @@ the model converges</p></li>
 </ul>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="wiver.wiver_python.WIVER.assign_coordinates">
+<span class="sig-name descname"><span class="pre">assign_coordinates</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_python.WIVER.assign_coordinates" title="Link to this definition">¶</a></dt>
+<dd><p>set the coordinates from self._coordinates to self.data</p>
 </dd></dl>
 
 <dl class="py method">
@@ -344,7 +352,7 @@ from a set of netcdf-Filename defined in files</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="wiver.wiver_python.WIVER._coordinates">
-<span class="sig-name descname"><span class="pre">_coordinates</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'n_groups':</span> <span class="pre">'groups',</span> <span class="pre">'n_modes':</span> <span class="pre">'modes',</span> <span class="pre">'n_sectors':</span> <span class="pre">'sector_short',</span> <span class="pre">'n_time_slices':</span> <span class="pre">'lbl_time_slice',</span> <span class="pre">'n_zones':</span> <span class="pre">'zone_name'}</span></em><a class="headerlink" href="#wiver.wiver_python.WIVER._coordinates" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">_coordinates</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'groups':</span> <span class="pre">'group_names',</span> <span class="pre">'modes':</span> <span class="pre">'modes',</span> <span class="pre">'sectors':</span> <span class="pre">'sector_short',</span> <span class="pre">'time_series':</span> <span class="pre">'lbl_time_series',</span> <span class="pre">'time_slices':</span> <span class="pre">'lbl_time_slices',</span> <span class="pre">'zone_no':</span> <span class="pre">'zone_no'}</span></em><a class="headerlink" href="#wiver.wiver_python.WIVER._coordinates" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py property">
@@ -432,6 +440,7 @@ from a set of netcdf-Filename defined in files</p>
 <li><a class="reference internal" href="#wiver.wiver_python.WIVER"><code class="docutils literal notranslate"><span class="pre">WIVER</span></code></a><ul>
 <li><a class="reference internal" href="#wiver.wiver_python.WIVER.__init__"><code class="docutils literal notranslate"><span class="pre">WIVER.__init__()</span></code></a></li>
 <li><a class="reference internal" href="#wiver.wiver_python.WIVER.adjust_balancing_factor"><code class="docutils literal notranslate"><span class="pre">WIVER.adjust_balancing_factor()</span></code></a></li>
+<li><a class="reference internal" href="#wiver.wiver_python.WIVER.assign_coordinates"><code class="docutils literal notranslate"><span class="pre">WIVER.assign_coordinates()</span></code></a></li>
 <li><a class="reference internal" href="#wiver.wiver_python.WIVER.calc"><code class="docutils literal notranslate"><span class="pre">WIVER.calc()</span></code></a></li>
 <li><a class="reference internal" href="#wiver.wiver_python.WIVER.calc_starting_and_ending_trips"><code class="docutils literal notranslate"><span class="pre">WIVER.calc_starting_and_ending_trips()</span></code></a></li>
 <li><a class="reference internal" href="#wiver.wiver_python.WIVER.calc_with_balancing"><code class="docutils literal notranslate"><span class="pre">WIVER.calc_with_balancing()</span></code></a></li>
@@ -519,7 +528,7 @@ from a set of netcdf-Filename defined in files</p>
     </div>
     <div class="footer" role="contentinfo">
     &#169; Copyright 2017, Gertz Gutsche Rümenapp.
-      Last updated on Jan 20, 2024.
+      Last updated on Jan 30, 2024.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
   </body>
