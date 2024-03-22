@@ -57,7 +57,7 @@ jobs:
         )
 
     - name: run code coverage
-      if: ${{ matrix.python-version == '3.12' }}
+      if: ${{ matrix.python-version == '3.11' }}
       run: |
         (
         conda activate test-wheels
@@ -70,7 +70,7 @@ jobs:
         )
 
     - name: Upload to Codecov
-      if: ${{ matrix.python-version == '3.12' }}
+      if: ${{ matrix.python-version == '3.11' }}
       uses: codecov/codecov-action@v3
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
