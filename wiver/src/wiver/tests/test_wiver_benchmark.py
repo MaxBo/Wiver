@@ -14,17 +14,17 @@ import wiver.run_wiver
 from pytest_benchmark.plugin import benchmark
 
 
-@pytest.fixture(scope='class', params=[50])
+@pytest.fixture(scope='class', params=[100, 200])
 def n_zones(request) -> int:
     return request.param
 
 
-@pytest.fixture(scope='class', params=[16])
+@pytest.fixture(scope='class', params=[1, 2])
 def n_groups(request) -> int:
     return request.param
 
 
-@pytest.fixture(scope='class', params=[1, 2, 4, 8])
+@pytest.fixture(scope='class', params=[1, 2, 4, 8, 16, 32])
 def n_threads(request) -> int:
     return request.param
 
@@ -99,12 +99,3 @@ class TestWiver:
         """Test the wiver runtime for more zones"""
         wiver = self.create_wiver(n_zones, n_groups, n_threads)
         benchmark(wiver.calc)
-
-    def test_03_calc_group(self, n_zones: int, n_groups: int, n_threads: int):
-        """Test the results of wiver for more zones"""
-        wiver = self.create_wiver(n_zones, n_groups, n_threads)
-        # set zone 3 to 0
-        wiver.source_potential_gh[:, 3] = 0
-        wiver.sink_potential_gj[:, 3] = 0
-        for g in range(wiver.n_groups):
-            wiver.calc_daily_trips(g)

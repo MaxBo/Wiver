@@ -7,7 +7,6 @@ Created on Fri Jun 10 21:00:21 2016
 
 import os
 import sys
-import logging
 import runpy
 import tempfile
 import pytest

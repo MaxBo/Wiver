@@ -88,33 +88,36 @@ cdef class _WIVER(ArrayShapes):
     cdef public ARRAY_3D_d _p_links_tij
 
     cpdef char calc_daily_trips(self, long32 g) except -1
-    cdef double _calc_tours(self, long32 g, long32 h) noexcept nogil
-    cdef double _calc_linking_trips(self, long32 g, double tours) noexcept nogil
-    cdef double _calc_p_destination(self, long32 g, long32 m,
-                                    long32 h, long32 j) noexcept nogil
+
+    cdef char _calc_daily_trips(self, long32 t, long32 g, long32 h) except -1 nogil
+    cdef double _calc_tours(self, long32 g, long32 h) except -1 nogil
+    cdef double _calc_linking_trips(self, long32 g, double tours) except -1 nogil
+    cdef double _calc_p_destination(self, long32 g, char m,
+                                    long32 h, long32 j)  except -1 nogil
     cdef char _calc_destination_choice(self,
                                       long32 t,
                                       long32 g,
-                                      long32 h) noexcept nogil
+                                      long32 h) except -1 nogil
 
     cdef char _calc_linking_trip_choice(self,
                                       long32 t,
                                       long32 g,
-                                      long32 h) noexcept nogil
+                                      long32 h) except -1 nogil
 
-    cdef char _symmetrisize_trip_matrix(self, long32 g,) noexcept nogil
+    cdef char _symmetrisize_trip_matrix(self, long32 g,) except -1 nogil
 
     cdef char _calc_trips(self,
                          long32 t,
                          long32 g,
                          long32 h,
                          double tours,
-                         double linking_trips) noexcept nogil
-    cdef double _calc_savings_factor(self, long32 g, long32 m,
-                                   long32 h, long32 i, long32 j) noexcept nogil
-    cdef double _calc_savings(self, long32 g, long32 m,
-                             long32 h, long32 i, long32 j) noexcept nogil
+                         double linking_trips) except -1 nogil
+    cdef double _calc_savings_factor(self, long32 g, char m,
+                                   long32 h, long32 i, long32 j) except -1 nogil
+    cdef double _calc_savings(self, long32 g, char m,
+                             long32 h, long32 i, long32 j) except -1 nogil
 
+    cdef char _calc_time_serie(self, long32 g) except -1 nogil
     cpdef calc_time_series(self)
     cpdef aggregate_to_modes(self)
     cpdef calc_mean_distance(self)

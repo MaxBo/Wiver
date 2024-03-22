@@ -2,7 +2,6 @@
 #cython: wraparound=False
 #cython: cdivision=True
 #cython: embedsignature=True
-#cython: profile=True
 
 cimport cython
 cimport numpy as np
@@ -37,7 +36,6 @@ cdef class _WIVER(ArrayShapes):
     """
 
     @cython.initializedcheck(False)
-    @cython.profile(True)
     cpdef char calc_daily_trips(self, long32 g) except -1:
         """
         Calc the daily trips for all groups and zones
@@ -52,9 +50,7 @@ cdef class _WIVER(ArrayShapes):
         long32:
             -1, if an exeption is raised, 0 otherwise
         """
-        cdef char r
         cdef long32 t, h
-        cdef double tours, linking_trips
         self.home_based_trips_gij[g] = 0
         self.linking_trips_gij[g] = 0
 
@@ -67,22 +63,9 @@ cdef class _WIVER(ArrayShapes):
             t = threadid()
             # loop over calibration groups
             for h in prange(self.n_zones, schedule='guided'):
-                #with gil:
-                    #print(h, t)
-                tours = self._calc_tours(g, h)
-                if tours:
-                    r = self._calc_destination_choice(t, g, h)
-                    if r:
-                        with gil:
-                            self.raise_destination_choice_error(g, h)
-                    linking_trips = self._calc_linking_trips(g, tours)
-                    if linking_trips:
-                        r = self._calc_linking_trip_choice(t, g, h)
-                        if r:
-                            with gil:
-                                self.raise_linking_trips_error(g, h)
-                    self._calc_trips(t, g, h, tours, linking_trips)
+                self._calc_daily_trips(t, g, h)
         self._symmetrisize_trip_matrix(g)
+
 
     def adjust_linking_trips(self, g: long32):
         """
@@ -173,7 +156,6 @@ cdef class _WIVER(ArrayShapes):
             self._mean_distance_first_trips_g[g] = mean_distance_first_trip
             self._mean_distance_linking_trips_g[g] = mean_distance_linking_trip
 
-
     @cython.initializedcheck(False)
     cpdef calc_mean_distance_mode(self):
         """calculate mean distance for modes"""
@@ -195,7 +177,30 @@ cdef class _WIVER(ArrayShapes):
             self._mean_distance_m[m] = mean_distance
 
     @cython.initializedcheck(False)
-    cdef double _calc_tours(self, long32 g, long32 h) noexcept nogil:
+    cdef char _calc_daily_trips(self, long32 t, long32 g, long32 h) except -1 nogil:
+        """
+        calc the trips for group g and home zone h
+
+        Parameters
+        ----------
+        t : long32
+            the thread_no
+        g : long32
+            group no
+        h : long 32
+            home zone no
+        """
+        cdef double tours, linking_trips
+        tours = self._calc_tours(g, h)
+        if tours:
+            self._calc_destination_choice(t, g, h)
+            linking_trips = self._calc_linking_trips(g, tours)
+            if linking_trips:
+                self._calc_linking_trip_choice(t, g, h)
+            self._calc_trips(t, g, h, tours, linking_trips)
+
+    @cython.initializedcheck(False)
+    cdef double _calc_tours(self, long32 g, long32 h) except -1 nogil:
         """
         calc the number of linking trips starting in home zone h
         """
@@ -203,9 +208,8 @@ cdef class _WIVER(ArrayShapes):
         tours = self._source_potential_gh[g, h] * self._tour_rates_g[g]
         return tours
 
-    @cython.profile(True)
     @cython.initializedcheck(False)
-    cdef double _calc_linking_trips(self, long32 g, double tours) noexcept nogil:
+    cdef double _calc_linking_trips(self, long32 g, double tours) except -1 nogil:
         """
         calc the number of linking trips for group g
         """
@@ -214,25 +218,24 @@ cdef class _WIVER(ArrayShapes):
         return linking_trips
 
     @cython.initializedcheck(False)
-    cdef double _calc_p_destination(self, long32 g, long32 m,
-                                    long32 h, long32 j) noexcept nogil:
+    cdef double _calc_p_destination(self, long32 g, char m,
+                                    long32 h, long32 j)  except -1 nogil:
         """
         calc utility function for the destination choice
         """
-        cdef double p
-        cdef double sp = self._sink_potential_gj[g, j]
-        cdef double bf = self._balancing_factor_gj[g, j]
-        cdef double param = self._param_dist_g[g]
-        cdef double time = self._travel_time_mij[m, h, j]
+        cdef double p, sp, bf, param, time
+        sp = self._sink_potential_gj[g, j]
+        bf = self._balancing_factor_gj[g, j]
+        param = self._param_dist_g[g]
+        time = self._travel_time_mij[m, h, j]
         p = sp * bf * exp(param * time)
         return p
 
-    @cython.profile(True)
     @cython.initializedcheck(False)
     cdef char _calc_destination_choice(self,
                                       long32 t,
                                       long32 g,
-                                      long32 h) noexcept nogil:
+                                      long32 h) except -1 nogil:
         """
         calc the Destination choice
 
@@ -261,17 +264,16 @@ cdef class _WIVER(ArrayShapes):
             self._p_destination_tj[t, j] = p
             total_weights += p
         if not total_weights:
-            return -1
+            with gil:
+                self.raise_destination_choice_error(g, h)
         for j in range(self.n_zones):
             self._p_destination_tj[t, j] /= total_weights
-        return 0
 
-    @cython.profile(True)
     @cython.initializedcheck(False)
     cdef char _calc_linking_trip_choice(self,
                                       long32 t,
                                       long32 g,
-                                      long32 h) noexcept nogil:
+                                      long32 h) except -1 nogil:
         """
         calc the Distribution for the linking trips
 
@@ -294,7 +296,6 @@ cdef class _WIVER(ArrayShapes):
         cdef double p, pi, pj, total_weights, savings_factor
 
         # reset arrays
-        #self._weight_links_total_t[t] = 0
         total_weights = 0
         with gil:
             self.p_links_tij[t] = 0
@@ -314,11 +315,11 @@ cdef class _WIVER(ArrayShapes):
                         total_weights += p
 
         if not total_weights:
-            return -1
+            with gil:
+                self.raise_linking_trips_error(g, h)
         for i in range(self.n_zones):
             for j in range(self.n_zones):
                 self._p_links_tij[t, i, j] /= total_weights
-        return 0
 
     @cython.initializedcheck(False)
     cdef char _calc_trips(self,
@@ -326,7 +327,7 @@ cdef class _WIVER(ArrayShapes):
                          long32 g,
                          long32 h,
                          double tours,
-                         double linking_trips) noexcept nogil:
+                         double linking_trips) except -1 nogil:
 
         cdef long32 i, j
         cdef double trips, p
@@ -344,8 +345,8 @@ cdef class _WIVER(ArrayShapes):
                         self._linking_trips_gij[g, i, j] += trips
 
     @cython.initializedcheck(False)
-    cdef double _calc_savings_factor(self, long32 g, long32 m,
-                                    long32 h, long32 i, long32 j) noexcept nogil:
+    cdef double _calc_savings_factor(self, long32 g, char m,
+                                    long32 h, long32 i, long32 j) except -1 nogil:
         """Calc the saving factor using the savings_param of the group"""
 
         cdef double savings, savings_factor, savings_param
@@ -359,8 +360,8 @@ cdef class _WIVER(ArrayShapes):
         return savings_factor
 
     @cython.initializedcheck(False)
-    cdef double _calc_savings(self, long32 g, long32 m,
-                              long32 h, long32 i, long32 j) noexcept nogil:
+    cdef double _calc_savings(self, long32 g, char m,
+                              long32 h, long32 i, long32 j) except -1 nogil:
         """Calc the savings"""
         cdef double savings, t_hi ,t_jh, t_ij
 
@@ -376,7 +377,7 @@ cdef class _WIVER(ArrayShapes):
         return savings
 
     @cython.initializedcheck(False)
-    cdef char _symmetrisize_trip_matrix(self, long32 g,) noexcept nogil:
+    cdef char _symmetrisize_trip_matrix(self, long32 g,) except -1 nogil:
         """
         Symmetrisize the linking trips matrix and
         Calculate the trips back home
@@ -397,15 +398,14 @@ cdef class _WIVER(ArrayShapes):
                 self._return_trips_gij[g, i, j] = \
                     self._home_based_trips_gij[g, j, i]
 
-
     # python wrapper functions around nogil-functions - for testing purposes
-    def calc_savings(self, long32 g, long32 m, long32 h, long32 i, long32 j) -> float:
+    def calc_savings(self, long32 g, char m, long32 h, long32 i, long32 j) -> float:
         """
         calc the savings for group g with home zone h from zone i to j
         """
         return self._calc_savings(g, m, h, i, j)
 
-    def calc_savings_factor(self, long32 g, long32 m,
+    def calc_savings_factor(self, long32 g, char m,
                             long32 h, long32 i, long32 j) -> float:
         """
         calc the saving factor for group g with home zone h from zone i to j
@@ -418,22 +418,18 @@ cdef class _WIVER(ArrayShapes):
     def calc_linking_trips(self, long32 g, double tours) -> float:
         return self._calc_linking_trips(g, tours)
 
-    def calc_p_destination(self, long32 g, long32 m, long32 h, long32 j) -> float:
+    def calc_p_destination(self, long32 g, char m, long32 h, long32 j) -> float:
         return self._calc_p_destination(g, m, h, j)
 
-    def calc_destination_choice(self, long32 t, long32 g, long32 h) -> int:
-        r = self._calc_destination_choice(t, g, h)
-        if r:
-            self.raise_destination_choice_error(g, h)
+    def calc_destination_choice(self, long32 t, long32 g, long32 h):
+        self._calc_destination_choice(t, g, h)
 
-    def calc_linking_trip_choice(self, long32 t, long32 g, long32 h) -> int:
-        r = self._calc_linking_trip_choice(t, g, h)
-        if r:
-            self.raise_linking_trips_error(g, h)
+    def calc_linking_trip_choice(self, long32 t, long32 g, long32 h):
+        self._calc_linking_trip_choice(t, g, h)
 
     def calc_trips(self, long32 t, long32 g, long32 h,
-                   double tours, double linking_trips) -> int:
-        return self._calc_trips(t, g, h, tours, linking_trips)
+                   double tours, double linking_trips):
+        self._calc_trips(t, g, h, tours, linking_trips)
 
     def normalise_time_series(self, np.ndarray time_series):
         """normalise a time_series to ensure it adds up to 100 %"""
@@ -443,9 +439,8 @@ cdef class _WIVER(ArrayShapes):
     cpdef calc_time_series(self):
         """Calc the time series"""
         self.assert_data_consistency()
-        cdef long32 g, s, i, j
-        cdef long32 r_starting, r_linking, r_ending
-        cdef double trips, w_starting, w_linking, w_ending
+        cdef long32 g
+
         self.reset_array('trips_gsij')
         # normalize the weights to ensure that all time slices sum up to 100 %
         self.normalise_time_series(self.time_series_values_rs)
@@ -453,21 +448,30 @@ cdef class _WIVER(ArrayShapes):
         # loop over all groups
         with nogil, parallel(num_threads=self.n_threads):
             for g in prange(self.n_groups):
-                r_starting = self._time_series_starting_trips_g[g]
-                r_linking = self._time_series_linking_trips_g[g]
-                r_ending = self._time_series_ending_trips_g[g]
-                for s in range(self.n_time_slices):
-                    w_starting = self._time_series_values_rs[r_starting, s]
-                    w_linking = self._time_series_values_rs[r_linking, s]
-                    w_ending = self._time_series_values_rs[r_ending, s]
-                    for i in range(self.n_zones):
-                        for j in range(self.n_zones):
-                            trips = (
-                            self._home_based_trips_gij[g, i, j] * w_starting +
-                            self._linking_trips_gij[g, i, j] * w_linking +
-                            self._return_trips_gij[g, i, j] * w_ending)
+                self._calc_time_serie(g)
 
-                            self._trips_gsij[g, s, i, j] = trips
+    @cython.initializedcheck(False)
+    cdef char _calc_time_serie(self, long32 g) except -1 nogil:
+        """calc time serie for group g"""
+        cdef long32 s, i, j
+        cdef long32 r_starting, r_linking, r_ending
+        cdef double trips, w_starting, w_linking, w_ending
+
+        r_starting = self._time_series_starting_trips_g[g]
+        r_linking = self._time_series_linking_trips_g[g]
+        r_ending = self._time_series_ending_trips_g[g]
+        for s in range(self.n_time_slices):
+            w_starting = self._time_series_values_rs[r_starting, s]
+            w_linking = self._time_series_values_rs[r_linking, s]
+            w_ending = self._time_series_values_rs[r_ending, s]
+            for i in range(self.n_zones):
+                for j in range(self.n_zones):
+                    trips = (
+                    self._home_based_trips_gij[g, i, j] * w_starting +
+                    self._linking_trips_gij[g, i, j] * w_linking +
+                    self._return_trips_gij[g, i, j] * w_ending)
+
+                    self._trips_gsij[g, s, i, j] = trips
 
     @cython.initializedcheck(False)
     cpdef aggregate_to_modes(self):
