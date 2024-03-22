@@ -90,10 +90,9 @@ class WIVER(_WIVER, _ArrayProperties):
             the maximum number of threads to use for calculation
         """
         if n_threads:
-            n_threads = min(n_threads, multiprocessing.cpu_count())
+            self.n_threads = min(n_threads, multiprocessing.cpu_count())
         else:
-            n_threads = multiprocessing.cpu_count()
-        self.n_threads = min(n_threads, self.n_groups)
+            self.n_threads = multiprocessing.cpu_count()
 
     @classmethod
     def read_from_netcdf(cls,

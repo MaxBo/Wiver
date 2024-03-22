@@ -14,26 +14,31 @@ import wiver.run_wiver
 from pytest_benchmark.plugin import benchmark
 
 
-@pytest.fixture(scope='class', params=[5, 10, 100])
+@pytest.fixture(scope='class', params=[100, 200])
 def n_zones(request) -> int:
     return request.param
 
 
-@pytest.fixture(scope='class', params=[1, 2, 4])
+@pytest.fixture(scope='class', params=[1, 2])
 def n_groups(request) -> int:
+    return request.param
+
+
+@pytest.fixture(scope='class', params=[1, 2, 4, 8, 16, 32])
+def n_threads(request) -> int:
     return request.param
 
 
 class TestWiver:
     """Test Wiver Model"""
 
-    def create_wiver(self, n_zones: int, n_groups: int):
+    def create_wiver(self, n_zones: int, n_groups: int, n_threads: int):
         """create the wiver object"""
         orca.run(['add_logfile'])
         n_modes = 1
         n_sectors = n_groups
         wiver = WIVER(n_groups, n_zones, n_modes=n_modes,
-                      n_time_slices=2, n_sectors=n_sectors)
+                      n_time_slices=2, n_sectors=n_sectors, n_threads=n_threads)
         wiver.mode_name = [f'Mode {n}' for n in range(n_modes)]
         wiver.sector_short = [f'Sector {n}' for n in range(n_sectors)]
         wiver.sector_g = range(n_sectors)
@@ -64,9 +69,9 @@ class TestWiver:
         wiver.stops_per_tour_g = np.linspace(2, 4, num=n_groups)
         return wiver
 
-    def test_01_calc_wiver(self, n_zones: int, n_groups: int):
+    def test_01_calc_wiver(self, n_zones: int, n_groups: int, n_threads: int):
         """Test the results of wiver for more zones"""
-        wiver = self.create_wiver(n_zones, n_groups)
+        wiver = self.create_wiver(n_zones, n_groups, n_threads)
         # set zone 3 to 0
         wiver.source_potential_gh[:, 3] = 0
         wiver.sink_potential_gj[:, 3] = 0
@@ -89,7 +94,8 @@ class TestWiver:
         actual = wiver.trips_gij.sum(2)
         np.testing.assert_array_equal((actual - desired) > -0.0000001, 1)
 
-    def test_02_benchmark_wiver(self, n_zones: int, n_groups: int, benchmark):
+    def test_02_benchmark_wiver(self, n_zones: int, n_groups: int, n_threads: int,
+                                benchmark):
         """Test the wiver runtime for more zones"""
-        wiver = self.create_wiver(n_zones, n_groups)
+        wiver = self.create_wiver(n_zones, n_groups, n_threads)
         benchmark(wiver.calc)

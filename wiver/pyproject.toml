@@ -54,6 +54,7 @@ version = {attr = "wiver.__version__"}
 test = [
     "pytest",
     "pytest-benchmark",
+    "pytest-profile",
 ]
 
 [tool.pytest.ini_options]
