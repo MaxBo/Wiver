@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5b801204" />
     <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=bd074a33" />
     
-    <script src="../_static/documentation_options.js?v=6cf1fb80"></script>
+    <script src="../_static/documentation_options.js?v=fe8e256b"></script>
     <script src="../_static/doctools.js?v=d248f5b3"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
@@ -57,13 +57,14 @@
 <p>Test Wiver Model</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="wiver.tests.test_wiver_benchmark.TestWiver.create_wiver">
-<span class="sig-name descname"><span class="pre">create_wiver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_zones</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_groups</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.tests.test_wiver_benchmark.TestWiver.create_wiver" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">create_wiver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_zones</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_groups</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_threads</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.tests.test_wiver_benchmark.TestWiver.create_wiver" title="Link to this definition">¶</a></dt>
 <dd><p>create the wiver object</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>n_zones</strong> (<em>int</em>) – </p></li>
 <li><p><strong>n_groups</strong> (<em>int</em>) – </p></li>
+<li><p><strong>n_threads</strong> (<em>int</em>) – </p></li>
 </ul>
 </dd>
 </dl>
@@ -71,13 +72,14 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="wiver.tests.test_wiver_benchmark.TestWiver.test_01_calc_wiver">
-<span class="sig-name descname"><span class="pre">test_01_calc_wiver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_zones</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_groups</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.tests.test_wiver_benchmark.TestWiver.test_01_calc_wiver" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">test_01_calc_wiver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_zones</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_groups</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_threads</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.tests.test_wiver_benchmark.TestWiver.test_01_calc_wiver" title="Link to this definition">¶</a></dt>
 <dd><p>Test the results of wiver for more zones</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>n_zones</strong> (<em>int</em>) – </p></li>
 <li><p><strong>n_groups</strong> (<em>int</em>) – </p></li>
+<li><p><strong>n_threads</strong> (<em>int</em>) – </p></li>
 </ul>
 </dd>
 </dl>
@@ -85,13 +87,14 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="wiver.tests.test_wiver_benchmark.TestWiver.test_02_benchmark_wiver">
-<span class="sig-name descname"><span class="pre">test_02_benchmark_wiver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_zones</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_groups</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">benchmark</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.tests.test_wiver_benchmark.TestWiver.test_02_benchmark_wiver" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">test_02_benchmark_wiver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_zones</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_groups</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_threads</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">benchmark</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.tests.test_wiver_benchmark.TestWiver.test_02_benchmark_wiver" title="Link to this definition">¶</a></dt>
 <dd><p>Test the wiver runtime for more zones</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>n_zones</strong> (<em>int</em>) – </p></li>
 <li><p><strong>n_groups</strong> (<em>int</em>) – </p></li>
+<li><p><strong>n_threads</strong> (<em>int</em>) – </p></li>
 </ul>
 </dd>
 </dl>
@@ -102,6 +105,16 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="wiver.tests.test_wiver_benchmark.n_groups">
 <span class="sig-prename descclassname"><span class="pre">wiver.tests.test_wiver_benchmark.</span></span><span class="sig-name descname"><span class="pre">n_groups</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.tests.test_wiver_benchmark.n_groups" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="wiver.tests.test_wiver_benchmark.n_threads">
+<span class="sig-prename descclassname"><span class="pre">wiver.tests.test_wiver_benchmark.</span></span><span class="sig-name descname"><span class="pre">n_threads</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.tests.test_wiver_benchmark.n_threads" title="Link to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span></p>
@@ -139,6 +152,7 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#wiver.tests.test_wiver_benchmark.n_groups"><code class="docutils literal notranslate"><span class="pre">n_groups()</span></code></a></li>
+<li><a class="reference internal" href="#wiver.tests.test_wiver_benchmark.n_threads"><code class="docutils literal notranslate"><span class="pre">n_threads()</span></code></a></li>
 <li><a class="reference internal" href="#wiver.tests.test_wiver_benchmark.n_zones"><code class="docutils literal notranslate"><span class="pre">n_zones()</span></code></a></li>
 </ul>
 </li>
@@ -200,7 +214,7 @@
     </div>
     <div class="footer" role="contentinfo">
     &#169; Copyright 2017, Gertz Gutsche Rümenapp.
-      Last updated on Jan 30, 2024.
+      Last updated on Mar 22, 2024.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
   </body>

@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5b801204" />
     <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=bd074a33" />
     
-    <script src="../_static/documentation_options.js?v=6cf1fb80"></script>
+    <script src="../_static/documentation_options.js?v=fe8e256b"></script>
     <script src="../_static/doctools.js?v=d248f5b3"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
@@ -86,7 +86,7 @@ to account for rounding errors with small probabilities
 which do not sum um to 1.0</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>g</strong> (<em>int</em>) – </p>
+<dd class="field-odd"><p><strong>g</strong> (<em>long32</em>) – </p>
 </dd>
 </dl>
 </dd></dl>
@@ -123,36 +123,26 @@ which do not sum um to 1.0</p>
 <dd><p>Calc the daily trips for all groups and zones</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>g</strong> (<em>int</em>) – the group</p>
+<dd class="field-odd"><p><strong>g</strong> (<em>long32</em>) – the group</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>-1, if an exeption is raised, 0 otherwise</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>int</p>
+<dd class="field-odd"><p>long32</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="wiver.wiver_cython._WIVER.calc_destination_choice">
-<span class="sig-name descname"><span class="pre">calc_destination_choice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">h</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_cython._WIVER.calc_destination_choice" title="Link to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span></p>
-</dd>
-</dl>
-</dd></dl>
+<span class="sig-name descname"><span class="pre">calc_destination_choice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">long32</span> <span class="pre">t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">long32</span> <span class="pre">g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">long32</span> <span class="pre">h</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_cython._WIVER.calc_destination_choice" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="wiver.wiver_cython._WIVER.calc_linking_trip_choice">
-<span class="sig-name descname"><span class="pre">calc_linking_trip_choice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">h</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_cython._WIVER.calc_linking_trip_choice" title="Link to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span></p>
-</dd>
-</dl>
-</dd></dl>
+<span class="sig-name descname"><span class="pre">calc_linking_trip_choice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">long32</span> <span class="pre">t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">long32</span> <span class="pre">g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">long32</span> <span class="pre">h</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_cython._WIVER.calc_linking_trip_choice" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="wiver.wiver_cython._WIVER.calc_linking_trips">
@@ -226,13 +216,8 @@ which do not sum um to 1.0</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="wiver.wiver_cython._WIVER.calc_trips">
-<span class="sig-name descname"><span class="pre">calc_trips</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">h</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tours</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linking_trips</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_cython._WIVER.calc_trips" title="Link to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span></p>
-</dd>
-</dl>
-</dd></dl>
+<span class="sig-name descname"><span class="pre">calc_trips</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">long32</span> <span class="pre">t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">long32</span> <span class="pre">g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">long32</span> <span class="pre">h</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">double</span> <span class="pre">tours</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">double</span> <span class="pre">linking_trips</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wiver.wiver_cython._WIVER.calc_trips" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="wiver.wiver_cython._WIVER.normalise_time_series">
@@ -247,8 +232,8 @@ which do not sum um to 1.0</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>g</strong> (<em>int</em>) – </p></li>
-<li><p><strong>h</strong> (<em>int</em>) – </p></li>
+<li><p><strong>g</strong> (<em>long32</em>) – </p></li>
+<li><p><strong>h</strong> (<em>long32</em>) – </p></li>
 </ul>
 </dd>
 </dl>
@@ -261,8 +246,8 @@ which do not sum um to 1.0</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>g</strong> (<em>int</em>) – </p></li>
-<li><p><strong>h</strong> (<em>int</em>) – </p></li>
+<li><p><strong>g</strong> (<em>long32</em>) – </p></li>
+<li><p><strong>h</strong> (<em>long32</em>) – </p></li>
 </ul>
 </dd>
 </dl>
@@ -842,7 +827,7 @@ which do not sum um to 1.0</p>
     </div>
     <div class="footer" role="contentinfo">
     &#169; Copyright 2017, Gertz Gutsche Rümenapp.
-      Last updated on Jan 30, 2024.
+      Last updated on Mar 22, 2024.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
   </body>
