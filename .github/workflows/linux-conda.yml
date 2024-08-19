@@ -49,7 +49,7 @@ jobs:
       run: |
         eval "$($CONDA_EXE shell.bash activate test-environment)"
         cd wiver
-        pip install sphinx sphinxcontrib-napoleon sphinx-autodoc-typehints 'mistune<2' m2r2
+        pip install sphinx sphinxcontrib-napoleon sphinx-autodoc-typehints 'mistune<2' m2r2 'docutils<0.20' pytest
         sphinx-apidoc -f --separate -o docs_rst/wiver src/wiver
         sphinx-build docs_rst ../docs
 
