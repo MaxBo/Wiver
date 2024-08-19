@@ -17,7 +17,8 @@ import orca
 from wiver.wiver_python import (WIVER, InvalidWiverInputData,
                                 DestinationChoiceError, DataConsistencyError)
 import wiver.run_wiver
-from h5py.version import hdf5_version
+import h5py
+hdf5_version = h5py.h5.get_libversion()
 
 
 @pytest.fixture(scope='class', params=range(2))
@@ -60,7 +61,7 @@ def folder(tmpdir_factory) -> str:
 @pytest.fixture(scope='module',
                 params=['Wiver',
                         pytest.param('ÄÖÜß', marks=pytest.mark.xfail(
-                                     hdf5_version < '1.16',
+                                     hdf5_version < (1, 16),
                             reason='Bug in HDF5'))])
 def result_folder(request, folder: str) -> str:
     """Temp folder to store the results"""
