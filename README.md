@@ -7,6 +7,8 @@
 [![Anaconda-Server Badge](https://anaconda.org/maxbo/wiver/badges/version.svg)](https://anaconda.org/maxbo/wiver)
 [![Anaconda-LastUpdate](https://anaconda.org/maxbo/wiver/badges/latest_release_date.svg)](https://anaconda.org/maxbo/wiver)
 
+[Changelog](CHANGELOG.md)
+
 # Wiver - Business Trip Model
 
 Wiver is a Business Trip Model based upon the model developed by Sonntag et al. (1998).
