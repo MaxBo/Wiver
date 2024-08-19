@@ -19,6 +19,7 @@
 - CHANGELOG.md
 
 ### Fixed
+- correct check of hdf5-version
 
 ### Changed
 - update to numpy>=2.0
