@@ -338,7 +338,7 @@ def run_wiver_for_selected_groups(wiver: WIVER,
         wiver.init_array('trips_to_destination_gj')
 
     if groups_to_calculate:
-        wiver.active_g[:] = np.in1d(wiver.groups, groups_to_calculate)
+        wiver.active_g[:] = np.isin(wiver.groups, groups_to_calculate)
     wiver.calc_with_balancing(max_iterations=max_iterations)
     wiver.save_results(wiver_files)
 
@@ -381,7 +381,7 @@ def save_detailed_results(wiver: WIVER,
         list of int
     """
     if groups_to_calculate:
-        wiver.active_g[:] = np.in1d(wiver.groups, groups_to_calculate)
+        wiver.active_g[:] = np.isin(wiver.groups, groups_to_calculate)
     fn = wiver_files['results']
     wiver.read_data('results', fn)
     wiver.save_detailed_results_to_visum(result_folder, visum_format='BK')
