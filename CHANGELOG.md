@@ -25,6 +25,7 @@
 - update to numpy>=2.0
 
 ### Removed
+- support for python 3.8 (does not support numpy 2.0)
 
 
 [unreleased]: https://github.com/MaxBo/wiver/compare/v1.12.1...HEAD
