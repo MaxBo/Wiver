@@ -4,7 +4,6 @@
 #cython: embedsignature=True
 
 cimport cython
-cimport numpy as np
 import numpy as np
 
 from cython.parallel import prange, threadid, parallel
