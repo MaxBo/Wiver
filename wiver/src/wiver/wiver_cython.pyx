@@ -4,6 +4,8 @@
 #cython: embedsignature=True
 
 cimport cython
+cimport numpy as cnp
+cnp.import_array()
 import numpy as np
 
 from cython.parallel import prange, threadid, parallel
@@ -430,7 +432,7 @@ cdef class _WIVER(ArrayShapes):
                    double tours, double linking_trips):
         self._calc_trips(t, g, h, tours, linking_trips)
 
-    def normalise_time_series(self, np.ndarray time_series):
+    def normalise_time_series(self, cnp.ndarray time_series):
         """normalise a time_series to ensure it adds up to 100 %"""
         time_series /= time_series.sum(-1)[:, np.newaxis]
 
