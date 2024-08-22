@@ -29,7 +29,9 @@ jobs:
     - name: Install dependencies and set channels
       run: |
         conda install conda-build conda-verify anaconda-client twine readme_renderer
+        conda config --set channel_priority flexible
         conda create -q -n test-environment python=${{ matrix.python-version }} numpy pytest-cov pytest-benchmark build
+        conda config --set channel_priority strict
 
     - name: Build wheel and run tests for wiver
       run: |
