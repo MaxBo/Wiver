@@ -49,7 +49,7 @@ jobs:
         mamba create -n test-conda python=${{ matrix.python-version }} numpy pytest-cov pytest-benchmark
         )
 
-   - name: create test environments for python >= 3.13
+    - name: create test environments for python >= 3.13
       if: ${{ matrix.python-version >= '3.13' }}
       run: |
         (
