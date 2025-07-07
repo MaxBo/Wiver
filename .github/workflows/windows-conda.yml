@@ -19,7 +19,7 @@ jobs:
     strategy:
       max-parallel: 5
       matrix:
-        python-version: ['3.9', '3.10', '3.11', '3.12']
+        python-version: ['3.9', '3.10', '3.11', '3.12', '3.13']
     steps:
     - uses: actions/checkout@v4
     - uses: seanmiddleditch/gha-setup-vsdevenv@master
@@ -39,8 +39,22 @@ jobs:
       run: |
         (
         mamba install -n base "conda>=23.7" conda-build conda-verify anaconda-client boa twine
-        mamba create -n test-wheels python=${{ matrix.python-version }} numpy pytest-cov pytest-benchmark
+        )
+
+    - name: create test environments environment for python < 3.13
+      if: ${{ matrix.python-version < '3.13' }}
+      run: |
+        (
+        mamba create -n test-wheels python=${{ matrix.python-version }} numpy pytest-benchmark
         mamba create -n test-conda python=${{ matrix.python-version }} numpy pytest-cov pytest-benchmark
+        )
+
+   - name: create test environments for python >= 3.13
+      if: ${{ matrix.python-version >= '3.13' }}
+      run: |
+        (
+        mamba create -n test-wheels python-gil python=${{ matrix.python-version }} numpy pytest-benchmark
+        mamba create -n test-conda python-gil python=${{ matrix.python-version }} numpy pytest-cov pytest-benchmark
         )
 
     - name: Build wheel and run tests for wiver
