@@ -32,7 +32,6 @@ jobs:
 
     - name: Install dependencies and set channels
       run: |
-        mamba shell init --shell bash --root-prefix=~/.local/share/mamba
         mamba install conda-build anaconda-client twine readme_renderer
         mamba create -q -n test-environment python=${{ matrix.python-version }} numpy pytest-cov pytest-benchmark
 
@@ -40,6 +39,7 @@ jobs:
       shell: bash -el {0}
       run: |
         (
+        eval "$(mamba shell hook --shell bash)"
         mamba activate test-environment
         which python
         cd wiver
@@ -55,6 +55,7 @@ jobs:
       shell: bash -el {0}
       if: ${{ matrix.python-version == '3.12' }}
       run: |
+        eval "$(mamba shell hook --shell bash)"
         mamba activate test-environment
         cd wiver
         pip install sphinx sphinxcontrib-napoleon sphinx-autodoc-typehints 'mistune<2' m2r2 'docutils<0.20' pytest
@@ -63,6 +64,7 @@ jobs:
 
     - name: Build and test wiver
       run: |
+        eval "$(mamba shell hook --shell bash)"
         mamba activate test-environment
         export TMPDIR=${{ runner.TEMP }}
         export CONDA_BLD_PATH=$TMPDIR
@@ -82,6 +84,7 @@ jobs:
         CONDA_BLD_PATH: ${{ runner.TEMP }}
 
       run: |
+        eval "$(mamba shell hook --shell bash)"
         mamba activate test-environment
         export PATH=$HOME/.local/bin:$PATH
         anaconda -t $ANACONDA_TOKEN upload --skip-existing --user $ANACONDA_USERNAME $CONDA_BLD_PATH/linux-64/wiver-*.conda
