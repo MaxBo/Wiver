@@ -45,16 +45,16 @@ jobs:
       if: ${{ matrix.python-version < '3.13' }}
       run: |
         (
-        mamba create -n test-wheels python=${{ matrix.python-version }} numpy pytest-benchmark
-        mamba create -n test-conda python=${{ matrix.python-version }} numpy pytest-cov pytest-benchmark
+        mamba create -n test-wheels python=${{ matrix.python-version }} numpy pytest-cov pytest-benchmark
+        mamba create -n test-conda python=${{ matrix.python-version }} numpy pytest-benchmark
         )
 
     - name: create test environments for python >= 3.13
       if: ${{ matrix.python-version >= '3.13' }}
       run: |
         (
-        mamba create -n test-wheels python-gil python=${{ matrix.python-version }} numpy pytest-benchmark
-        mamba create -n test-conda python-gil python=${{ matrix.python-version }} numpy pytest-cov pytest-benchmark
+        mamba create -n test-wheels python-gil python=${{ matrix.python-version }} numpy pytest-cov pytest-benchmark
+        mamba create -n test-conda python-gil python=${{ matrix.python-version }} numpy pytest-benchmark
         )
 
     - name: Build wheel and run tests for wiver
@@ -72,7 +72,7 @@ jobs:
         )
 
     - name: run code coverage
-      if: ${{ matrix.python-version == '3.11' }}
+      if: ${{ matrix.python-version == '3.13' }}
       run: |
         (
         conda activate test-wheels
@@ -85,7 +85,7 @@ jobs:
         )
 
     - name: Upload to Codecov
-      if: ${{ matrix.python-version == '3.11' }}
+      if: ${{ matrix.python-version == '3.13' }}
       uses: codecov/codecov-action@v3
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
