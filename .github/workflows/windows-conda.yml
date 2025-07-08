@@ -30,6 +30,7 @@ jobs:
         auto-activate-base: true
         activate-environment: ""
         miniforge-version: latest
+        conda-remove-defaults: true
         channels: MaxBo, conda-forge
       env:
         TMPDIR: ${{ runner.TEMP }}
