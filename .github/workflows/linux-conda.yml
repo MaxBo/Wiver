@@ -31,7 +31,7 @@ jobs:
 
     - name: Install dependencies and set channels
       run: |
-        conda install conda-build conda-verify anaconda-client twine readme_renderer
+        conda install conda-build anaconda-client twine readme_renderer
         conda create -q -n test-environment python=${{ matrix.python-version }} numpy pytest-cov pytest-benchmark
 
     - name: Build wheel and run tests for wiver
