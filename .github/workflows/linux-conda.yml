@@ -22,11 +22,12 @@ jobs:
     - name: Setup base conda
       uses: conda-incubator/setup-miniconda@v3
       with:
+        python-version: 3.12
         auto-activate-base: true
         activate-environment: ""
         miniforge-version: latest
         conda-remove-defaults: true
-        conda-channels: conda-forge, MaxBo
+        channels: conda-forge, MaxBo
 
     - name: Install dependencies and set channels
       run: |
