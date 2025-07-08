@@ -24,7 +24,7 @@ jobs:
       with:
         python-version: 3.12
         auto-activate-base: true
-        activate-environment: ""
+        activate-environment: true
         miniforge-version: latest
         conda-remove-defaults: true
         channels: conda-forge, MaxBo
