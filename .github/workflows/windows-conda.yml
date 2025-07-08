@@ -19,7 +19,7 @@ jobs:
     strategy:
       max-parallel: 5
       matrix:
-        python-version: ['3.9', '3.10', '3.11', '3.12']
+        python-version: ['3.9', '3.10', '3.11', '3.12', '3.13']
     steps:
     - uses: actions/checkout@v4
     - uses: seanmiddleditch/gha-setup-vsdevenv@master
@@ -30,6 +30,7 @@ jobs:
         auto-activate-base: true
         activate-environment: ""
         miniforge-version: latest
+        conda-remove-defaults: true
         channels: MaxBo, conda-forge
       env:
         TMPDIR: ${{ runner.TEMP }}
@@ -38,9 +39,23 @@ jobs:
     - name: Install dependencies and set channels
       run: |
         (
-        mamba install -n base "conda>=23.7" conda-build conda-verify anaconda-client boa twine
+        mamba install -n base "conda>=23.7" conda-build anaconda-client rattler-build twine
+        )
+
+    - name: create test environments environment for python < 3.13
+      if: ${{ matrix.python-version < '3.13' }}
+      run: |
+        (
         mamba create -n test-wheels python=${{ matrix.python-version }} numpy pytest-cov pytest-benchmark
-        mamba create -n test-conda python=${{ matrix.python-version }} numpy pytest-cov pytest-benchmark
+        mamba create -n test-conda python=${{ matrix.python-version }} numpy pytest-benchmark
+        )
+
+    - name: create test environments for python >= 3.13
+      if: ${{ matrix.python-version >= '3.13' }}
+      run: |
+        (
+        mamba create -n test-wheels python-gil python=${{ matrix.python-version }} numpy pytest-cov pytest-benchmark
+        mamba create -n test-conda python-gil python=${{ matrix.python-version }} numpy pytest-benchmark
         )
 
     - name: Build wheel and run tests for wiver
@@ -58,20 +73,20 @@ jobs:
         )
 
     - name: run code coverage
-      if: ${{ matrix.python-version == '3.11' }}
+      if: ${{ matrix.python-version == '3.13' }}
       run: |
         (
         conda activate test-wheels
         cd wiver
         pip install -e .
         python setup.py build_ext --force --inplace --define CYTHON_TRACE_NOGIL
-        py.test --cov=src --cov-report xml --pyargs wiver
+        python -m pytest --cov=src --cov-report xml --pyargs wiver
         coverage xml
         echo "### Code Coverage checked! :rocket:" >> $GITHUB_STEP_SUMMARY
         )
 
     - name: Upload to Codecov
-      if: ${{ matrix.python-version == '3.11' }}
+      if: ${{ matrix.python-version == '3.13' }}
       uses: codecov/codecov-action@v3
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
@@ -122,7 +137,7 @@ jobs:
       run: |
         (
         mamba activate base
-        anaconda -t %ANACONDA_TOKEN% upload --skip-existing --user %ANACONDA_USERNAME% %CONDA_BLD_PATH%\win-64\wiver-*.tar.bz2
+        anaconda -t %ANACONDA_TOKEN% upload --skip-existing --user %ANACONDA_USERNAME% %CONDA_BLD_PATH%\win-64\wiver-*.conda
         )
 
     - name: Setup tmate session

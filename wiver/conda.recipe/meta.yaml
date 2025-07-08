@@ -17,6 +17,7 @@ requirements:
     - python
     - setuptools>=61.0
     - cythonarrays
+    - python-gil
 
   run:
     - python
@@ -26,6 +27,7 @@ requirements:
     - openpyxl
     - h5netcdf
     - xarray
+    - python-gil
 
 test:
   requires:

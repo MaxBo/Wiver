@@ -16,25 +16,31 @@ jobs:
     strategy:
       max-parallel: 5
       matrix:
-        python-version: ['3.10', '3.11', '3.12']
+        python-version: ['3.10', '3.11', '3.12', '3.13']
     steps:
     - uses: actions/checkout@v4
-    - name: Setup base conda for Python 3.11
-      uses: s-weigand/setup-conda@v1
+    - name: Setup base conda
+      uses: conda-incubator/setup-miniconda@v3
       with:
-        update-conda: true
-        python-version: 3.11
-        conda-channels: conda-forge, MaxBo
+        python-version: 3.12
+        auto-activate-base: true
+        activate-environment: true
+        miniforge-version: latest
+        mamba-version: "*"
+        conda-remove-defaults: true
+        channels: conda-forge, MaxBo
 
     - name: Install dependencies and set channels
       run: |
-        conda install conda-build conda-verify anaconda-client twine readme_renderer
-        conda create -q -n test-environment python=${{ matrix.python-version }} numpy pytest-cov pytest-benchmark
+        mamba install conda-build anaconda-client twine readme_renderer
+        mamba create -q -n test-environment python=${{ matrix.python-version }} numpy pytest-cov pytest-benchmark
 
     - name: Build wheel and run tests for wiver
+      shell: bash -el {0}
       run: |
         (
-        eval "$($CONDA_EXE shell.bash activate test-environment)"
+        eval "$(mamba shell hook --shell bash)"
+        mamba activate test-environment
         which python
         cd wiver
         pip install -r requirements.txt
@@ -46,9 +52,11 @@ jobs:
         )
 
     - name: Create Docs
+      shell: bash -el {0}
       if: ${{ matrix.python-version == '3.12' }}
       run: |
-        eval "$($CONDA_EXE shell.bash activate test-environment)"
+        eval "$(mamba shell hook --shell bash)"
+        mamba activate test-environment
         cd wiver
         pip install sphinx sphinxcontrib-napoleon sphinx-autodoc-typehints 'mistune<2' m2r2 'docutils<0.20' pytest
         sphinx-apidoc -f --separate -o docs_rst/wiver src/wiver
@@ -56,6 +64,8 @@ jobs:
 
     - name: Build and test wiver
       run: |
+        eval "$(mamba shell hook --shell bash)"
+        mamba activate test-environment
         export TMPDIR=${{ runner.TEMP }}
         export CONDA_BLD_PATH=$TMPDIR
         conda build --python ${{ matrix.python-version }} wiver/conda.recipe
@@ -74,6 +84,7 @@ jobs:
         CONDA_BLD_PATH: ${{ runner.TEMP }}
 
       run: |
-        /usr/share/miniconda/bin/conda shell.bash activate test-environment
+        eval "$(mamba shell hook --shell bash)"
+        mamba activate base
         export PATH=$HOME/.local/bin:$PATH
-        anaconda -t $ANACONDA_TOKEN upload --skip-existing --user $ANACONDA_USERNAME $CONDA_BLD_PATH/linux-64/wiver-*.tar.bz2
+        anaconda -t $ANACONDA_TOKEN upload --skip-existing --user $ANACONDA_USERNAME $CONDA_BLD_PATH/linux-64/wiver-*.conda
