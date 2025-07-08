@@ -79,7 +79,7 @@ jobs:
         cd wiver
         pip install -e .
         python setup.py build_ext --force --inplace --define CYTHON_TRACE_NOGIL
-        py.test --cov=src --cov-report xml --pyargs wiver
+        python -m pytest --cov=src --cov-report xml --pyargs wiver
         coverage xml
         echo "### Code Coverage checked! :rocket:" >> $GITHUB_STEP_SUMMARY
         )
