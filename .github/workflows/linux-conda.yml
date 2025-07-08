@@ -26,6 +26,7 @@ jobs:
         auto-activate-base: true
         activate-environment: true
         miniforge-version: latest
+        mamba-version: "*"
         conda-remove-defaults: true
         channels: conda-forge, MaxBo
 
@@ -35,9 +36,10 @@ jobs:
         conda create -q -n test-environment python=${{ matrix.python-version }} numpy pytest-cov pytest-benchmark
 
     - name: Build wheel and run tests for wiver
+      shell: bash -el {0}
       run: |
         (
-        eval "$($CONDA_EXE shell.bash activate test-environment)"
+        mamba activate test-environment
         which python
         cd wiver
         pip install -r requirements.txt
