@@ -32,8 +32,9 @@ jobs:
 
     - name: Install dependencies and set channels
       run: |
-        conda install conda-build anaconda-client twine readme_renderer
-        conda create -q -n test-environment python=${{ matrix.python-version }} numpy pytest-cov pytest-benchmark
+        mamba shell init --shell bash --root-prefix=~/.local/share/mamba
+        mamba install conda-build anaconda-client twine readme_renderer
+        mamba create -q -n test-environment python=${{ matrix.python-version }} numpy pytest-cov pytest-benchmark
 
     - name: Build wheel and run tests for wiver
       shell: bash -el {0}
@@ -51,9 +52,10 @@ jobs:
         )
 
     - name: Create Docs
+      shell: bash -el {0}
       if: ${{ matrix.python-version == '3.12' }}
       run: |
-        eval "$($CONDA_EXE shell.bash activate test-environment)"
+        mamba activate test-environment
         cd wiver
         pip install sphinx sphinxcontrib-napoleon sphinx-autodoc-typehints 'mistune<2' m2r2 'docutils<0.20' pytest
         sphinx-apidoc -f --separate -o docs_rst/wiver src/wiver
@@ -61,6 +63,7 @@ jobs:
 
     - name: Build and test wiver
       run: |
+        mamba activate test-environment
         export TMPDIR=${{ runner.TEMP }}
         export CONDA_BLD_PATH=$TMPDIR
         conda build --python ${{ matrix.python-version }} wiver/conda.recipe
@@ -79,6 +82,6 @@ jobs:
         CONDA_BLD_PATH: ${{ runner.TEMP }}
 
       run: |
-        /usr/share/miniconda/bin/conda shell.bash activate test-environment
+        mamba activate test-environment
         export PATH=$HOME/.local/bin:$PATH
         anaconda -t $ANACONDA_TOKEN upload --skip-existing --user $ANACONDA_USERNAME $CONDA_BLD_PATH/linux-64/wiver-*.conda
