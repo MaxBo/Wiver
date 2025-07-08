@@ -76,4 +76,4 @@ jobs:
       run: |
         /usr/share/miniconda/bin/conda shell.bash activate test-environment
         export PATH=$HOME/.local/bin:$PATH
-        anaconda -t $ANACONDA_TOKEN upload --skip-existing --user $ANACONDA_USERNAME $CONDA_BLD_PATH/linux-64/wiver-*.tar.bz2
+        anaconda -t $ANACONDA_TOKEN upload --skip-existing --user $ANACONDA_USERNAME $CONDA_BLD_PATH/linux-64/wiver-*.conda

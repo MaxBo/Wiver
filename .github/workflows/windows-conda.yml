@@ -38,7 +38,7 @@ jobs:
     - name: Install dependencies and set channels
       run: |
         (
-        mamba install -n base "conda>=23.7" conda-build conda-verify anaconda-client boa twine
+        mamba install -n base "conda>=23.7" conda-build conda-verify anaconda-client rattler-build twine
         )
 
     - name: create test environments environment for python < 3.13
@@ -136,7 +136,7 @@ jobs:
       run: |
         (
         mamba activate base
-        anaconda -t %ANACONDA_TOKEN% upload --skip-existing --user %ANACONDA_USERNAME% %CONDA_BLD_PATH%\win-64\wiver-*.tar.bz2
+        anaconda -t %ANACONDA_TOKEN% upload --skip-existing --user %ANACONDA_USERNAME% %CONDA_BLD_PATH%\win-64\wiver-*.conda
         )
 
     - name: Setup tmate session
