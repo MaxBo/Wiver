@@ -85,6 +85,6 @@ jobs:
 
       run: |
         eval "$(mamba shell hook --shell bash)"
-        mamba activate test-environment
+        mamba activate base
         export PATH=$HOME/.local/bin:$PATH
         anaconda -t $ANACONDA_TOKEN upload --skip-existing --user $ANACONDA_USERNAME $CONDA_BLD_PATH/linux-64/wiver-*.conda
