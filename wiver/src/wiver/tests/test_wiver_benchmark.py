@@ -8,9 +8,9 @@ Created on Fri Jun 10 21:00:21 2016
 import pytest
 
 import numpy as np
-import orca
+
 from wiver.wiver_python import WIVER
-import wiver.run_wiver
+
 from pytest_benchmark.plugin import benchmark
 
 
@@ -34,7 +34,6 @@ class TestWiver:
 
     def create_wiver(self, n_zones: int, n_groups: int, n_threads: int):
         """create the wiver object"""
-        orca.run(['add_logfile'])
         n_modes = 1
         n_sectors = n_groups
         wiver = WIVER(n_groups, n_zones, n_modes=n_modes,

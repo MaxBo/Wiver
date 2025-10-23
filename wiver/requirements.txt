@@ -4,6 +4,4 @@ xarray
 cythonarrays
 matrixconverters
 pandas
-orca
-openpyxl
 h5netcdf

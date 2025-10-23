@@ -19,8 +19,6 @@ dependencies = [
     "pandas",
     "xarray",
     "h5netcdf",
-    "orca",
-    "openpyxl",
 ]
 
 description = "Commercial Trip Model"
